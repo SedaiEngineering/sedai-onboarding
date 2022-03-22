@@ -52,9 +52,9 @@
             "Resource": [
                 "*"
             ]
-        },
+        },        
         {
-            "Effect": "Allow",
+            "Effect":"Allow",
             "Action": [
                 "dynamodb:BatchGetItem",
                 "dynamodb:DescribeStream",
@@ -87,6 +87,8 @@
         },
         {
             "Action": [
+                "cloudwatch:ListMetrics",
+                "cloudwatch:GetMetricStatistics",
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
@@ -96,12 +98,14 @@
                 "logs:StopQuery",
                 "logs:Describe*",
                 "logs:TestMetricFilter",
-                "logs:FilterLogEvents"
+                "logs:FilterLogEvents",
+                "logs:DescribeLogGroups",
+                "logs:DescribeLogStreams",
+                "logs:DescribeMetricFilters"
             ],
             "Effect": "Allow",
             "Resource": "*"
-        },
-        {
+        }, {
             "Effect": "Allow",
             "Action": [
                 "xray:GetSamplingRules",
@@ -123,8 +127,7 @@
             "Resource": [
                 "*"
             ]
-        },
-        {
+        }, {
             "Effect": "Allow",
             "Action": [
                 "states:ListStateMachines",
@@ -137,8 +140,7 @@
                 "states:DescribeActivity"
             ],
             "Resource": "*"
-        },
-        {
+        }, {
             "Effect": "Allow",
             "Action": [
                 "ec2:DescribeInstances",
@@ -151,12 +153,13 @@
                 "elasticloadbalancing:DescribeLoadBalancers",
                 "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
                 "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:DescribeTargetHealth",
+                "elasticloadbalancing:DescribeTargetHealth",
                 "elasticloadbalancing:RegisterTargets",
                 "elasticloadbalancing:DescribeTargetHealth"
             ],
             "Resource": "*"
-        },
-        {
+        }, {
             "Effect": "Allow",
             "Action": [
                 "lambda:Get*",
@@ -165,6 +168,6 @@
                 "lambda:PutFunctionConcurrency"
             ],
             "Resource": "*"
-        }
+        }       
     ]
 }
