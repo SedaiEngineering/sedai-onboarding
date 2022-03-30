@@ -6,13 +6,8 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - endpoints
-  - persistentvolumeclaims
   - replicationcontrollers
   - services
-  - events
-  - namespaces
-  - nodes 
   - pods
   verbs:
   - get 
@@ -63,19 +58,7 @@ rules:
   verbs:
   - get 
   - list
-  - patch
-  - update
   - watch
-- apiGroups:
-  - apiextensions.k8s.io
-  resources:
-  - customresourcedefinitions
-  verbs:
-  - get 
-  - list
-  - patch
-  - update
-  - watch 
 - apiGroups:
   - policy
   resources:
@@ -95,8 +78,6 @@ rules:
   verbs:
   - get 
   - list
-  - patch
-  - update
   - watch
 - apiGroups:
   - metrics.k8s.io
