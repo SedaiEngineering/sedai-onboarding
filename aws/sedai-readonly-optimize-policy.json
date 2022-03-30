@@ -16,61 +16,6 @@
         },
         {
             "Effect": "Allow",
-            "Action": "autoscaling:Describe*",
-            "Resource": "*"
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ecs:DescribeClusters",
-                "ecs:DescribeContainerInstances",
-                "ecs:DescribeServices",
-                "ecs:DescribeTaskDefinition",
-                "ecs:DescribeTasks",
-                "ecs:DescribeTaskSets",
-                "ecs:DescribeCapacityProviders",
-                "ecs:ListAccountSettings",
-                "ecs:ListAttributes",
-                "ecs:ListClusters",
-                "ecs:ListContainerInstances",
-                "ecs:ListServices",
-                "ecs:ListTagsForResource",
-                "ecs:ListTaskDefinitionFamilies",
-                "ecs:ListTaskDefinitions",
-                "ecs:ListTasks"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "rds:Describe*",
-                "rds:List*"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },        
-        {
-            "Effect":"Allow",
-            "Action": [
-                "dynamodb:BatchGetItem",
-                "dynamodb:DescribeStream",
-                "dynamodb:DescribeTable",
-                "dynamodb:GetItem",
-                "dynamodb:ListStreams",
-                "dynamodb:ListTables",
-                "dynamodb:Query",
-                "dynamodb:Scan"
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Effect": "Allow",
             "Action": [
                 "lambda:Get*",
                 "lambda:List*",
@@ -81,62 +26,30 @@
         {
             "Effect": "Allow",
             "Action": [
-                "kinesis:DescribeStream",
-                "kinesis:ListStreams"
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*"
             ],
             "Resource": "*"
         },
         {
+            "Effect": "Allow",
             "Action": [
-                "cloudwatch:GetMetricStatistics",
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
-                "logs:Get*",
                 "logs:List*",
-                "logs:StartQuery",
-                "logs:StopQuery",
                 "logs:Describe*",
+                "logs:StopQuery",
                 "logs:TestMetricFilter",
+                "logs:GetQueryResults"
+            ],
+            "Resource": "arn:aws:logs:*:*:log-group:*:log-stream:*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "logs:StartQuery",
                 "logs:FilterLogEvents"
             ],
-            "Effect": "Allow",
-            "Resource": "*"
-        }, {
-            "Effect": "Allow",
-            "Action": [
-                "xray:GetSamplingRules",
-                "xray:GetSamplingTargets",
-                "xray:GetSamplingStatisticSummaries",
-                "xray:BatchGetTraces",
-                "xray:GetServiceGraph",
-                "xray:GetTraceGraph",
-                "xray:GetTraceSummaries",
-                "xray:GetGroups",
-                "xray:GetGroup",
-                "xray:ListTagsForResource",
-                "xray:GetTimeSeriesServiceStatistics",
-                "xray:GetInsightSummaries",
-                "xray:GetInsight",
-                "xray:GetInsightEvents",
-                "xray:GetInsightImpactGraph"
-            ],
-            "Resource": [
-                "*"
-            ]
-        }, {
-            "Effect": "Allow",
-            "Action": [
-                "states:ListStateMachines",
-                "states:ListActivities",
-                "states:DescribeStateMachine",
-                "states:DescribeStateMachineForExecution",
-                "states:ListExecutions",
-                "states:DescribeExecution",
-                "states:GetExecutionHistory",
-                "states:DescribeActivity"
-            ],
-            "Resource": "*"
+            "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
         }
     ]
 }
