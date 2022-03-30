@@ -5,6 +5,9 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:Describe*",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeVpcs",
                 "tag:GetResources"
             ],
             "Resource": "*"
@@ -47,6 +50,8 @@
             "Effect": "Allow",
             "Action": [
                 "rds:Describe*",
+                "rds:DescribeDBInstances",
+                "rds:DescribeDBClusters",
                 "rds:List*"
             ],
             "Resource": [
@@ -92,6 +97,9 @@
                 "cloudwatch:Describe*",
                 "cloudwatch:Get*",
                 "cloudwatch:List*",
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*",
                 "logs:Get*",
                 "logs:List*",
                 "logs:StartQuery",
@@ -101,7 +109,8 @@
                 "logs:FilterLogEvents",
                 "logs:DescribeLogGroups",
                 "logs:DescribeLogStreams",
-                "logs:DescribeMetricFilters"
+                "logs:DescribeMetricFilters",
+                "logs:GetLogEvents"
             ],
             "Effect": "Allow",
             "Resource": "*"
