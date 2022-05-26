@@ -1,4 +1,16 @@
 #! /bin/bash
+# A simple bash script to collect the Cluster Topology details manually for Sedai Integration.
+# This script assumes you have kubectl and correct IAM permissions in place to access the EKS API.
+# This script will
+# 1. Download Sedai Kubernetes Topology Collector Manifest
+# 2. Apply the manifest in EKS Cluster
+# 3. Copy the topology.json file to your local environment.
+# 4. Cleanup the Kubernetes Resources provisioned by the Script.
+# Kubernetes Resource Provisioned by the script
+# 1. RBAC Resources [ ClusterRole, ClusterRoleBinding, Service Account ]
+# 2. Deployment ( An Init Container for data collection and a busybox container for data retrival )
+# 3. PVC
+
 
 if ! command -v kubectl  &> /dev/null
 then
