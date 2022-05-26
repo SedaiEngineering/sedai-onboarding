@@ -7,10 +7,10 @@ spec:
     spec:
       containers:
         - name: kube-topo-reader
-          image: sedaiinc/sedaikubetoporeader:5_25_22_8PM
+          image: sedaiinc/sedaikubetoporeader:5_25_22_9PM
           args:
             - "my-cluster"
-            - "/home/sedai/mylogs/"
+            - "/home/sedai/"
           env:
             - name: LOG_FOLDER
               value: /home/sedai
