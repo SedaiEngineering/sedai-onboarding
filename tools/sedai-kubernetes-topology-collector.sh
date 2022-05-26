@@ -6,6 +6,7 @@ then
     exit
 fi
 
+
 LABEL="sedai-kube-topology-reader"
 
 red="\033[1;31m"
@@ -17,13 +18,13 @@ echo -e "\e[1;32mLaunching Collector!"$rescolor""
 kubectl apply -f sedai-kubernetes-topology-collector.yaml
 sleep 90
 
-status=$(kubectl get pods --selector="app=$LABEL" | grep $LABEL | awk '{print $3}')
-    if [[ ! $status =~ ^Running$|^Completed$  ]]  ; then
+toppod=$(kubectl get pods --selector="app=$LABEL" | grep "$LABEL" | awk '{print $3}')
+    if [[ ! "$toppod" =~ ^Running$|^Completed$  ]]  ; then
         echo -e "\e[1;31mError !"$rescolor""
         exit
     else
         echo -e "\e[1;32mOK!"$rescolor""
-        kubectl cp sedai-kube-topology-reader-59d7989f9f-jdhj7:/home/sedai/topology.json topology.json 
+        kubectl cp "$toppod":/home/sedai/topology.json topology.json 
         echo " "
         echo "Starting Cleanup"
         kubectl delete -f sedai-kubernetes-topology-collector.yaml
