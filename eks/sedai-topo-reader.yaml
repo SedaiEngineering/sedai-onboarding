@@ -1,0 +1,12 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sedai-kube-topo-reader
+spec:
+  template:
+    spec:
+      containers:
+        - name: kube-topo-reader
+          image: sedaiinc/sedaikubetoporeader:5_25_22_8PM
+      restartPolicy: Never
+  backoffLimit: 4
