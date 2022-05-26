@@ -11,6 +11,7 @@ spec:
           args:
             - "my-cluster"
             - "/home/sedai/"
+            - "true" 
           env:
             - name: LOG_FOLDER
               value: /home/sedai
