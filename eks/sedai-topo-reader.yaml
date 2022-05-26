@@ -8,5 +8,10 @@ spec:
       containers:
         - name: kube-topo-reader
           image: sedaiinc/sedaikubetoporeader:5_25_22_8PM
+          args:
+            - "sedai-test-cluster"
+          env:
+            - name: LOG_FOLDER
+              value: /home/sedai
       restartPolicy: Never
   backoffLimit: 4
