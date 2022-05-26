@@ -9,7 +9,8 @@ spec:
         - name: kube-topo-reader
           image: sedaiinc/sedaikubetoporeader:5_25_22_8PM
           args:
-            - "sedai-test-cluster"
+            - "my-cluster"
+            - "/home/sedai/mylogs/"
           env:
             - name: LOG_FOLDER
               value: /home/sedai
