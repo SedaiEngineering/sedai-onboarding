@@ -41,11 +41,12 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: service-sedai-kube-topology-reader
+  namespace: default
 roleRef:
   kind: ClusterRole
   name: service-sedai-kube-topology-reader-clusterrole
   apiGroup: rbac.authorization.k8s.io  
-  
+
 
 ---
 apiVersion: v1
