@@ -5,6 +5,49 @@ metadata:
   name: service-sedai-kube-topology-reader
 
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: service-sedai-kube-topology-reader-clusterrole
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - '*'
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - extensions
+  resources: ["*"]
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources: ["*"]
+  verbs:
+  - get
+  - list
+  - watch    
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: service-sedai-kube-topology-reader-clusterrole-binding
+subjects:
+- kind: ServiceAccount
+  name: service-sedai-kube-topology-reader
+roleRef:
+  kind: ClusterRole
+  name: service-sedai-kube-topology-reader-clusterrole
+  apiGroup: rbac.authorization.k8s.io  
+  
+
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -73,3 +116,4 @@ spec:
       - name: sedai-kube-topology-reader-volume
         persistentVolumeClaim:
           claimName: sedai-kube-topology-reader-volume
+
