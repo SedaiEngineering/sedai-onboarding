@@ -111,7 +111,7 @@ spec:
         volumeMounts:
         - name: sedai-kube-topology-reader-volume
           mountPath: /home/sedai/                
-      # serviceAccountName: service-sedai-kube-topology-reader
+      serviceAccountName: service-sedai-kube-topology-reader
       automountServiceAccountToken: true
       volumes:
       - name: sedai-kube-topology-reader-volume
