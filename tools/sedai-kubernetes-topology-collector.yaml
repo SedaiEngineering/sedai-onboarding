@@ -1,0 +1,75 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: service-sedai-kube-topology-reader
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sedai-kube-topology-reader-volume
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi  
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sedai-kube-topology-reader 
+  labels:
+    app: sedai-kube-topology-reader 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sedai-kube-topology-reader 
+  template:
+    metadata:
+      labels:
+        app: sedai-kube-topology-reader 
+    spec:
+      hostNetwork: false
+      hostPID: false
+      hostIPC: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        fsGroup: 65534    
+      initContainers:
+      - name: sedai-kube-topology-reader-init 
+        image: sedaiinc/sedaikubetoporeader:5_25_22_9_15PM
+        args:
+          - "my-cluster"
+          - "/home/sedai/"
+          - "true" 
+        env:
+          - name: LOG_FOLDER
+            value: /home/sedai          
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          null       
+        volumeMounts:
+        - name: sedai-kube-topology-reader-volume
+          mountPath: /home/sedai/ 
+      containers:
+      - name: sedai-kube-topology-reader-wait 
+        image: busybox:1.28
+        command: ['sh', '-c', 'echo The app is running! && sleep 300']
+        imagePullPolicy: "IfNotPresent"
+        resources:
+          null                       
+        volumeMounts:
+        - name: sedai-kube-topology-reader-volume
+          mountPath: /home/sedai/                
+      # serviceAccountName: service-sedai-kube-topology-reader
+      automountServiceAccountToken: true
+      volumes:
+      - name: sedai-kube-topology-reader-volume
+        persistentVolumeClaim:
+          claimName: sedai-kube-topology-reader-volume
