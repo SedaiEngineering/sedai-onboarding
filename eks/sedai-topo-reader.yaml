@@ -14,6 +14,6 @@ spec:
             - "true" 
           env:
             - name: LOG_FOLDER
-              value: /home/sedai
+              value: /home/sedai/
       restartPolicy: Never
   backoffLimit: 4
