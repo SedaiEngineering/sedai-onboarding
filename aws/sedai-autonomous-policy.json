@@ -174,7 +174,11 @@
                 "lambda:Get*",
                 "lambda:List*",
                 "lambda:UpdateFunctionConfiguration",
-                "lambda:PutFunctionConcurrency"
+                "lambda:UpdateAlias",                
+                "lambda:PutFunctionConcurrency",
+                "lambda:PutProvisionedConcurrencyConfig",
+                "lambda:PublishVersion",
+                "lambda:DeleteProvisionedConcurrencyConfig"
             ],
             "Resource": "*"
         }       
