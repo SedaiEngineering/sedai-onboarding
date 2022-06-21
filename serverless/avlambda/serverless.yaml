@@ -1,0 +1,71 @@
+app: sedai-avlambda-control-center
+service: sedai-avlambda-control-center
+
+frameworkVersion: '3'
+
+plugins:
+  - serverless-dynamodb-autoscaling
+
+provider:
+  name: aws
+  runtime: go1.x
+  environment:
+    DYNAMODB_TABLE: SedaiResourceConcurrencyStats
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        - Effect: Allow
+          Action:
+            - lambda:InvokeFunction
+            - lambda:InvokeAsync
+          Resource: "*"          
+package:
+  exclude:
+     - ./**
+     - './node_modules/**'
+  include:
+    - ./AVLambdaGo
+
+functions:
+  sedai-avlambda:
+    handler: AVLambdaGo
+    url: true
+
+custom:
+  capacities:
+    - table: SedaiResourceConcurrencyStatsTable  
+      read:
+        minimum: 1        
+        maximum: 20     
+        usage: 0.75       
+      write:
+        minimum: 1
+        maximum: 25
+        usage: 0.5
+	
+resources:
+  Resources:
+    SedaiResourceConcurrencyStatsTable:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        BillingMode: PROVISIONED
+        AttributeDefinitions:
+          - AttributeName: resourceId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: resourceId
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
