@@ -34,9 +34,9 @@ metadata:
   name: sedai-readonly-mode-clusterrole-binding
 subjects:
 - kind: Group
-  name: sedai-service-account
+  name: service-account-sedai-integration@PROJECT_ID.iam.gserviceaccount.com
   apiGroup: rbac.authorization.k8s.io
 roleRef:
   kind: ClusterRole
-  name: sedai-readonly-mode-clusterrole
+  name:  sedai-readonly-mode-clusterrole
   apiGroup: rbac.authorization.k8s.io
