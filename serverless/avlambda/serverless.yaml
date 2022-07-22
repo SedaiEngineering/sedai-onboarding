@@ -27,7 +27,7 @@ provider:
           Action:
             - lambda:InvokeFunction
             - lambda:InvokeAsync
-          Resource: "*"          
+          Resource: "*"
 package:
   exclude:
      - ./**
@@ -36,17 +36,16 @@ package:
     - ./AVLambdaGo
 
 functions:
-  sedai-avlambda:
+  function:
     handler: AVLambdaGo
     url: true
-
 custom:
   capacities:
-    - table: SedaiResourceConcurrencyStatsTable  
+    - table: SedaiResourceConcurrencyStatsTable
       read:
-        minimum: 1        
-        maximum: 20     
-        usage: 0.75       
+        minimum: 1
+        maximum: 20
+        usage: 0.75
       write:
         minimum: 1
         maximum: 25
