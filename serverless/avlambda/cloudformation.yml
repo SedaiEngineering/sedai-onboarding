@@ -67,7 +67,7 @@ Resources:
   SedaiavlambdaLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: "/home/hari/Sedai/Testing/sedai-avlambda/AVLambdaGo"
+      CodeUri: "/path/to/AVLambdaGo"
       Handler: AVLambdaGo
       Runtime: go1.x
       FunctionName: sedai-avlambda-control-center-production-function
