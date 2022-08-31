@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM User and policies for Sedai Integration - ReadOnly 
+Description: IAM User and policies for Sedai Integration - ReadOnly
 Resources:
   SedaiIntegrationServiceUser:
     Type: AWS::IAM::User
@@ -58,3 +58,12 @@ Resources:
             Resource: "arn:aws:logs:*:*:log-group:/aws/lambda/*"
       Users:
         - Ref: "SedaiIntegrationServiceUser"
+Outputs:
+  SedaiIntegrationAccessKey:
+    Description: Sedai User Access Key
+    Value:
+      Ref: SedaiIntegrationAccessKey
+  SedaiIntegrationSecrets:
+    Description: Sedai Secret Arn where the AccessKey:SecretKey pair ( iam credentials ) of Sedai User is stored
+    Value:
+      Ref: SedaiIntegrationSecrets

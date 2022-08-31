@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM Role and policies for Sedai Integration - Autonomous 
+Description: IAM Role and policies for Sedai Integration - Autonomous
 Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
@@ -168,3 +168,12 @@ Resources:
             Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationServiceRole
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationServiceRole, Arn]
