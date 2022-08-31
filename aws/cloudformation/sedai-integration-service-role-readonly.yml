@@ -1,0 +1,59 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Role and policies for Sedai Integration - ReadOnly 
+Resources:
+  SedaiIntegrationServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sedai-integration-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+  SedaiIntegrationServicePolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: sedai-integration-service-role
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "ec2:Describe*"
+              - "tag:GetResources"
+            Resource: "*"
+          - Effect: Allow
+            Action: "elasticloadbalancing:Describe*"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "lambda:Get*"
+              - "lambda:List*"
+              - "lambda:UpdateFunctionConfiguration"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "cloudwatch:Describe*"
+              - "cloudwatch:Get*"
+              - "cloudwatch:List*"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "logs:List*"
+              - "logs:Describe*"
+              - "logs:StopQuery"
+              - "logs:TestMetricFilter"
+              - "logs:GetQueryResults"
+            Resource: "arn:aws:logs:*:*:log-group:*:log-stream:*"
+          - Effect: Allow
+            Action:
+              - "logs:StartQuery"
+              - "logs:FilterLogEvents"
+            Resource: "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+      Roles:
+        - Ref: "SedaiIntegrationServiceRole"
