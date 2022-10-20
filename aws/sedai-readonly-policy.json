@@ -50,6 +50,30 @@
                 "logs:FilterLogEvents"
             ],
             "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
-        }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecs:ListAccountSettings",
+                "ecs:ListAttributes",
+                "ecs:ListClusters",
+                "ecs:ListContainerInstances",
+                "ecs:ListServices",
+                "ecs:ListTagsForResource",
+                "ecs:ListTaskDefinitionFamilies",
+                "ecs:ListTaskDefinitions",
+                "ecs:ListTasks",                
+                "ecs:DescribeClusters",
+                "ecs:DescribeContainerInstances",
+                "ecs:DescribeServices",
+                "ecs:DescribeTaskDefinition",
+                "ecs:DescribeTasks",   
+                "ecs:DescribeTaskSets",
+                "ecs:DescribeCapacityProviders"                           
+            ],
+            "Resource": [
+                "*"
+            ]
+        }            
     ]
 }
