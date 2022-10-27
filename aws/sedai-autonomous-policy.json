@@ -96,9 +96,7 @@
                 "dynamodb:DescribeTable",
                 "dynamodb:GetItem",
                 "dynamodb:ListStreams",
-                "dynamodb:ListTables",
-                "dynamodb:Query",
-                "dynamodb:Scan"
+                "dynamodb:ListTables"
             ],
             "Resource": [
                 "*"
