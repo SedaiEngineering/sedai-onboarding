@@ -1,0 +1,342 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Sedai Autonoumous Concurrency - AVLambda Control Center Deployment
+Resources:
+  SedaiavlambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "/aws/lambda/sedai-avlambda-control-center-production-function"
+
+  IamRoleLambdaExecution:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - "-"
+          - - sedai-avlambda-control-center
+            - production
+            - lambda
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:CreateLogGroup
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sedai-avlambda-control-center-production*:*
+          - Effect: Allow
+            Action:
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sedai-avlambda-control-center-production*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            Resource: arn:aws:dynamodb:us-east-1:*:table/SedaiResourceConcurrencyStats
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            - lambda:InvokeAsync
+            Resource: "*"
+      Path: "/"
+      RoleName:
+        Fn::Join:
+        - "-"
+        - - sedai-avlambda-control-center
+          - production
+          - Ref: AWS::Region
+          - lambdaRole
+
+  SedaiavlambdaLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: "/path/to/AVLambdaGo"
+      Handler: AVLambdaGo
+      Runtime: go1.x
+      FunctionName: sedai-avlambda-control-center-production-function
+      MemorySize: 256
+      Timeout: 6
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: SedaiResourceConcurrencyStats
+      Role:
+        Fn::GetAtt:
+        - IamRoleLambdaExecution
+        - Arn
+    DependsOn:
+    - SedaiavlambdaLogGroup
+
+  SedaiavlambdaLambdaVersion:
+    Type: AWS::Lambda::Version
+    DeletionPolicy: Retain
+    Properties:
+      FunctionName:
+        Ref: SedaiavlambdaLambdaFunction
+  SedaiavlambdaLambdaFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      TargetFunctionArn:
+        Fn::GetAtt:
+        - SedaiavlambdaLambdaFunction
+        - Arn
+  SedaiavlambdaLambdaPermissionFnUrl:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - SedaiavlambdaLambdaFunction
+        - Arn
+      Action: lambda:InvokeFunctionUrl
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+  sedaiavlambdacontrolcenterDynamo:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - SedaiTelemetryLogs
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: application-autoscaling.amazonaws.com
+        Version: '2012-10-17'
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - cloudwatch:PutMetricAlarm
+            - cloudwatch:DescribeAlarms
+            - cloudwatch:DeleteAlarms
+            - cloudwatch:GetMetricStatistics
+            - cloudwatch:SetAlarmState
+            Effect: Allow
+            Resource: "*"
+          - Action:
+            - dynamodb:DescribeTable
+            - dynamodb:UpdateTable
+            Effect: Allow
+            Resource:
+              - Fn::Join:
+                - ''
+                - - 'arn:aws:dynamodb:*:'
+                  - Ref: AWS::AccountId
+                  - ":table/"
+                  - Ref: SedaiResourceConcurrencyStatsTable
+              - Fn::Join:
+                - ''
+                - - 'arn:aws:dynamodb:*:'
+                  - Ref: AWS::AccountId
+                  - ":table/"
+                  - Ref: SedaiResourceConcurrencyStatsTable
+          Version: '2012-10-17'
+        PolicyName: sedaiavlambdacontrolcenterDynamo3487d7010c5f4acfa479b9eac5ce2e8a
+      RoleName: sedaiavlambdacontrolcenterDynamo
+    Type: AWS::IAM::Role
+# SedaiResourceConcurrencyStatsTable Scaling
+  sedaiavlambdacontrolcenterTable:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterAutoScale
+    Properties:
+      PolicyName: sedaiavlambdacontrolcenterTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdacontrolcenterAutoScale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBReadCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 75
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdacontrolcenterAutoScale:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 20
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiResourceConcurrencyStatsTable
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:ReadCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+  sedaiavlambdacontrolcenterTable:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterAutoscale
+    Properties:
+      PolicyName: sedaiavlambdacontrolcenterTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdacontrolcenterAutoscale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBWriteCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 50
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdacontrolcenterAutoscale:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 25
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiResourceConcurrencyStatsTable
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:WriteCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+
+# SedaiTelemetryLogs Scaling
+  sedaiavlambdaTelemetryLogsTable:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdaTelemetryLogsAutoScale
+    Properties:
+      PolicyName: sedaiavlambdaTelemetryLogsTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdaTelemetryLogsAutoScale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBReadCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 75
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdaTelemetryLogsAutoScale:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 20
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiTelemetryLogs
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:ReadCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+  sedaiavlambdaTelemetryLogstable:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdaTelemetryLogsAutoscale
+    Properties:
+      PolicyName: sedaiavlambdaTelemetryLogstable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdaTelemetryLogsAutoscale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBWriteCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 50
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdaTelemetryLogsAutoscale:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 25
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiTelemetryLogs
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:WriteCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+# Tables
+  SedaiResourceConcurrencyStatsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: SedaiResourceConcurrencyStats
+      BillingMode: PROVISIONED
+      AttributeDefinitions:
+      - AttributeName: resourceId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: resourceId
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  SedaiTelemetryLogs:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: SedaiTelemetryLogs
+      BillingMode: PROVISIONED
+      AttributeDefinitions:
+      - AttributeName: requestId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: requestId
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+Outputs:
+  SedaiavlambdaLambdaFunctionQualifiedArn:
+    Description: Current Lambda function version
+    Value:
+      Ref: SedaiavlambdaLambdaVersion
+    Export:
+      Name: sedai-avlambda-control-center-production-SedaiavlambdaLambdaFunctionQualifiedArn
+  SedaiavlambdaLambdaFunctionUrl:
+    Description: Lambda Function URL
+    Value:
+      Fn::GetAtt:
+      - SedaiavlambdaLambdaFunctionUrl
+      - FunctionUrl
+    Export:
+      Name: sedai-avlambda-control-center-production-SedaiavlambdaLambdaFunctionUrl
