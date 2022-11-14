@@ -18,8 +18,7 @@
             "Effect": "Allow",
             "Action": [
                 "lambda:Get*",
-                "lambda:List*",
-                "lambda:UpdateFunctionConfiguration"
+                "lambda:List*"
             ],
             "Resource": "*"
         },
