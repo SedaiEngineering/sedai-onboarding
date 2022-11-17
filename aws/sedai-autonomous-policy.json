@@ -24,6 +24,11 @@
         },
         {
             "Effect": "Allow",
+            "Action": "application-autoscaling:Describe*",
+            "Resource": "*"
+        },        
+        {
+            "Effect": "Allow",
             "Action": [
                 "ecs:DescribeClusters",
                 "ecs:DescribeContainerInstances",
