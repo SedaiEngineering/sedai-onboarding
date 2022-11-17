@@ -24,6 +24,11 @@
             "Resource": [
                 "*"
             ]
-        }       
+        },
+        {
+            "Effect": "Allow",
+            "Action": "application-autoscaling:Describe*",
+            "Resource": "*"
+        }               
     ]
 }

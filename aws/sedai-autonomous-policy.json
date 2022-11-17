@@ -24,6 +24,11 @@
         },
         {
             "Effect": "Allow",
+            "Action": "application-autoscaling:Describe*",
+            "Resource": "*"
+        },         
+        {
+            "Effect": "Allow",
             "Action": [
                 "ecs:DescribeClusters",
                 "ecs:DescribeContainerInstances",
@@ -46,21 +51,11 @@
                 "ecs:DeleteCapacityProvider",
                 "ecs:DeregisterContainerInstance",
                 "ecs:DeregisterTaskDefinition",
-                "ecs:ExecuteCommand",
                 "ecs:Poll",
-                "ecs:PutAccountSetting",
-                "ecs:PutAccountSettingDefault",
                 "ecs:PutAttributes",
                 "ecs:PutClusterCapacityProviders",
                 "ecs:RegisterContainerInstance",
                 "ecs:RegisterTaskDefinition",
-                "ecs:RunTask",
-                "ecs:StartTask",
-                "ecs:StartTelemetrySession",
-                "ecs:StopTask",
-                "ecs:SubmitAttachmentStateChanges",
-                "ecs:SubmitContainerStateChange",
-                "ecs:SubmitTaskStateChange",
                 "ecs:TagResource",
                 "ecs:UntagResource",
                 "ecs:UpdateCapacityProvider",
@@ -70,7 +65,7 @@
                 "ecs:UpdateContainerInstancesState",
                 "ecs:UpdateService",
                 "ecs:UpdateServicePrimaryTaskSet",
-                "ecs:UpdateTaskSet"                                
+                "ecs:UpdateTaskSet"                                 
             ],
             "Resource": [
                 "*"
