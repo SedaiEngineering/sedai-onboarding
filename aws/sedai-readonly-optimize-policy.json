@@ -16,6 +16,16 @@
         },
         {
             "Effect": "Allow",
+            "Action": "autoscaling:Describe*",
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "application-autoscaling:Describe*",
+            "Resource": "*"
+        },         
+        {
+            "Effect": "Allow",
             "Action": [
                 "lambda:Get*",
                 "lambda:List*",
