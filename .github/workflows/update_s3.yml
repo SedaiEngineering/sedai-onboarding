@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    name: Build sedai-kube-agent # Internal Java Extension
+    name: Push yamls
     runs-on: self-hosted
 
 # Initialization
