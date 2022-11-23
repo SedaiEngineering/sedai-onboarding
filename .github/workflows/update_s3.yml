@@ -1,0 +1,38 @@
+name: sedai-onboarding-s3-ci-cd
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - 'aws/cloudformation/**.yml'
+      - 'eks/**clusterrole.yaml'
+
+jobs:
+  build:
+    name: Build sedai-kube-agent # Internal Java Extension
+    runs-on: self-hosted
+
+# Initialization
+
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: SCM Checkout 
+        uses: actions/checkout@v3
+      
+      - name: Setup AWSCLI
+        uses: unfor19/install-aws-cli-action@v1.0.3
+        with:
+          arch: amd64
+      
+      - name: Push to S3 bucket
+        run: |
+          aws s3 cp aws/cloudformation/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*.yml" --recursive
+          aws s3 cp eks/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*clusterrole.yaml" --recursive
