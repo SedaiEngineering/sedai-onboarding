@@ -40,6 +40,7 @@ rules:
   - patch
   - update
   - watch
+  - create
 - apiGroups:
   - batch
   resources:
