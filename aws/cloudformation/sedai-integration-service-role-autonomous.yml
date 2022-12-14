@@ -37,7 +37,10 @@ Resources:
             Action: "autoscaling:Describe*"
             Resource: "*"
           - Effect: Allow
-            Action: "application-autoscaling:Describe*"
+            Action: 
+              - "application-autoscaling:Describe*"
+              - "application-autoscaling:PutScalingPolicy"
+              - "application-autoscaling:RegisterScalableTarget"
             Resource: "*"  
           - Effect: Allow
             Action:
