@@ -84,14 +84,6 @@ Resources:
               - "*"
           - Effect: Allow
             Action:
-              - "rds:Describe*"
-              - "rds:DescribeDBInstances"
-              - "rds:DescribeDBClusters"
-              - "rds:List*"
-            Resource:
-              - "*"
-          - Effect: Allow
-            Action:
               - "dynamodb:BatchGetItem"
               - "dynamodb:DescribeStream"
               - "dynamodb:DescribeTable"
