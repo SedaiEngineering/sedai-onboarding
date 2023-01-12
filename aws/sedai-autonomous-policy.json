@@ -84,6 +84,22 @@
         {
             "Effect": "Allow",
             "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:DescribeStream",
+                "dynamodb:DescribeTable",
+                "dynamodb:GetItem",
+                "dynamodb:ListStreams",
+                "dynamodb:ListTables",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+            ],
+            "Resource": [
+                "*"
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
                 "lambda:Get*",
                 "lambda:List*"
             ],
