@@ -179,6 +179,18 @@ Resources:
               - "lambda:PublishVersion"
               - "lambda:DeleteProvisionedConcurrencyConfig"
             Resource: "*"
+          - Effect: Allow
+            Action: 
+              - "eks:DescribeAddon"
+              - "eks:DescribeAddonVersions"
+              - "eks:DescribeCluster"
+              - "eks:DescribeFargateProfile"
+              - "eks:DescribeNodegroup"
+              - "eks:ListAddons"
+              - "eks:ListClusters"
+              - "eks:ListFargateProfiles"
+              - "eks:ListNodegroups"
+            Resource: "*"
       Users:
         - Ref: "SedaiIntegrationServiceUser"
 Outputs:

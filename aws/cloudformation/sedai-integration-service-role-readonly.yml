@@ -82,6 +82,18 @@ Resources:
               - "logs:StartQuery"
               - "logs:FilterLogEvents"
             Resource: "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+          - Effect: Allow
+            Action: 
+              - "eks:DescribeAddon"
+              - "eks:DescribeAddonVersions"
+              - "eks:DescribeCluster"
+              - "eks:DescribeFargateProfile"
+              - "eks:DescribeNodegroup"
+              - "eks:ListAddons"
+              - "eks:ListClusters"
+              - "eks:ListFargateProfiles"
+              - "eks:ListNodegroups"
+            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:
