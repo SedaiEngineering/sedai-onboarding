@@ -1,10 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - ECS Autoscaling
 Resources:
-  SedaiIntegrationServiceRole:
+  SedaiIntegrationAppAutoScalingRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-service-role
+      RoleName: sedai-integration-application-autoscaling-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -15,10 +15,10 @@ Resources:
             Action:
               - sts:AssumeRole
       Path: "/"
-  SedaiIntegrationServicePolicy:
+  SedaiIntegrationAppAutoScalingPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: sedai-integration-service-role
+      ManagedPolicyName: sedai-integration-application-autoscaling-role
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -43,13 +43,13 @@ Resources:
               - "sns:List*"
             Resource: "*"
       Roles:
-        - Ref: "SedaiIntegrationServiceRole"
+        - Ref: "SedaiIntegrationAppAutoScalingRole"
 Outputs:
-  SedaiIntegrationServiceRoleName:
+  SedaiIntegrationAppAutoScalingRoleName:
     Description: Sedai Role Name
     Value:
-      Ref: SedaiIntegrationServiceRole
-  SedaiIntegrationServiceRoleArn:
+      Ref: SedaiIntegrationAppAutoScalingRole
+  SedaiIntegrationAppAutoScalingRoleArn:
     Description: Sedai Role Arn
     Value:
-      Fn::GetAtt: [SedaiIntegrationServiceRole, Arn]
+      Fn::GetAtt: [SedaiIntegrationAppAutoScalingRole, Arn]
