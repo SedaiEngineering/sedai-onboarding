@@ -1,0 +1,55 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Role and policies for Sedai Integration - ECS Autoscaling
+Resources:
+  SedaiIntegrationServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sedai-integration-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - application-autoscaling.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+  SedaiIntegrationServicePolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: sedai-integration-service-role
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "application-autoscaling:*"
+              - "ecs:DescribeServices"
+              - "ecs:UpdateService"
+              - "cloudwatch:DescribeAlarms"
+              - "cloudwatch:PutMetricAlarm"
+              - "cloudwatch:DeleteAlarms"
+              - "cloudwatch:DescribeAlarmHistory"
+              - "cloudwatch:DescribeAlarmsForMetric"
+              - "cloudwatch:GetMetricStatistics"
+              - "cloudwatch:ListMetrics"
+              - "cloudwatch:DisableAlarmActions"
+              - "cloudwatch:EnableAlarmActions"
+              - "iam:CreateServiceLinkedRole"
+              - "sns:CreateTopic"
+              - "sns:Subscribe"
+              - "sns:Get*"
+              - "sns:List*"
+            Resource: "*"
+      Roles:
+        - Ref: "SedaiIntegrationServiceRole"
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationServiceRole
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationServiceRole, Arn]
