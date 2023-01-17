@@ -1,0 +1,551 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Role and policies for Sedai Integration - Autonomous
+Transform: 'AWS::Serverless-2016-10-31'
+Resources:
+  SedaiIntegrationServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sedai-integration-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+  SedaiIntegrationServicePolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: sedai-integration-service-role
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "ec2:Describe*"
+              - "ec2:DescribeSecurityGroups"
+              - "ec2:DescribeSubnets"
+              - "ec2:DescribeVpcs"
+              - "tag:GetResources"
+            Resource: "*"
+          - Effect: Allow
+            Action: "elasticloadbalancing:Describe*"
+            Resource: "*"
+          - Effect: Allow
+            Action: "autoscaling:Describe*"
+            Resource: "*"
+          - Effect: Allow
+            Action: 
+              - "application-autoscaling:Describe*"
+              - "application-autoscaling:PutScalingPolicy"
+              - "application-autoscaling:RegisterScalableTarget"
+            Resource: "*"  
+          - Effect: Allow
+            Action:
+              - "ecs:DescribeClusters"
+              - "ecs:DescribeContainerInstances"
+              - "ecs:DescribeServices"
+              - "ecs:DescribeTaskDefinition"
+              - "ecs:DescribeTasks"
+              - "ecs:DiscoverPollEndpoint"                
+              - "ecs:DescribeTaskSets"
+              - "ecs:DescribeCapacityProviders"
+              - "ecs:ListAccountSettings"
+              - "ecs:ListAttributes"
+              - "ecs:ListClusters"
+              - "ecs:ListContainerInstances"
+              - "ecs:ListServices"
+              - "ecs:ListTagsForResource"
+              - "ecs:ListTaskDefinitionFamilies"
+              - "ecs:ListTaskDefinitions"
+              - "ecs:ListTasks"
+              - "ecs:CreateCapacityProvider"
+              - "ecs:DeleteCapacityProvider"
+              - "ecs:DeregisterContainerInstance"
+              - "ecs:DeregisterTaskDefinition"
+              - "ecs:Poll"
+              - "ecs:PutAttributes"
+              - "ecs:PutClusterCapacityProviders"
+              - "ecs:RegisterContainerInstance"
+              - "ecs:RegisterTaskDefinition"
+              - "ecs:TagResource"
+              - "ecs:UntagResource"
+              - "ecs:UpdateCapacityProvider"
+              - "ecs:UpdateCluster"
+              - "ecs:UpdateClusterSettings"
+              - "ecs:UpdateContainerAgent"
+              - "ecs:UpdateContainerInstancesState"
+              - "ecs:UpdateService"
+              - "ecs:UpdateServicePrimaryTaskSet"
+              - "ecs:UpdateTaskSet"    
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - "dynamodb:BatchGetItem"
+              - "dynamodb:DescribeStream"
+              - "dynamodb:DescribeTable"
+              - "dynamodb:GetItem"
+              - "dynamodb:ListStreams"
+              - "dynamodb:ListTables"
+              - "dynamodb:Query"
+              - "dynamodb:Scan"
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - "lambda:Get*"
+              - "lambda:List*"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "kinesis:DescribeStream"
+              - "kinesis:ListStreams"
+            Resource: "*"
+          - Action:
+              - "cloudwatch:ListMetrics"
+              - "cloudwatch:GetMetricStatistics"
+              - "cloudwatch:Describe*"
+              - "cloudwatch:Get*"
+              - "cloudwatch:List*"
+              - "cloudwatch:Describe*"
+              - "cloudwatch:Get*"
+              - "cloudwatch:List*"
+              - "logs:Get*"
+              - "logs:List*"
+              - "logs:StartQuery"
+              - "logs:StopQuery"
+              - "logs:Describe*"
+              - "logs:TestMetricFilter"
+              - "logs:FilterLogEvents"
+              - "logs:DescribeLogGroups"
+              - "logs:DescribeLogStreams"
+              - "logs:DescribeMetricFilters"
+              - "logs:GetLogEvents"
+            Effect: Allow
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "xray:GetSamplingRules"
+              - "xray:GetSamplingTargets"
+              - "xray:GetSamplingStatisticSummaries"
+              - "xray:BatchGetTraces"
+              - "xray:GetServiceGraph"
+              - "xray:GetTraceGraph"
+              - "xray:GetTraceSummaries"
+              - "xray:GetGroups"
+              - "xray:GetGroup"
+              - "xray:ListTagsForResource"
+              - "xray:GetTimeSeriesServiceStatistics"
+              - "xray:GetInsightSummaries"
+              - "xray:GetInsight"
+              - "xray:GetInsightEvents"
+              - "xray:GetInsightImpactGraph"
+            Resource:
+              - "*"
+          - Effect: Allow
+            Action:
+              - "states:ListStateMachines"
+              - "states:ListActivities"
+              - "states:DescribeStateMachine"
+              - "states:DescribeStateMachineForExecution"
+              - "states:ListExecutions"
+              - "states:DescribeExecution"
+              - "states:GetExecutionHistory"
+              - "states:DescribeActivity"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "ec2:DescribeInstances"
+              - "ec2:DescribeInstanceStatus"
+              - "elasticloadbalancing:DeregisterInstancesFromLoadBalancer"
+              - "elasticloadbalancing:DescribeInstanceHealth"
+              - "elasticloadbalancing:DescribeLoadBalancers"
+              - "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
+              - "elasticloadbalancing:DeregisterTargets"
+              - "elasticloadbalancing:DescribeTargetHealth"
+              - "elasticloadbalancing:DescribeTargetHealth"
+              - "elasticloadbalancing:RegisterTargets"
+              - "elasticloadbalancing:DescribeTargetHealth"
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "lambda:Get*"
+              - "lambda:List*"
+              - "lambda:UpdateFunctionConfiguration"
+              - "lambda:UpdateAlias"
+              - "lambda:PutFunctionConcurrency"
+              - "lambda:PutProvisionedConcurrencyConfig"
+              - "lambda:PublishVersion"
+              - "lambda:DeleteProvisionedConcurrencyConfig"
+            Resource: "*"
+          - Effect: Allow
+            Action: 
+              - "eks:DescribeAddon"
+              - "eks:DescribeAddonVersions"
+              - "eks:DescribeCluster"
+              - "eks:DescribeFargateProfile"
+              - "eks:DescribeNodegroup"
+              - "eks:ListAddons"
+              - "eks:ListClusters"
+              - "eks:ListFargateProfiles"
+              - "eks:ListNodegroups"
+            Resource: "*"
+      Roles:
+        - Ref: "SedaiIntegrationServiceRole"
+
+## AVLambda
+
+  SedaiavlambdaLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: "/aws/lambda/sedai-avlambda-control-center-production-function"
+
+  IamRoleLambdaExecution:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Fn::Join:
+          - "-"
+          - - sedai-avlambda-control-center
+            - production
+            - lambda
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:CreateLogGroup
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sedai-avlambda-control-center-production*:*
+          - Effect: Allow
+            Action:
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/sedai-avlambda-control-center-production*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            Resource: 
+            - arn:aws:dynamodb:us-east-1:*:table/SedaiResourceConcurrencyStats
+            - arn:aws:dynamodb:us-east-1:*:table/SedaiTelemetryLogs
+          - Effect: Allow
+            Action:
+            - lambda:InvokeFunction
+            - lambda:InvokeAsync
+            Resource: "*"
+      Path: "/"
+      RoleName:
+        Fn::Join:
+        - "-"
+        - - sedai-avlambda-control-center
+          - production
+          - Ref: AWS::Region
+          - lambdaRole
+
+  SedaiavlambdaLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Zip
+      CodeUri: "s3://sedai-onboarding-templates-prod/avlambda.zip"
+      Handler: AVLambdaGo
+      Runtime: go1.x
+      FunctionName: sedai-avlambda-control-center-production-function
+      MemorySize: 256
+      Timeout: 6
+      Environment:
+        Variables:
+          DYNAMODB_TABLE: SedaiResourceConcurrencyStats
+          DYNAMODB_TELEMETRY_TABLE: SedaiTelemetryLogs
+          WARMUP_WAIT_SECONDS: 10
+      Role:
+        Fn::GetAtt:
+        - IamRoleLambdaExecution
+        - Arn
+    DependsOn:
+    - SedaiavlambdaLogGroup
+
+  SedaiavlambdaLambdaVersion:
+    Type: AWS::Lambda::Version
+    DeletionPolicy: Retain
+    Properties:
+      FunctionName:
+        Ref: SedaiavlambdaLambdaFunction
+  SedaiavlambdaLambdaFunctionUrl:
+    Type: AWS::Lambda::Url
+    Properties:
+      AuthType: NONE
+      TargetFunctionArn:
+        Fn::GetAtt:
+        - SedaiavlambdaLambdaFunction
+        - Arn
+  SedaiavlambdaLambdaPermissionFnUrl:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Fn::GetAtt:
+        - SedaiavlambdaLambdaFunction
+        - Arn
+      Action: lambda:InvokeFunctionUrl
+      Principal: "*"
+      FunctionUrlAuthType: NONE
+  sedaiavlambdacontrolcenterDynamo:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - SedaiTelemetryLogs
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+        - Action: sts:AssumeRole
+          Effect: Allow
+          Principal:
+            Service: application-autoscaling.amazonaws.com
+        Version: '2012-10-17'
+      Policies:
+      - PolicyDocument:
+          Statement:
+          - Action:
+            - cloudwatch:PutMetricAlarm
+            - cloudwatch:DescribeAlarms
+            - cloudwatch:DeleteAlarms
+            - cloudwatch:GetMetricStatistics
+            - cloudwatch:SetAlarmState
+            Effect: Allow
+            Resource: "*"
+          - Action:
+            - dynamodb:DescribeTable
+            - dynamodb:UpdateTable
+            Effect: Allow
+            Resource:
+              - Fn::Join:
+                - ''
+                - - 'arn:aws:dynamodb:*:'
+                  - Ref: AWS::AccountId
+                  - ":table/"
+                  - Ref: SedaiResourceConcurrencyStatsTable
+              - Fn::Join:
+                - ''
+                - - 'arn:aws:dynamodb:*:'
+                  - Ref: AWS::AccountId
+                  - ":table/"
+                  - Ref: SedaiResourceConcurrencyStatsTable
+          Version: '2012-10-17'
+        PolicyName: sedaiavlambdacontrolcenterDynamo3487d7010c5f4acfa479b9eac5ce2e8a
+      RoleName: sedaiavlambdacontrolcenterDynamo
+    Type: AWS::IAM::Role
+# SedaiResourceConcurrencyStatsTable Scaling
+  sedaiavlambdacontrolcenterTable:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterAutoScale
+    Properties:
+      PolicyName: sedaiavlambdacontrolcenterTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdacontrolcenterAutoScale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBReadCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 75
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdacontrolcenterAutoScale:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 20
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiResourceConcurrencyStatsTable
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:ReadCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+  sedaiavlambdacontrolcenterTable:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterAutoscale
+    Properties:
+      PolicyName: sedaiavlambdacontrolcenterTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdacontrolcenterAutoscale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBWriteCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 50
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdacontrolcenterAutoscale:
+    DependsOn:
+    - SedaiResourceConcurrencyStatsTable
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 25
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiResourceConcurrencyStatsTable
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:WriteCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+
+# SedaiTelemetryLogs Scaling
+  sedaiavlambdaTelemetryLogsTable:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdaTelemetryLogsAutoScale
+    Properties:
+      PolicyName: sedaiavlambdaTelemetryLogsTable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdaTelemetryLogsAutoScale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBReadCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 75
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdaTelemetryLogsAutoScale:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 20
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiTelemetryLogs
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:ReadCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+  sedaiavlambdaTelemetryLogstable:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdaTelemetryLogsAutoscale
+    Properties:
+      PolicyName: sedaiavlambdaTelemetryLogstable
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId:
+        Ref: sedaiavlambdaTelemetryLogsAutoscale
+      TargetTrackingScalingPolicyConfiguration:
+        PredefinedMetricSpecification:
+          PredefinedMetricType: DynamoDBWriteCapacityUtilization
+        ScaleInCooldown: 60
+        ScaleOutCooldown: 60
+        TargetValue: 50
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+  sedaiavlambdaTelemetryLogsAutoscale:
+    DependsOn:
+    - SedaiTelemetryLogs
+    - sedaiavlambdacontrolcenterDynamo
+    Properties:
+      MaxCapacity: 25
+      MinCapacity: 1
+      ResourceId:
+        Fn::Join:
+        - ''
+        - - table/
+          - Ref: SedaiTelemetryLogs
+      RoleARN:
+        Fn::GetAtt:
+        - sedaiavlambdacontrolcenterDynamo
+        - Arn
+      ScalableDimension: dynamodb:table:WriteCapacityUnits
+      ServiceNamespace: dynamodb
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+# Tables
+  SedaiResourceConcurrencyStatsTable:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: SedaiResourceConcurrencyStats
+      BillingMode: PROVISIONED
+      AttributeDefinitions:
+      - AttributeName: resourceId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: resourceId
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+  SedaiTelemetryLogs:
+    Type: AWS::DynamoDB::Table
+    DeletionPolicy: Retain
+    Properties:
+      TableName: SedaiTelemetryLogs
+      BillingMode: PROVISIONED
+      AttributeDefinitions:
+      - AttributeName: requestId
+        AttributeType: S
+      KeySchema:
+      - AttributeName: requestId
+        KeyType: HASH
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationServiceRole
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationServiceRole, Arn]
+  SedaiavlambdaLambdaFunctionQualifiedArn:
+    Description: Current Lambda function version
+    Value:
+      Ref: SedaiavlambdaLambdaVersion
+    Export:
+      Name: sedai-avlambda-control-center-production-SedaiavlambdaLambdaFunctionQualifiedArn
+  SedaiavlambdaLambdaFunctionUrl:
+    Description: Lambda Function URL
+    Value:
+      Fn::GetAtt:
+      - SedaiavlambdaLambdaFunctionUrl
+      - FunctionUrl
+    Export:
+      Name: sedai-avlambda-control-center-production-SedaiavlambdaLambdaFunctionUrl
