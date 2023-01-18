@@ -266,7 +266,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       PackageType: Zip
-      CodeUri: "s3://sedai-onboarding-templates-prod/avlambda.zip"
+      CodeUri:
+        Bucket:
+          Fn::Join:
+          - '-'
+          - - 'sedai-onboarding-templates-prod'
+            - Ref: AWS::Region
+        Key: 'avlambda.zip'
       Handler: AVLambdaGo
       Runtime: go1.x
       FunctionName: sedai-avlambda-control-center-production-function
