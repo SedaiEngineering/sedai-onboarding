@@ -35,7 +35,8 @@
                 "application-autoscaling:DescribeScalingActivities",
                 "application-autoscaling:DescribeScalingPolicies",
                 "application-autoscaling:PutScalingPolicy",
-                "application-autoscaling:RegisterScalableTarget"
+                "application-autoscaling:RegisterScalableTarget",
+		"application-autoscaling:DeleteScalingPolicy"
 			],
 			"Resource": "*"
 		},
