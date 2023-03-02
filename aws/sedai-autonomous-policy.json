@@ -19,14 +19,37 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": "autoscaling:Describe*",
+			"Action": [
+                "autoscaling:CreateAutoScalingGroup",
+                "autoscaling:CreateLaunchConfiguration",
+                "autoscaling:Describe*",
+                "autoscaling:UpdateAutoScalingGroup"				
+			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": "application-autoscaling:Describe*",
+			"Action": [
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:DescribeScalableTargets",
+                "application-autoscaling:DescribeScalingActivities",
+                "application-autoscaling:DescribeScalingPolicies",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:RegisterScalableTarget"
+			],
 			"Resource": "*"
 		},
+		{
+			"Effect": "Allow",
+			"Action": [
+                "appmesh:DescribeVirtualGateway",
+                "appmesh:DescribeVirtualNode",
+                "appmesh:ListMeshes",
+                "appmesh:ListVirtualGateways",
+                "appmesh:ListVirtualNodes"
+			],
+			"Resource": "*"
+		},		
 		{
 			"Effect": "Allow",
 			"Action": [
@@ -168,6 +191,8 @@
 			"Action": [
 				"ec2:DescribeInstances",
 				"ec2:DescribeInstanceStatus",
+                "elasticloadbalancing:CreateRule",
+                "elasticloadbalancing:CreateTargetGroup",				
 				"elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
 				"elasticloadbalancing:DescribeInstanceHealth",
 				"elasticloadbalancing:DescribeLoadBalancers",
@@ -180,6 +205,20 @@
 			],
 			"Resource": "*"
 		},
+		{
+			"Effect": "Allow",
+			"Action": [
+                "servicediscovery:CreatePrivateDnsNamespace",
+                "servicediscovery:CreateService",
+                "servicediscovery:GetNamespace",
+                "servicediscovery:GetOperation",
+                "servicediscovery:GetService",
+                "servicediscovery:ListNamespaces",
+                "servicediscovery:ListServices",
+                "servicediscovery:UpdateService"
+			],
+			"Resource": "*"
+		},		
 		{
 			"Effect": "Allow",
 			"Action": [
@@ -208,6 +247,79 @@
 				"eks:ListNodegroups"
 			],
 			"Resource": "*"
-		}
+		},
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": "ecs-tasks.amazonaws.com"
+                }
+            }
+        },
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:iam::*:role/ecsInstanceRole*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": [
+                        "ec2.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Action": "iam:PassRole",
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:iam::*:role/ecsAutoscaleRole*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": [
+                        "application-autoscaling.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": "iam:CreateServiceLinkedRole",
+            "Resource": "*",
+            "Condition": {
+                "StringLike": {
+                    "iam:AWSServiceName": [
+                        "autoscaling.amazonaws.com",
+                        "ecs.amazonaws.com",
+                        "ecs.application-autoscaling.amazonaws.com",
+                        "spot.amazonaws.com",
+                        "spotfleet.amazonaws.com"
+                    ]
+                }
+            }
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:AddTags"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringEquals": {
+                    "elasticloadbalancing:CreateAction": [
+                        "CreateTargetGroup",
+                        "CreateRule",
+                        "CreateListener",
+                        "CreateLoadBalancer"
+                    ]
+                }
+            }
+        }		
 	]
 }
