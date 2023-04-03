@@ -105,6 +105,20 @@
 		},
 		{
 			"Effect": "Allow",
+			"Action": [
+				"dynamodb:BatchGetItem",
+				"dynamodb:DescribeStream",
+				"dynamodb:DescribeTable",
+				"dynamodb:GetItem",
+				"dynamodb:ListStreams",
+				"dynamodb:ListTables",
+				"dynamodb:Query",
+				"dynamodb:Scan"
+			],
+			"Resource": ["*"]
+		},
+		{
+			"Effect": "Allow",
 			"Action": ["lambda:Get*", "lambda:List*"],
 			"Resource": "*"
 		},
@@ -137,6 +151,27 @@
 			],
 			"Effect": "Allow",
 			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"xray:GetSamplingRules",
+				"xray:GetSamplingTargets",
+				"xray:GetSamplingStatisticSummaries",
+				"xray:BatchGetTraces",
+				"xray:GetServiceGraph",
+				"xray:GetTraceGraph",
+				"xray:GetTraceSummaries",
+				"xray:GetGroups",
+				"xray:GetGroup",
+				"xray:ListTagsForResource",
+				"xray:GetTimeSeriesServiceStatistics",
+				"xray:GetInsightSummaries",
+				"xray:GetInsight",
+				"xray:GetInsightEvents",
+				"xray:GetInsightImpactGraph"
+			],
+			"Resource": ["*"]
 		},
 		{
 			"Effect": "Allow",
@@ -196,6 +231,21 @@
 				"lambda:PutProvisionedConcurrencyConfig",
 				"lambda:PublishVersion",
 				"lambda:DeleteProvisionedConcurrencyConfig"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"eks:DescribeAddon",
+				"eks:DescribeAddonVersions",
+				"eks:DescribeCluster",
+				"eks:DescribeFargateProfile",
+				"eks:DescribeNodegroup",
+				"eks:ListAddons",
+				"eks:ListClusters",
+				"eks:ListFargateProfiles",
+				"eks:ListNodegroups"
 			],
 			"Resource": "*"
 		},
