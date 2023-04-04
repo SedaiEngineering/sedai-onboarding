@@ -1,64 +1,34 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "ecs:DescribeClusters",
-                "ecs:DescribeContainerInstances",
-                "ecs:DescribeServices",
-                "ecs:DescribeTaskDefinition",
-                "ecs:DescribeTasks",
-                "ecs:DiscoverPollEndpoint",                
-                "ecs:DescribeTaskSets",
-                "ecs:DescribeCapacityProviders",
-                "ecs:ListAccountSettings",
-                "ecs:ListAttributes",
-                "ecs:ListClusters",
-                "ecs:ListContainerInstances",
-                "ecs:ListServices",
-                "ecs:ListTagsForResource",
-                "ecs:ListTaskDefinitionFamilies",
-                "ecs:ListTaskDefinitions",
-                "ecs:ListTasks",
-                "ecs:CreateCapacityProvider",
-                "ecs:DeleteCapacityProvider",
-                "ecs:DeregisterContainerInstance",
-                "ecs:DeregisterTaskDefinition",
-                "ecs:ExecuteCommand",
-                "ecs:Poll",
-                "ecs:PutAccountSetting",
-                "ecs:PutAccountSettingDefault",
-                "ecs:PutAttributes",
-                "ecs:PutClusterCapacityProviders",
-                "ecs:RegisterContainerInstance",
-                "ecs:RegisterTaskDefinition",
-                "ecs:RunTask",
-                "ecs:StartTask",
-                "ecs:StartTelemetrySession",
-                "ecs:StopTask",
-                "ecs:SubmitAttachmentStateChanges",
-                "ecs:SubmitContainerStateChange",
-                "ecs:SubmitTaskStateChange",
-                "ecs:TagResource",
-                "ecs:UntagResource",
-                "ecs:UpdateCapacityProvider",
-                "ecs:UpdateCluster",
-                "ecs:UpdateClusterSettings",
-                "ecs:UpdateContainerAgent",
-                "ecs:UpdateContainerInstancesState",
-                "ecs:UpdateService",
-                "ecs:UpdateServicePrimaryTaskSet",
-                "ecs:UpdateTaskSet"                                
-            ],
-            "Resource": [
-                "*"
-            ]
-        },
-        {
-            "Effect": "Allow",
-            "Action": "application-autoscaling:Describe*",
-            "Resource": "*"
-        }                
-    ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:Describe*",
+				"ecs:List*",
+				"ecs:DiscoverPollEndpoint",
+				"ecs:CreateCapacityProvider",
+				"ecs:DeleteCapacityProvider",
+				"ecs:Deregister*",
+				"ecs:ExecuteCommand",
+				"ecs:Poll",
+				"ecs:Put*",
+				"ecs:RegisterContainerInstance",
+				"ecs:RegisterTaskDefinition",
+				"ecs:RunTask",
+				"ecs:Start*",
+				"ecs:StopTask",
+				"ecs:Submit*",
+				"ecs:TagResource",
+				"ecs:UntagResource",
+				"ecs:Update*"
+			],
+			"Resource": ["*"]
+		},
+		{
+			"Effect": "Allow",
+			"Action": "application-autoscaling:Describe*",
+			"Resource": "*"
+		}
+	]
 }

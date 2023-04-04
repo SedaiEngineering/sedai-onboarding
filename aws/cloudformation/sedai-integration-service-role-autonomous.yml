@@ -25,13 +25,7 @@ Resources:
           - Effect: Allow
             Action:
               - ec2:Describe*
-              - ec2:DescribeSecurityGroups
-              - ec2:DescribeSubnets
-              - ec2:DescribeVpcs
               - tag:GetResources
-            Resource: '*'
-          - Effect: Allow
-            Action: elasticloadbalancing:Describe*
             Resource: '*'
           - Effect: Allow
             Action:
@@ -59,52 +53,24 @@ Resources:
             Resource: '*'
           - Effect: Allow
             Action:
-              - ecs:DescribeClusters
-              - ecs:DescribeContainerInstances
-              - ecs:DescribeServices
-              - ecs:DescribeTaskDefinition
-              - ecs:DescribeTasks
+              - ecs:Describe*
+              - ecs:List*
               - ecs:DiscoverPollEndpoint
-              - ecs:DescribeTaskSets
-              - ecs:DescribeCapacityProviders
-              - ecs:ListAccountSettings
-              - ecs:ListAttributes
-              - ecs:ListClusters
-              - ecs:ListContainerInstances
-              - ecs:ListServices
-              - ecs:ListTagsForResource
-              - ecs:ListTaskDefinitionFamilies
-              - ecs:ListTaskDefinitions
-              - ecs:ListTasks
               - ecs:CreateCapacityProvider
               - ecs:DeleteCapacityProvider
-              - ecs:DeregisterContainerInstance
-              - ecs:DeregisterTaskDefinition
+              - ecs:Deregister*
               - ecs:ExecuteCommand
               - ecs:Poll
-              - ecs:PutAccountSetting
-              - ecs:PutAccountSettingDefault
-              - ecs:PutAttributes
-              - ecs:PutClusterCapacityProviders
+              - ecs:Put*
               - ecs:RegisterContainerInstance
               - ecs:RegisterTaskDefinition
               - ecs:RunTask
-              - ecs:StartTask
-              - ecs:StartTelemetrySession
+              - ecs:Start*
               - ecs:StopTask
-              - ecs:SubmitAttachmentStateChanges
-              - ecs:SubmitContainerStateChange
-              - ecs:SubmitTaskStateChange
+              - ecs:Submit*
               - ecs:TagResource
               - ecs:UntagResource
-              - ecs:UpdateCapacityProvider
-              - ecs:UpdateCluster
-              - ecs:UpdateClusterSettings
-              - ecs:UpdateContainerAgent
-              - ecs:UpdateContainerInstancesState
-              - ecs:UpdateService
-              - ecs:UpdateServicePrimaryTaskSet
-              - ecs:UpdateTaskSet
+              - ecs:Update*
             Resource:
               - '*'
           - Effect: Allow
@@ -121,20 +87,10 @@ Resources:
               - '*'
           - Effect: Allow
             Action:
-              - lambda:Get*
-              - lambda:List*
-            Resource: '*'
-          - Effect: Allow
-            Action:
               - kinesis:DescribeStream
               - kinesis:ListStreams
             Resource: '*'
           - Action:
-              - cloudwatch:ListMetrics
-              - cloudwatch:GetMetricStatistics
-              - cloudwatch:Describe*
-              - cloudwatch:Get*
-              - cloudwatch:List*
               - cloudwatch:Describe*
               - cloudwatch:Get*
               - cloudwatch:List*
@@ -145,9 +101,6 @@ Resources:
               - logs:Describe*
               - logs:TestMetricFilter
               - logs:FilterLogEvents
-              - logs:DescribeLogGroups
-              - logs:DescribeLogStreams
-              - logs:DescribeMetricFilters
               - logs:GetLogEvents
             Effect: Allow
             Resource: '*'
@@ -183,19 +136,13 @@ Resources:
             Resource: '*'
           - Effect: Allow
             Action:
-              - ec2:DescribeInstances
-              - ec2:DescribeInstanceStatus
+              - elasticloadbalancing:Describe*
               - elasticloadbalancing:CreateRule
               - elasticloadbalancing:CreateTargetGroup
               - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
-              - elasticloadbalancing:DescribeInstanceHealth
-              - elasticloadbalancing:DescribeLoadBalancers
               - elasticloadbalancing:RegisterInstancesWithLoadBalancer
               - elasticloadbalancing:DeregisterTargets
-              - elasticloadbalancing:DescribeTargetHealth
-              - elasticloadbalancing:DescribeTargetHealth
               - elasticloadbalancing:RegisterTargets
-              - elasticloadbalancing:DescribeTargetHealth
             Resource: '*'
           - Effect: Allow
             Action:
