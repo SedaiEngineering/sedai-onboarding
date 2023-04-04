@@ -25,175 +25,160 @@ Resources:
         Statement:
           - Effect: Allow
             Action:
-              - "ec2:Describe*"
-              - "ec2:DescribeSecurityGroups"
-              - "ec2:DescribeSubnets"
-              - "ec2:DescribeVpcs"
-              - "tag:GetResources"
-            Resource: "*"
-          - Effect: Allow
-            Action: "elasticloadbalancing:Describe*"
-            Resource: "*"
-          - Effect: Allow
-            Action: "autoscaling:Describe*"
-            Resource: "*"
-          - Effect: Allow
-            Action: 
-              - "application-autoscaling:Describe*"
-              - "application-autoscaling:PutScalingPolicy"
-              - "application-autoscaling:RegisterScalableTarget"
-            Resource: "*"  
+              - ec2:Describe*
+              - tag:GetResources
+            Resource: '*'
           - Effect: Allow
             Action:
-              - "ecs:DescribeClusters"
-              - "ecs:DescribeContainerInstances"
-              - "ecs:DescribeServices"
-              - "ecs:DescribeTaskDefinition"
-              - "ecs:DescribeTasks"
-              - "ecs:DiscoverPollEndpoint"                
-              - "ecs:DescribeTaskSets"
-              - "ecs:DescribeCapacityProviders"
-              - "ecs:ListAccountSettings"
-              - "ecs:ListAttributes"
-              - "ecs:ListClusters"
-              - "ecs:ListContainerInstances"
-              - "ecs:ListServices"
-              - "ecs:ListTagsForResource"
-              - "ecs:ListTaskDefinitionFamilies"
-              - "ecs:ListTaskDefinitions"
-              - "ecs:ListTasks"
-              - "ecs:CreateCapacityProvider"
-              - "ecs:DeleteCapacityProvider"
-              - "ecs:DeregisterContainerInstance"
-              - "ecs:DeregisterTaskDefinition"
-              - "ecs:Poll"
-              - "ecs:PutAttributes"
-              - "ecs:PutClusterCapacityProviders"
-              - "ecs:RegisterContainerInstance"
-              - "ecs:RegisterTaskDefinition"
-              - "ecs:TagResource"
-              - "ecs:UntagResource"
-              - "ecs:UpdateCapacityProvider"
-              - "ecs:UpdateCluster"
-              - "ecs:UpdateClusterSettings"
-              - "ecs:UpdateContainerAgent"
-              - "ecs:UpdateContainerInstancesState"
-              - "ecs:UpdateService"
-              - "ecs:UpdateServicePrimaryTaskSet"
-              - "ecs:UpdateTaskSet"    
+              - autoscaling:CreateAutoScalingGroup
+              - autoscaling:CreateLaunchConfiguration
+              - autoscaling:Describe*
+              - autoscaling:UpdateAutoScalingGroup
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - application-autoscaling:DeregisterScalableTarget
+              - application-autoscaling:DescribeScalableTargets
+              - application-autoscaling:DescribeScalingActivities
+              - application-autoscaling:DescribeScalingPolicies
+              - application-autoscaling:PutScalingPolicy
+              - application-autoscaling:RegisterScalableTarget
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - appmesh:DescribeVirtualGateway
+              - appmesh:DescribeVirtualNode
+              - appmesh:ListMeshes
+              - appmesh:ListVirtualGateways
+              - appmesh:ListVirtualNodes
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - ecs:Describe*
+              - ecs:List*
+              - ecs:DiscoverPollEndpoint
+              - ecs:CreateCapacityProvider
+              - ecs:DeleteCapacityProvider
+              - ecs:Deregister*
+              - ecs:ExecuteCommand
+              - ecs:Poll
+              - ecs:Put*
+              - ecs:RegisterContainerInstance
+              - ecs:RegisterTaskDefinition
+              - ecs:RunTask
+              - ecs:Start*
+              - ecs:StopTask
+              - ecs:Submit*
+              - ecs:TagResource
+              - ecs:UntagResource
+              - ecs:Update*
             Resource:
-              - "*"
+              - '*'
           - Effect: Allow
             Action:
-              - "dynamodb:BatchGetItem"
-              - "dynamodb:DescribeStream"
-              - "dynamodb:DescribeTable"
-              - "dynamodb:GetItem"
-              - "dynamodb:ListStreams"
-              - "dynamodb:ListTables"
-              - "dynamodb:Query"
-              - "dynamodb:Scan"
+              - dynamodb:BatchGetItem
+              - dynamodb:DescribeStream
+              - dynamodb:DescribeTable
+              - dynamodb:GetItem
+              - dynamodb:ListStreams
+              - dynamodb:ListTables
+              - dynamodb:Query
+              - dynamodb:Scan
             Resource:
-              - "*"
+              - '*'
           - Effect: Allow
             Action:
-              - "lambda:Get*"
-              - "lambda:List*"
-            Resource: "*"
-          - Effect: Allow
-            Action:
-              - "kinesis:DescribeStream"
-              - "kinesis:ListStreams"
-            Resource: "*"
+              - kinesis:DescribeStream
+              - kinesis:ListStreams
+            Resource: '*'
           - Action:
-              - "cloudwatch:ListMetrics"
-              - "cloudwatch:GetMetricStatistics"
-              - "cloudwatch:Describe*"
-              - "cloudwatch:Get*"
-              - "cloudwatch:List*"
-              - "cloudwatch:Describe*"
-              - "cloudwatch:Get*"
-              - "cloudwatch:List*"
-              - "logs:Get*"
-              - "logs:List*"
-              - "logs:StartQuery"
-              - "logs:StopQuery"
-              - "logs:Describe*"
-              - "logs:TestMetricFilter"
-              - "logs:FilterLogEvents"
-              - "logs:DescribeLogGroups"
-              - "logs:DescribeLogStreams"
-              - "logs:DescribeMetricFilters"
-              - "logs:GetLogEvents"
+              - cloudwatch:Describe*
+              - cloudwatch:Get*
+              - cloudwatch:List*
+              - logs:Get*
+              - logs:List*
+              - logs:StartQuery
+              - logs:StopQuery
+              - logs:Describe*
+              - logs:TestMetricFilter
+              - logs:FilterLogEvents
+              - logs:GetLogEvents
             Effect: Allow
-            Resource: "*"
+            Resource: '*'
           - Effect: Allow
             Action:
-              - "xray:GetSamplingRules"
-              - "xray:GetSamplingTargets"
-              - "xray:GetSamplingStatisticSummaries"
-              - "xray:BatchGetTraces"
-              - "xray:GetServiceGraph"
-              - "xray:GetTraceGraph"
-              - "xray:GetTraceSummaries"
-              - "xray:GetGroups"
-              - "xray:GetGroup"
-              - "xray:ListTagsForResource"
-              - "xray:GetTimeSeriesServiceStatistics"
-              - "xray:GetInsightSummaries"
-              - "xray:GetInsight"
-              - "xray:GetInsightEvents"
-              - "xray:GetInsightImpactGraph"
+              - xray:GetSamplingRules
+              - xray:GetSamplingTargets
+              - xray:GetSamplingStatisticSummaries
+              - xray:BatchGetTraces
+              - xray:GetServiceGraph
+              - xray:GetTraceGraph
+              - xray:GetTraceSummaries
+              - xray:GetGroups
+              - xray:GetGroup
+              - xray:ListTagsForResource
+              - xray:GetTimeSeriesServiceStatistics
+              - xray:GetInsightSummaries
+              - xray:GetInsight
+              - xray:GetInsightEvents
+              - xray:GetInsightImpactGraph
             Resource:
-              - "*"
+              - '*'
           - Effect: Allow
             Action:
-              - "states:ListStateMachines"
-              - "states:ListActivities"
-              - "states:DescribeStateMachine"
-              - "states:DescribeStateMachineForExecution"
-              - "states:ListExecutions"
-              - "states:DescribeExecution"
-              - "states:GetExecutionHistory"
-              - "states:DescribeActivity"
-            Resource: "*"
+              - states:ListStateMachines
+              - states:ListActivities
+              - states:DescribeStateMachine
+              - states:DescribeStateMachineForExecution
+              - states:ListExecutions
+              - states:DescribeExecution
+              - states:GetExecutionHistory
+              - states:DescribeActivity
+            Resource: '*'
           - Effect: Allow
             Action:
-              - "ec2:DescribeInstances"
-              - "ec2:DescribeInstanceStatus"
-              - "elasticloadbalancing:DeregisterInstancesFromLoadBalancer"
-              - "elasticloadbalancing:DescribeInstanceHealth"
-              - "elasticloadbalancing:DescribeLoadBalancers"
-              - "elasticloadbalancing:RegisterInstancesWithLoadBalancer"
-              - "elasticloadbalancing:DeregisterTargets"
-              - "elasticloadbalancing:DescribeTargetHealth"
-              - "elasticloadbalancing:DescribeTargetHealth"
-              - "elasticloadbalancing:RegisterTargets"
-              - "elasticloadbalancing:DescribeTargetHealth"
-            Resource: "*"
+              - elasticloadbalancing:Describe*
+              - elasticloadbalancing:CreateRule
+              - elasticloadbalancing:CreateTargetGroup
+              - elasticloadbalancing:DeregisterInstancesFromLoadBalancer
+              - elasticloadbalancing:RegisterInstancesWithLoadBalancer
+              - elasticloadbalancing:DeregisterTargets
+              - elasticloadbalancing:RegisterTargets
+            Resource: '*'
           - Effect: Allow
             Action:
-              - "lambda:Get*"
-              - "lambda:List*"
-              - "lambda:UpdateFunctionConfiguration"
-              - "lambda:UpdateAlias"
-              - "lambda:PutFunctionConcurrency"
-              - "lambda:PutProvisionedConcurrencyConfig"
-              - "lambda:PublishVersion"
-              - "lambda:DeleteProvisionedConcurrencyConfig"
-            Resource: "*"
+              - servicediscovery:CreatePrivateDnsNamespace
+              - servicediscovery:CreateService
+              - servicediscovery:GetNamespace
+              - servicediscovery:GetOperation
+              - servicediscovery:GetService
+              - servicediscovery:ListNamespaces
+              - servicediscovery:ListServices
+              - servicediscovery:UpdateService
+            Resource: '*'
           - Effect: Allow
-            Action: 
-              - "eks:DescribeAddon"
-              - "eks:DescribeAddonVersions"
-              - "eks:DescribeCluster"
-              - "eks:DescribeFargateProfile"
-              - "eks:DescribeNodegroup"
-              - "eks:ListAddons"
-              - "eks:ListClusters"
-              - "eks:ListFargateProfiles"
-              - "eks:ListNodegroups"
-            Resource: "*"
+            Action:
+              - lambda:Get*
+              - lambda:List*
+              - lambda:UpdateFunctionConfiguration
+              - lambda:UpdateAlias
+              - lambda:PutFunctionConcurrency
+              - lambda:PutProvisionedConcurrencyConfig
+              - lambda:PublishVersion
+              - lambda:DeleteProvisionedConcurrencyConfig
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - eks:DescribeAddon
+              - eks:DescribeAddonVersions
+              - eks:DescribeCluster
+              - eks:DescribeFargateProfile
+              - eks:DescribeNodegroup
+              - eks:ListAddons
+              - eks:ListClusters
+              - eks:ListFargateProfiles
+              - eks:ListNodegroups
+            Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 

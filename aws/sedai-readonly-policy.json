@@ -53,24 +53,7 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"ecs:ListAccountSettings",
-				"ecs:ListAttributes",
-				"ecs:ListClusters",
-				"ecs:ListContainerInstances",
-				"ecs:ListServices",
-				"ecs:ListTagsForResource",
-				"ecs:ListTaskDefinitionFamilies",
-				"ecs:ListTaskDefinitions",
-				"ecs:ListTasks",
-				"ecs:DescribeClusters",
-				"ecs:DescribeContainerInstances",
-				"ecs:DescribeServices",
-				"ecs:DescribeTaskDefinition",
-				"ecs:DescribeTasks",
-				"ecs:DescribeTaskSets",
-				"ecs:DescribeCapacityProviders"
-			],
+			"Action": ["ecs:List*", "ecs:Describe*"],
 			"Resource": ["*"]
 		},
 		{
