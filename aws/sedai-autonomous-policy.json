@@ -1,257 +1,286 @@
 {
-	"Version": "2012-10-17",
-	"Statement": [
-		{
-			"Effect": "Allow",
-			"Action": ["ec2:Describe*", "tag:GetResources"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"autoscaling:CreateAutoScalingGroup",
-				"autoscaling:CreateLaunchConfiguration",
-				"autoscaling:Describe*",
-				"autoscaling:UpdateAutoScalingGroup"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"application-autoscaling:DeregisterScalableTarget",
-				"application-autoscaling:DescribeScalableTargets",
-				"application-autoscaling:DescribeScalingActivities",
-				"application-autoscaling:DescribeScalingPolicies",
-				"application-autoscaling:PutScalingPolicy",
-				"application-autoscaling:RegisterScalableTarget",
-				"application-autoscaling:DeleteScalingPolicy"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"appmesh:DescribeVirtualGateway",
-				"appmesh:DescribeVirtualNode",
-				"appmesh:ListMeshes",
-				"appmesh:ListVirtualGateways",
-				"appmesh:ListVirtualNodes"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"ecs:Describe*",
-				"ecs:List*",
-				"ecs:DiscoverPollEndpoint",
-				"ecs:CreateCapacityProvider",
-				"ecs:DeleteCapacityProvider",
-				"ecs:Deregister*",
-				"ecs:ExecuteCommand",
-				"ecs:Poll",
-				"ecs:Put*",
-				"ecs:RegisterContainerInstance",
-				"ecs:RegisterTaskDefinition",
-				"ecs:RunTask",
-				"ecs:Start*",
-				"ecs:StopTask",
-				"ecs:Submit*",
-				"ecs:TagResource",
-				"ecs:UntagResource",
-				"ecs:Update*"
-			],
-			"Resource": ["*"]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"dynamodb:BatchGetItem",
-				"dynamodb:DescribeStream",
-				"dynamodb:DescribeTable",
-				"dynamodb:GetItem",
-				"dynamodb:ListStreams",
-				"dynamodb:ListTables",
-				"dynamodb:Query",
-				"dynamodb:Scan"
-			],
-			"Resource": ["*"]
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["kinesis:DescribeStream", "kinesis:ListStreams"],
-			"Resource": "*"
-		},
-		{
-			"Action": [
-				"cloudwatch:Describe*",
-				"cloudwatch:Get*",
-				"cloudwatch:List*",
-				"logs:Get*",
-				"logs:List*",
-				"logs:StartQuery",
-				"logs:StopQuery",
-				"logs:Describe*",
-				"logs:TestMetricFilter",
-				"logs:FilterLogEvents"
-			],
-			"Effect": "Allow",
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"xray:GetSamplingRules",
-				"xray:GetSamplingTargets",
-				"xray:GetSamplingStatisticSummaries",
-				"xray:BatchGetTraces",
-				"xray:GetServiceGraph",
-				"xray:GetTraceGraph",
-				"xray:GetTraceSummaries",
-				"xray:GetGroups",
-				"xray:GetGroup",
-				"xray:ListTagsForResource",
-				"xray:GetTimeSeriesServiceStatistics",
-				"xray:GetInsightSummaries",
-				"xray:GetInsight",
-				"xray:GetInsightEvents",
-				"xray:GetInsightImpactGraph"
-			],
-			"Resource": ["*"]
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"states:ListStateMachines",
-				"states:ListActivities",
-				"states:DescribeStateMachine",
-				"states:DescribeStateMachineForExecution",
-				"states:ListExecutions",
-				"states:DescribeExecution",
-				"states:GetExecutionHistory",
-				"states:DescribeActivity"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"servicediscovery:CreatePrivateDnsNamespace",
-				"servicediscovery:CreateService",
-				"servicediscovery:GetNamespace",
-				"servicediscovery:GetOperation",
-				"servicediscovery:GetService",
-				"servicediscovery:ListNamespaces",
-				"servicediscovery:ListServices",
-				"servicediscovery:UpdateService"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"lambda:Get*",
-				"lambda:List*",
-				"lambda:UpdateFunctionConfiguration",
-				"lambda:UpdateAlias",
-				"lambda:PutFunctionConcurrency",
-				"lambda:PutProvisionedConcurrencyConfig",
-				"lambda:PublishVersion",
-				"lambda:DeleteProvisionedConcurrencyConfig"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"eks:DescribeAddon",
-				"eks:DescribeAddonVersions",
-				"eks:DescribeCluster",
-				"eks:DescribeFargateProfile",
-				"eks:DescribeNodegroup",
-				"eks:ListAddons",
-				"eks:ListClusters",
-				"eks:ListFargateProfiles",
-				"eks:ListNodegroups"
-			],
-			"Resource": "*"
-		},
-		{
-			"Action": "iam:PassRole",
-			"Effect": "Allow",
-			"Resource": ["*"],
-			"Condition": {
-				"StringLike": {
-					"iam:PassedToService": "ecs-tasks.amazonaws.com"
-				}
-			}
-		},
-		{
-			"Action": "iam:PassRole",
-			"Effect": "Allow",
-			"Resource": ["arn:aws:iam::*:role/ecsInstanceRole*"],
-			"Condition": {
-				"StringLike": {
-					"iam:PassedToService": ["ec2.amazonaws.com"]
-				}
-			}
-		},
-		{
-			"Action": "iam:PassRole",
-			"Effect": "Allow",
-			"Resource": ["arn:aws:iam::*:role/ecsAutoscaleRole*"],
-			"Condition": {
-				"StringLike": {
-					"iam:PassedToService": [
-						"application-autoscaling.amazonaws.com"
-					]
-				}
-			}
-		},
-		{
-			"Effect": "Allow",
-			"Action": "iam:CreateServiceLinkedRole",
-			"Resource": "*",
-			"Condition": {
-				"StringLike": {
-					"iam:AWSServiceName": [
-						"autoscaling.amazonaws.com",
-						"ecs.amazonaws.com",
-						"ecs.application-autoscaling.amazonaws.com",
-						"spot.amazonaws.com",
-						"spotfleet.amazonaws.com"
-					]
-				}
-			}
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"elasticloadbalancing:Describe*",
-				"elasticloadbalancing:CreateRule",
-				"elasticloadbalancing:CreateTargetGroup",
-				"elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-				"elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-				"elasticloadbalancing:DeregisterTargets",
-				"elasticloadbalancing:RegisterTargets"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["elasticloadbalancing:AddTags"],
-			"Resource": "*",
-			"Condition": {
-				"StringEquals": {
-					"elasticloadbalancing:CreateAction": [
-						"CreateTargetGroup",
-						"CreateRule",
-						"CreateListener",
-						"CreateLoadBalancer"
-					]
-				}
-			}
-		}
-	]
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "autoscaling:Describe*",
+        "autoscaling:CreateAutoScalingGroup",
+        "autoscaling:CreateLaunchConfiguration",
+        "autoscaling:UpdateAutoScalingGroup"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "application-autoscaling:Describe*",
+        "application-autoscaling:DeleteScalingPolicy",
+        "application-autoscaling:DeregisterScalableTarget",
+        "application-autoscaling:PutScalingPolicy",
+        "application-autoscaling:RegisterScalableTarget"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "appmesh:DescribeVirtualGateway",
+        "appmesh:DescribeVirtualNode",
+        "appmesh:ListMeshes",
+        "appmesh:ListVirtualGateways",
+        "appmesh:ListVirtualNodes"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:Describe*",
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:DescribeStream",
+        "dynamodb:DescribeTable",
+        "dynamodb:GetItem",
+        "dynamodb:ListStreams",
+        "dynamodb:ListTables",
+        "dynamodb:Query",
+        "dynamodb:Scan"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:Describe*",
+        "tag:GetResources"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ecs:Describe*",
+        "ecs:List*",
+        "ecs:CreateCapacityProvider",
+        "ecs:DeleteCapacityProvider",
+        "ecs:Deregister*",
+        "ecs:DiscoverPollEndpoint",
+        "ecs:ExecuteCommand",
+        "ecs:Poll",
+        "ecs:Put*",
+        "ecs:RegisterContainerInstance",
+        "ecs:RegisterTaskDefinition",
+        "ecs:RunTask",
+        "ecs:Start*",
+        "ecs:StopTask",
+        "ecs:Submit*",
+        "ecs:TagResource",
+        "ecs:UntagResource",
+        "ecs:Update*"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "eks:DescribeAddon",
+        "eks:DescribeAddonVersions",
+        "eks:DescribeCluster",
+        "eks:DescribeFargateProfile",
+        "eks:DescribeNodegroup",
+        "eks:ListAddons",
+        "eks:ListClusters",
+        "eks:ListFargateProfiles",
+        "eks:ListNodegroups"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:AddTags"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "elasticloadbalancing:CreateAction": [
+            "CreateTargetGroup",
+            "CreateRule",
+            "CreateListener",
+            "CreateLoadBalancer"
+          ]
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "elasticloadbalancing:Describe*",
+        "elasticloadbalancing:CreateRule",
+        "elasticloadbalancing:CreateTargetGroup",
+        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+        "elasticloadbalancing:DeregisterTargets",
+        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+        "elasticloadbalancing:RegisterTargets"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Action": "iam:PassRole",
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "StringLike": {
+          "iam:PassedToService": "ecs-tasks.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Action": "iam:PassRole",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::*:role/ecsInstanceRole*"
+      ],
+      "Condition": {
+        "StringLike": {
+          "iam:PassedToService": [
+            "ec2.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Action": "iam:PassRole",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:iam::*:role/ecsAutoscaleRole*"
+      ],
+      "Condition": {
+        "StringLike": {
+          "iam:PassedToService": [
+            "application-autoscaling.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:CreateServiceLinkedRole",
+      "Resource": "*",
+      "Condition": {
+        "StringLike": {
+          "iam:AWSServiceName": [
+            "autoscaling.amazonaws.com",
+            "ecs.amazonaws.com",
+            "ecs.application-autoscaling.amazonaws.com",
+            "spot.amazonaws.com",
+            "spotfleet.amazonaws.com"
+          ]
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "lambda:Get*",
+        "lambda:List*",
+        "lambda:DeleteProvisionedConcurrencyConfig",
+        "lambda:PublishVersion",
+        "lambda:PutFunctionConcurrency",
+        "lambda:PutProvisionedConcurrencyConfig",
+        "lambda:UpdateAlias",
+        "lambda:UpdateFunctionConfiguration"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "servicediscovery:CreatePrivateDnsNamespace",
+        "servicediscovery:CreateService",
+        "servicediscovery:GetNamespace",
+        "servicediscovery:GetOperation",
+        "servicediscovery:GetService",
+        "servicediscovery:ListNamespaces",
+        "servicediscovery:ListServices",
+        "servicediscovery:UpdateService"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "states:DescribeActivity",
+        "states:DescribeExecution",
+        "states:DescribeStateMachine",
+        "states:DescribeStateMachineForExecution",
+        "states:GetExecutionHistory",
+        "states:ListActivities",
+        "states:ListExecutions",
+        "states:ListStateMachines"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "xray:BatchGetTraces",
+        "xray:GetGroup",
+        "xray:GetGroups",
+        "xray:GetInsight",
+        "xray:GetInsightEvents",
+        "xray:GetInsightImpactGraph",
+        "xray:GetInsightSummaries",
+        "xray:GetSamplingRules",
+        "xray:GetSamplingStatisticSummaries",
+        "xray:GetSamplingTargets",
+        "xray:GetServiceGraph",
+        "xray:GetTimeSeriesServiceStatistics",
+        "xray:GetTraceGraph",
+        "xray:GetTraceSummaries",
+        "xray:ListTagsForResource"
+      ],
+      "Resource": [
+        "*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:Describe*",
+        "logs:GetQueryResults",
+        "logs:List*",
+        "logs:StopQuery",
+        "logs:TestMetricFilter"
+      ],
+      "Resource": "arn:aws:logs:*:*:log-group:*:log-stream:*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:FilterLogEvents",
+        "logs:StartQuery"
+      ],
+      "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+    }
+  ]
 }
