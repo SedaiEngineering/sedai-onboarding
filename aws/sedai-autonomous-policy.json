@@ -183,28 +183,11 @@
 			"Resource": ["*"],
 			"Condition": {
 				"StringLike": {
-					"iam:PassedToService": "ecs-tasks.amazonaws.com"
-				}
-			}
-		},
-		{
-			"Action": "iam:PassRole",
-			"Effect": "Allow",
-			"Resource": ["arn:aws:iam::*:role/ecsInstanceRole*"],
-			"Condition": {
-				"StringLike": {
-					"iam:PassedToService": ["ec2.amazonaws.com"]
-				}
-			}
-		},
-		{
-			"Action": "iam:PassRole",
-			"Effect": "Allow",
-			"Resource": ["arn:aws:iam::*:role/ecsAutoscaleRole*"],
-			"Condition": {
-				"StringLike": {
 					"iam:PassedToService": [
-						"application-autoscaling.amazonaws.com"
+						"application-autoscaling.amazonaws.com",
+						"ecs-tasks.amazonaws.com",
+						"ecs.amazonaws.com",
+						"elasticloadbalancing.amazonaws.com"
 					]
 				}
 			}
