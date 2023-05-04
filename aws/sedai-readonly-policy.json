@@ -14,11 +14,8 @@
     {
       "Effect": "Allow",
       "Action": [
-        "appmesh:DescribeVirtualGateway",
-        "appmesh:DescribeVirtualNode",
-        "appmesh:ListMeshes",
-        "appmesh:ListVirtualGateways",
-        "appmesh:ListVirtualNodes"
+        "appmesh:Describe*",
+        "appmesh:List*"
       ],
       "Resource": "*"
     },
@@ -33,7 +30,10 @@
     },
     {
       "Effect": "Allow",
-      "Action": "elasticloadbalancing:Describe*",
+      "Action": [
+        "dynamodb:List*",
+        "dynamodb:Describe*"
+      ],
       "Resource": "*"
     },
     {
@@ -43,7 +43,7 @@
         "tag:GetResources"
       ],
       "Resource": "*"
-    },
+    },    
     {
       "Effect": "Allow",
       "Action": [
@@ -53,20 +53,18 @@
       "Resource": [
         "*"
       ]
-    },
+    },    
     {
       "Effect": "Allow",
       "Action": [
-        "eks:DescribeAddon",
-        "eks:DescribeAddonVersions",
-        "eks:DescribeCluster",
-        "eks:DescribeFargateProfile",
-        "eks:DescribeNodegroup",
-        "eks:ListAddons",
-        "eks:ListClusters",
-        "eks:ListFargateProfiles",
-        "eks:ListNodegroups"
+        "eks:List*",
+        "eks:Describe*" 
       ],
+      "Resource": "*"
+    },    
+    {
+      "Effect": "Allow",
+      "Action": "elasticloadbalancing:Describe*",
       "Resource": "*"
     },
     {
@@ -80,21 +78,40 @@
     {
       "Effect": "Allow",
       "Action": [
-        "logs:Describe*",
-        "logs:GetQueryResults",
-        "logs:List*",
-        "logs:StopQuery",
-        "logs:TestMetricFilter"
+        "servicediscovery:Get*",
+        "servicediscovery:List*"
       ],
-      "Resource": "arn:aws:logs:*:*:log-group:*:log-stream:*"
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
       "Action": [
-        "logs:FilterLogEvents",
-        "logs:StartQuery"
+        "states:List*",    
+        "states:Get*",            
+        "states:Describe*"
       ],
-      "Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "xray:BatchGetTraces",
+        "xray:Get*",
+        "xray:List*"
+      ],
+      "Resource": "*" 
+    },    
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:Describe*",
+        "logs:GetQueryResults",
+        "logs:TestMetricFilter",        
+        "logs:List*",
+        "logs:StartQuery",
+        "logs:StopQuery"   
+      ],
+      "Resource": "*"
     }
   ]
 }

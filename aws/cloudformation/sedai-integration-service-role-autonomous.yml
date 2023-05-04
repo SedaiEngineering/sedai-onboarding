@@ -29,41 +29,61 @@ Resources:
             Resource: '*'
           - Effect: Allow
             Action:
+              - autoscaling:Describe*
               - autoscaling:CreateAutoScalingGroup
               - autoscaling:CreateLaunchConfiguration
-              - autoscaling:Describe*
               - autoscaling:UpdateAutoScalingGroup
             Resource: '*'
           - Effect: Allow
             Action:
+              - application-autoscaling:Describe*
+              - application-autoscaling:DeleteScalingPolicy
               - application-autoscaling:DeregisterScalableTarget
-              - application-autoscaling:DescribeScalableTargets
-              - application-autoscaling:DescribeScalingActivities
-              - application-autoscaling:DescribeScalingPolicies
               - application-autoscaling:PutScalingPolicy
-              - application-autoscaling:RegisterScalableTarget
+              - application-autoscaling:RegisterScalableTarget              
             Resource: '*'
           - Effect: Allow
             Action:
-              - appmesh:DescribeVirtualGateway
-              - appmesh:DescribeVirtualNode
-              - appmesh:ListMeshes
-              - appmesh:ListVirtualGateways
-              - appmesh:ListVirtualNodes
+              - appmesh:List*
+              - appmesh:Describe*
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - cloudwatch:Describe*
+              - cloudwatch:Get*
+              - cloudwatch:List*            
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - dynamodb:List*
+              - dynamodb:Describe*
+              - dynamodb:BatchGetItem
+              - dynamodb:GetItem
+              - dynamodb:Query
+              - dynamodb:Scan
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - tag:GetResources
+            Resource: '*' 
+          - Effect: Allow
+            Action:
+              - ec2:Describe*
+            Resource: '*'                                    
           - Effect: Allow
             Action:
               - ecs:Describe*
               - ecs:List*
-              - ecs:DiscoverPollEndpoint
               - ecs:CreateCapacityProvider
+              - ecs:CreateService
+              - ecs:CreateTaskSet
               - ecs:DeleteCapacityProvider
               - ecs:Deregister*
+              - ecs:DiscoverPollEndpoint
               - ecs:ExecuteCommand
               - ecs:Poll
               - ecs:Put*
-              - ecs:RegisterContainerInstance
-              - ecs:RegisterTaskDefinition
+              - ecs:Register*
               - ecs:RunTask
               - ecs:Start*
               - ecs:StopTask
@@ -75,65 +95,9 @@ Resources:
               - '*'
           - Effect: Allow
             Action:
-              - dynamodb:BatchGetItem
-              - dynamodb:DescribeStream
-              - dynamodb:DescribeTable
-              - dynamodb:GetItem
-              - dynamodb:ListStreams
-              - dynamodb:ListTables
-              - dynamodb:Query
-              - dynamodb:Scan
-            Resource:
-              - '*'
-          - Effect: Allow
-            Action:
-              - kinesis:DescribeStream
-              - kinesis:ListStreams
-            Resource: '*'
-          - Action:
-              - cloudwatch:Describe*
-              - cloudwatch:Get*
-              - cloudwatch:List*
-              - logs:Get*
-              - logs:List*
-              - logs:StartQuery
-              - logs:StopQuery
-              - logs:Describe*
-              - logs:TestMetricFilter
-              - logs:FilterLogEvents
-              - logs:GetLogEvents
-            Effect: Allow
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - xray:GetSamplingRules
-              - xray:GetSamplingTargets
-              - xray:GetSamplingStatisticSummaries
-              - xray:BatchGetTraces
-              - xray:GetServiceGraph
-              - xray:GetTraceGraph
-              - xray:GetTraceSummaries
-              - xray:GetGroups
-              - xray:GetGroup
-              - xray:ListTagsForResource
-              - xray:GetTimeSeriesServiceStatistics
-              - xray:GetInsightSummaries
-              - xray:GetInsight
-              - xray:GetInsightEvents
-              - xray:GetInsightImpactGraph
-            Resource:
-              - '*'
-          - Effect: Allow
-            Action:
-              - states:ListStateMachines
-              - states:ListActivities
-              - states:DescribeStateMachine
-              - states:DescribeStateMachineForExecution
-              - states:ListExecutions
-              - states:DescribeExecution
-              - states:GetExecutionHistory
-              - states:DescribeActivity
-            Resource: '*'
+              - eks:List*
+              - eks:Describe*
+            Resource: '*'        
           - Effect: Allow
             Action:
               - elasticloadbalancing:Describe*
@@ -143,64 +107,18 @@ Resources:
               - elasticloadbalancing:RegisterInstancesWithLoadBalancer
               - elasticloadbalancing:DeregisterTargets
               - elasticloadbalancing:RegisterTargets
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - servicediscovery:CreatePrivateDnsNamespace
-              - servicediscovery:CreateService
-              - servicediscovery:GetNamespace
-              - servicediscovery:GetOperation
-              - servicediscovery:GetService
-              - servicediscovery:ListNamespaces
-              - servicediscovery:ListServices
-              - servicediscovery:UpdateService
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - lambda:Get*
-              - lambda:List*
-              - lambda:UpdateFunctionConfiguration
-              - lambda:UpdateAlias
-              - lambda:PutFunctionConcurrency
-              - lambda:PutProvisionedConcurrencyConfig
-              - lambda:PublishVersion
-              - lambda:DeleteProvisionedConcurrencyConfig
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - eks:DescribeAddon
-              - eks:DescribeAddonVersions
-              - eks:DescribeCluster
-              - eks:DescribeFargateProfile
-              - eks:DescribeNodegroup
-              - eks:ListAddons
-              - eks:ListClusters
-              - eks:ListFargateProfiles
-              - eks:ListNodegroups
+              - elasticloadbalancing:AddTags
             Resource: '*'
           - Action: iam:PassRole
             Effect: Allow
-            Resource:
-              - '*'
+            Resource: '*'
             Condition:
               StringLike:
-                iam:PassedToService: ecs-tasks.amazonaws.com
-          - Action: iam:PassRole
-            Effect: Allow
-            Resource:
-              - arn:aws:iam::*:role/ecsInstanceRole*
-            Condition:
-              StringLike:
-                iam:PassedToService:
+                iam:PassedToService: 
+                  - ecs-tasks.amazonaws.com
                   - ec2.amazonaws.com
-          - Action: iam:PassRole
-            Effect: Allow
-            Resource:
-              - arn:aws:iam::*:role/ecsAutoscaleRole*
-            Condition:
-              StringLike:
-                iam:PassedToService:
                   - application-autoscaling.amazonaws.com
+                  - elasticloadbalancing.amazonaws.com
           - Effect: Allow
             Action: iam:CreateServiceLinkedRole
             Resource: '*'
@@ -211,19 +129,54 @@ Resources:
                   - ecs.amazonaws.com
                   - ecs.application-autoscaling.amazonaws.com
                   - spot.amazonaws.com
-                  - spotfleet.amazonaws.com
+                  - spotfleet.amazonaws.com  
           - Effect: Allow
             Action:
-              - elasticloadbalancing:AddTags
+              - lambda:Get*
+              - lambda:List*
+              - lambda:DeleteProvisionedConcurrencyConfig
+              - lambda:PublishVersion
+              - lambda:PutFunctionConcurrency
+              - lambda:PutProvisionedConcurrencyConfig
+              - lambda:UpdateAlias
+              - lambda:UpdateFunctionConfiguration  
+            Resource: '*'  
+          - Effect: Allow
+            Action:
+              - servicediscovery:Get*
+              - servicediscovery:List*            
+              - servicediscovery:CreatePrivateDnsNamespace
+              - servicediscovery:CreateService
+              - servicediscovery:UpdateService
             Resource: '*'
-            Condition:
-              StringEquals:
-                elasticloadbalancing:CreateAction:
-                  - CreateTargetGroup
-                  - CreateRule
-                  - CreateListener
-                  - CreateLoadBalancer
-
+          - Effect: Allow
+            Action:
+              - states:List*
+              - states:Get*
+              - states:Describe*
+            Resource: '*'            
+          - Effect: Allow
+            Action:
+              - xray:Get*
+              - xray:List*              
+              - xray:BatchGetTraces
+            Resource: '*'
+          - Action:
+              - logs:Get*
+              - logs:List*
+              - logs:Describe*  
+              - logs:TestMetricFilter
+              - logs:FilterLogEvents
+              - logs:GetLogEvents          
+              - logs:StartQuery
+              - logs:StopQuery
+            Effect: Allow
+            Resource: '*'
+          - Effect: Allow
+            Action:
+              - kinesis:DescribeStream
+              - kinesis:ListStreams
+            Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:
