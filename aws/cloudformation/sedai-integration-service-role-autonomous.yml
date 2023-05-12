@@ -4,7 +4,7 @@ Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-service-role
+      RoleName: sedai-integration-service-role-v5
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -18,7 +18,7 @@ Resources:
   SedaiIntegrationServicePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: sedai-integration-service-role
+      ManagedPolicyName: sedai-integration-service-role-v5
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -33,6 +33,7 @@ Resources:
               - autoscaling:CreateAutoScalingGroup
               - autoscaling:CreateLaunchConfiguration
               - autoscaling:UpdateAutoScalingGroup
+              - autoscaling:DeleteLaunchConfiguration
             Resource: '*'
           - Effect: Allow
             Action:
