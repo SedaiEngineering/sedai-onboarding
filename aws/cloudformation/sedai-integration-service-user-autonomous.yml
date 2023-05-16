@@ -35,6 +35,9 @@ Resources:
               - autoscaling:CreateLaunchConfiguration
               - autoscaling:UpdateAutoScalingGroup
               - autoscaling:DeleteLaunchConfiguration
+              - autoscaling:DeleteAutoScalingGroup
+              - autoscaling:TerminateInstanceInAutoScalingGroup
+              - autoscaling:PutScalingPolicy
             Resource: '*'
           - Effect: Allow
             Action:
@@ -71,6 +74,8 @@ Resources:
           - Effect: Allow
             Action:
               - ec2:Describe*
+              - ec2:Search*
+              - ec2:Get*
             Resource: '*'                                    
           - Effect: Allow
             Action:
@@ -93,12 +98,15 @@ Resources:
               - ecs:TagResource
               - ecs:UntagResource
               - ecs:Update*
-            Resource:
-              - '*'
+            Resource: '*'
           - Effect: Allow
             Action:
               - eks:List*
               - eks:Describe*
+            Resource: '*'        
+          - Effect: Allow
+            Action:
+              - iam:ListInstanceProfiles
             Resource: '*'        
           - Effect: Allow
             Action:
