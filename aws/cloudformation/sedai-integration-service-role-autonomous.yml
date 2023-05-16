@@ -25,7 +25,7 @@ Resources:
           - Effect: Allow
             Action:
               - ec2:Describe*
-              - tag:GetResources
+              - tag:GetResources              
             Resource: '*'
           - Effect: Allow
             Action:
@@ -34,6 +34,9 @@ Resources:
               - autoscaling:CreateLaunchConfiguration
               - autoscaling:UpdateAutoScalingGroup
               - autoscaling:DeleteLaunchConfiguration
+              - autoscaling:DeleteAutoScalingGroup
+              - autoscaling:TerminateInstanceInAutoScalingGroup
+              - autoscaling:PutScalingPolicy
             Resource: '*'
           - Effect: Allow
             Action:
@@ -69,7 +72,13 @@ Resources:
             Resource: '*' 
           - Effect: Allow
             Action:
+              - iam:ListInstanceProfiles
+            Resource: '*' 
+          - Effect: Allow
+            Action:
               - ec2:Describe*
+              - ec2:Search*
+              - ec2:Get*
             Resource: '*'                                    
           - Effect: Allow
             Action:
@@ -92,8 +101,7 @@ Resources:
               - ecs:TagResource
               - ecs:UntagResource
               - ecs:Update*
-            Resource:
-              - '*'
+            Resource: '*'
           - Effect: Allow
             Action:
               - eks:List*
@@ -120,6 +128,7 @@ Resources:
                   - ec2.amazonaws.com
                   - application-autoscaling.amazonaws.com
                   - elasticloadbalancing.amazonaws.com
+                  - autoscaling.amazonaws.com
           - Effect: Allow
             Action: iam:CreateServiceLinkedRole
             Resource: '*'
