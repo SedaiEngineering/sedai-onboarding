@@ -8,7 +8,10 @@
         "autoscaling:CreateAutoScalingGroup",
         "autoscaling:CreateLaunchConfiguration",
         "autoscaling:UpdateAutoScalingGroup",
-        "autoscaling:DeleteLaunchConfiguration"
+        "autoscaling:DeleteLaunchConfiguration",
+        "autoscaling:DeleteAutoScalingGroup",
+        "autoscaling:TerminateInstanceInAutoScalingGroup",
+        "autoscaling:PutScalingPolicy"
       ],
       "Resource": "*"
     },
@@ -62,7 +65,9 @@
     {
       "Effect": "Allow",
       "Action": [
-        "ec2:Describe*"
+        "ec2:Describe*",
+        "ec2:Search*",
+        "ec2:Get*"
       ],
       "Resource": "*"
     },     
@@ -98,6 +103,13 @@
       "Action": [
         "eks:List*",
         "eks:Describe*"        
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "iam:ListInstanceProfiles"
       ],
       "Resource": "*"
     },
@@ -142,7 +154,8 @@
             "ecs.amazonaws.com", 
             "ecs-tasks.amazonaws.com",
             "application-autoscaling.amazonaws.com",
-            "elasticloadbalancing.amazonaws.com"
+            "elasticloadbalancing.amazonaws.com",
+            "autoscaling.amazonaws.com"
           ]
         }
       }
