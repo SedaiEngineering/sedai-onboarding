@@ -129,6 +129,7 @@ Resources:
                   - ec2.amazonaws.com
                   - application-autoscaling.amazonaws.com
                   - elasticloadbalancing.amazonaws.com
+                  - autoscaling.amazonaws.com
           - Effect: Allow
             Action: iam:CreateServiceLinkedRole
             Resource: '*'
