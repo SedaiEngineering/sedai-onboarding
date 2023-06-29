@@ -227,7 +227,7 @@
         "logs:Get*",
         "logs:TestMetricFilter",
         "logs:FilterLogEvents",
-        "logs:GetLogEvents ",
+        "logs:GetLogEvents",
         "logs:GetQueryResults",
         "logs:StartQuery",
         "logs:StopQuery"
