@@ -226,7 +226,6 @@
         "logs:Describe*",
         "logs:Get*",
         "logs:TestMetricFilter",
-        "logs:FilterLogEvents",
         "logs:GetLogEvents",
         "logs:GetQueryResults",
         "logs:StartQuery",
