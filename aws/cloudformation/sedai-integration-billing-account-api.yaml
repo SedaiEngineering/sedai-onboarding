@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Role and policies for Sedai Integration - Billing Account - API
+Resources:
+  SedaiIntegrationBillingAccountApiRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sedai-integration-billing-account-api-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+              - sts:AssumeRole
+      Path: "/"
+      
+  SedaiIntegrationBillingAccountApiPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: sedai-integration-billing-account-api-role
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+            - pricing:DescribeServices
+            - pricing:GetAttributeValues
+            - pricing:GetProducts
+            - pricing:GetPriceListFileUrl
+            - pricing:ListPriceLists
+            Resource: "*"
+          - Effect: Allow
+            Action:
+            - cur:DescribeReportDefinitions
+            - cur:GetUsage*
+            Resource: "*"
+          - Effect: Allow
+            Action:
+            - ce:GetCost*
+            - ce:DescribeCost*
+            - ce:List*
+            Resource: "*"
+          - Effect: Allow
+            Action:
+            - purchase-orders:Get*
+            - purchase-orders:List*
+            Resource: "*"
+      Roles:
+        - Ref: "SedaiIntegrationBillingAccountApiRole"
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationBillingAccountApiRole
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationBillingAccountApiRole, Arn]
