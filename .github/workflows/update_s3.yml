@@ -7,6 +7,7 @@ on:
       - 'main'
     paths:
       - 'aws/cloudformation/**.yml'
+      - 'aws/cloudformation/**.yaml'
       - 'eks/**clusterrole.yaml'
 
 jobs:
