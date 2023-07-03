@@ -35,5 +35,5 @@ jobs:
       
       - name: Push to S3 bucket
         run: |
-          aws s3 cp aws/cloudformation/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*.yml" --recursive
+          aws s3 cp aws/cloudformation/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*.yml" --include "*.yaml" --recursive
           aws s3 cp eks/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*clusterrole.yaml" --recursive
