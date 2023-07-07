@@ -1,0 +1,43 @@
+{
+	"Version": "2012-10-17T00:00:00.000Z",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": ["s3:Get*", "s3:List*"],
+			"Resource": [
+				{
+					"Fn::Sub": "arn:${AWS::Partition}:s3:::sedai-cur-bucket-${AWS::AccountId}"
+				},
+				{
+					"Fn::Sub": "arn:${AWS::Partition}:s3:::sedai-cur-bucket-${AWS::AccountId}/*"
+				}
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"pricing:DescribeServices",
+				"pricing:GetAttributeValues",
+				"pricing:GetProducts",
+				"pricing:GetPriceListFileUrl",
+				"pricing:ListPriceLists"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["cur:DescribeReportDefinitions", "cur:GetUsage*"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["ce:GetCost*", "ce:DescribeCost*", "ce:List*"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["purchase-orders:Get*", "purchase-orders:List*"],
+			"Resource": "*"
+		}
+	]
+}
