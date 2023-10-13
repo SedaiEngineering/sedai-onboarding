@@ -58,7 +58,9 @@
     {
       "Effect": "Allow",
       "Action": [
-        "tag:GetResources"
+        "tag:GetResources",
+        "s3:Get*",
+        "s3:List*"
       ],
       "Resource": "*"
     },
