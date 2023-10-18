@@ -72,6 +72,11 @@ Resources:
             Resource: '*' 
           - Effect: Allow
             Action:
+              - s3:Get*
+              - s3:List*
+            Resource: '*' 
+          - Effect: Allow
+            Action:
               - iam:ListInstanceProfiles
             Resource: '*' 
           - Effect: Allow

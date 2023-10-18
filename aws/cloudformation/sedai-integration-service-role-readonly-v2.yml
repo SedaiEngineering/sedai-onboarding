@@ -95,6 +95,7 @@ Resources:
             Action:
               - "logs:List*"
               - "logs:Describe*"
+              - "logs:StartQuery"
               - "logs:StopQuery"
               - "logs:TestMetricFilter"
               - "logs:GetQueryResults"

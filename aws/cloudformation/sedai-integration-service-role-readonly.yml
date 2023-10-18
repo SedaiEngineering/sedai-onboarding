@@ -91,6 +91,7 @@ Resources:
               - "logs:StopQuery"
               - "logs:TestMetricFilter"
               - "logs:GetQueryResults"
+              - "logs:StartQuery"
             Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
