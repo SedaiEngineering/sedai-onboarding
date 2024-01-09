@@ -1,9 +1,9 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - ReadOnly
-Parameters:
-  UniqueExternalId:
-    Type: String
-    Description: Exteranl ID for Trusted entities
+#Parameters:
+#  UniqueExternalId:
+#    Type: String
+#    Description: Exteranl ID for Trusted entities
 Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
@@ -20,7 +20,7 @@ Resources:
               - sts:AssumeRole
             Condition: 
               StringEquals:
-                sts:ExternalId: !Ref UniqueExternalId              
+                sts:ExternalId: !Sub ext-${AWS::AccountId}
       Path: "/"
   SedaiIntegrationServicePolicy:
     Type: "AWS::IAM::ManagedPolicy"
