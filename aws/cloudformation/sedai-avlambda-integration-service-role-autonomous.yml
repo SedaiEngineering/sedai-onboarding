@@ -178,6 +178,10 @@ Resources:
               - kinesis:DescribeStream
               - kinesis:ListStreams
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - apigateway:GET
+            Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 

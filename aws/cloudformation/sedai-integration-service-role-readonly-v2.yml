@@ -100,6 +100,10 @@ Resources:
               - "logs:TestMetricFilter"
               - "logs:GetQueryResults"
             Resource: "*"
+          - Effect: Allow
+            Action:
+              - apigateway:GET
+            Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:

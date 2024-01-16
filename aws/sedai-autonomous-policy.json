@@ -234,6 +234,13 @@
         "logs:StopQuery"
       ],
       "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "apigateway:GET"
+      ],
+      "Resource": "*" 
     }
   ]
 }
