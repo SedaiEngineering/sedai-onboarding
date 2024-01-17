@@ -61,6 +61,7 @@
         "tag:GetResources",
         "s3:Get*",
         "s3:List*"
+        "s3:PutMetricsConfiguration"
       ],
       "Resource": "*"
     },
