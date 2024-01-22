@@ -31,7 +31,7 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": ["ce:GetCost*", "ce:DescribeCost*", "ce:List*"],
+			"Action": ["ce:GetCost*", "ce:DescribeCost*", "ce:List*", "ce:GetReservation*", "ce:GetSavings*"],
 			"Resource": "*"
 		},
 		{
