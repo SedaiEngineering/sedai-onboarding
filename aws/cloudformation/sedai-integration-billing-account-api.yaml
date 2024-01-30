@@ -41,6 +41,8 @@ Resources:
             - ce:GetCost*
             - ce:DescribeCost*
             - ce:List*
+            - ce:GetReservation*
+            - ce:GetSavings*
             Resource: "*"
           - Effect: Allow
             Action:
