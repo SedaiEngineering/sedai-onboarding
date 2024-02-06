@@ -1,0 +1,56 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ecsreadecs",
+            "Effect": "Allow",
+            "Action": [
+                "ecs:Describe*",
+                "ecs:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadservicediscovery",
+            "Effect": "Allow",
+            "Action": [
+                "servicediscovery:Get*",
+                "servicediscovery:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadapplicationautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "application-autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadappmesh",
+            "Effect": "Allow",
+            "Action": [
+                "appmesh:List*",
+                "appmesh:Describe*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

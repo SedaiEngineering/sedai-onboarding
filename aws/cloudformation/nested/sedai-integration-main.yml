@@ -1,0 +1,175 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Cloudformation template to provide permission for Sedai
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Sedai app configuration section"
+        Parameters:
+          - UniqueExternalId
+      - Label:
+          default: "Permission section"
+        Parameters:
+          - ReadOnly
+          - ServerlessRequired
+          - ECSRequired
+          - KubernetesRequired
+    ParameterLabels:
+      UniqueExternalId:
+        default: "Enter the unique external ID"
+      ReadOnly:
+        default: "Do you want Sedai to only have read-only access to your account?"
+      ServerlessRequired:
+        default: "Would you like to give Sedai the permissions to work with your Serverless workloads?"
+      ECSRequired:
+        default: "Would you like to give Sedai the permissions to work with your ECS workloads?"
+      KubernetesRequired:
+        default: "Would you like to give Sedai the permissions to work with your EKS workloads?"
+
+Parameters:
+  UniqueExternalId:
+    Type: String
+    Description: "Keep this empty (recommended) to generate a unique external ID in the ext-{AWSAccountID} format."
+  ReadOnly:
+    Description: "Select Yes to give read-only access. Select No if you want to give Sedai the permission to start optimizing the workloads"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  ServerlessRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  ECSRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  KubernetesRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+
+Mappings:
+  PolicyReadOnlyMap:
+    Common:
+      "Yes": "s3://generic-test-bucket-vig/nested/sedai-integration-include-common-r.json"
+      "No": "s3://generic-test-bucket-vig/nested/sedai-integration-include-common-rw.json"
+    Serverless:
+      "Yes": "s3://generic-test-bucket-vig/nested/sedai-integration-include-serverless-r.json"
+      "No": "s3://generic-test-bucket-vig/nested/sedai-integration-include-serverless-rw.json"
+    ECS:
+      "Yes": "s3://generic-test-bucket-vig/nested/sedai-integration-include-ecs-r.json"
+      "No": "s3://generic-test-bucket-vig/nested/sedai-integration-include-ecs-rw.json"
+    Kubernetes:
+      "Yes": "s3://generic-test-bucket-vig/nested/sedai-integration-include-kubernetes-r.json"
+      "No": "s3://generic-test-bucket-vig/nested/sedai-integration-include-kubernetes-rw.json"
+
+Conditions:
+  UniqueExternalIdPresent: !Not
+    - !Equals
+      - !Ref UniqueExternalId
+      - ""
+  IsReadOnly: !Equals
+    - !Ref ReadOnly
+    - "Yes"
+  IsServerlessRequired: !Equals
+    - !Ref ServerlessRequired
+    - "Yes"
+  IsECSRequired: !Equals
+    - !Ref ECSRequired
+    - "Yes"
+  IsKubernetesRequired: !Equals
+    - !Ref KubernetesRequired
+    - "Yes"
+
+Resources:
+  SedaiIntegrationServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: sedai-integration-service-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+              - sts:AssumeRole
+            Condition:
+              StringEquals: !If
+                - UniqueExternalIdPresent
+                - sts:ExternalId: !Ref UniqueExternalId
+                - sts:ExternalId: !Sub ext-${AWS::AccountId}
+      Path: "/"
+
+  SedaiIntegrationCommonPolicy:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Common, !Ref ReadOnly]
+        Service: common
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://generic-test-bucket-vig.s3.ap-south-1.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationServerlessPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsServerlessRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Serverless, !Ref ReadOnly]
+        Service: serverless
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://generic-test-bucket-vig.s3.ap-south-1.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationECSPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsECSRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, ECS, !Ref ReadOnly]
+        Service: ecs
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://generic-test-bucket-vig.s3.ap-south-1.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationKubernetesPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsKubernetesRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Kubernetes, !Ref ReadOnly]
+        Service: kubernetes
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://generic-test-bucket-vig.s3.ap-south-1.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationServiceRole
+    Export:
+      Name: SedaiIntegrationServiceRoleName
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationServiceRole, Arn]
+    Export:
+      Name: SedaiIntegrationServiceRoleArn
