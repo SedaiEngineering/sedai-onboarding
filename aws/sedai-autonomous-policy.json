@@ -62,7 +62,8 @@
         "s3:Get*",
         "s3:List*",
         "s3:PutMetricsConfiguration",
-        "s3:PutIntelligentTieringConfiguration"
+        "s3:PutIntelligentTieringConfiguration",
+        "s3:PutLifecycleConfiguration"
       ],
       "Resource": "*"
     },
