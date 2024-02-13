@@ -62,15 +62,6 @@
                 "iam:ListInstanceProfiles"
             ],
             "Resource": "*"
-        },
-        {
-            "Sid": "commonreads3",
-            "Effect": "Allow",
-            "Action": [
-                "s3:Get*",
-                "s3:List*"
-            ],
-            "Resource": "*"
         }
     ]
 }

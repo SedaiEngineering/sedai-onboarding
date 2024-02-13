@@ -14,6 +14,8 @@ Metadata:
           - ServerlessRequired
           - ECSRequired
           - KubernetesRequired
+          - StorageRequired
+          - BillingRequired
     ParameterLabels:
       UniqueExternalId:
         default: "Enter the unique external ID"
@@ -25,6 +27,10 @@ Metadata:
         default: "Would you like to give Sedai the permissions to work with your ECS workloads?"
       KubernetesRequired:
         default: "Would you like to give Sedai the permissions to work with your EKS workloads?"
+      StorageRequired:
+        default: "Would you like to give Sedai the permissions to work with your Storage workloads?"
+      BillingRequired:
+        default: "Would you like to give Sedai the permissions to work with your Billing?"
 
 Parameters:
   UniqueExternalId:
@@ -43,6 +49,7 @@ Parameters:
     Default: "Yes"
     AllowedValues:
       - "Yes"
+      - "YesWithAVLambda"
       - "No"
   ECSRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
@@ -58,6 +65,20 @@ Parameters:
     AllowedValues:
       - "Yes"
       - "No"
+  StorageRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  BillingRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
 
 Mappings:
   PolicyReadOnlyMap:
@@ -66,6 +87,7 @@ Mappings:
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-common-rw.json"
     Serverless:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverless-r.json"
+      "YesWithAVLambda": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverlessavlambda-rw.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverless-rw.json"
     ECS:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ecs-r.json"
@@ -73,6 +95,12 @@ Mappings:
     Kubernetes:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-rw.json"
+    Storage:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storage-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storage-rw.json"
+    Billing:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-billing-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-billing-rw.json"
 
 Conditions:
   UniqueExternalIdPresent: !Not
@@ -90,6 +118,12 @@ Conditions:
     - "Yes"
   IsKubernetesRequired: !Equals
     - !Ref KubernetesRequired
+    - "Yes"
+  IsStorageRequired: !Equals
+    - !Ref StorageRequired
+    - "Yes"
+  IsBillingRequired: !Equals
+    - !Ref BillingRequired
     - "Yes"
 
 Resources:
@@ -159,6 +193,37 @@ Resources:
         Service: kubernetes
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+  
+  SedaiIntegrationStoragePolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsStorageRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Storage, !Ref ReadOnly]
+        Service: storage
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationBillingPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsBillingRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Billing, !Ref ReadOnly]
+        Service: billing
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationBillingResource:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsBillingRequired
+    Properties:
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-billingresource.yml"
+
 
 Outputs:
   SedaiIntegrationServiceRoleName:

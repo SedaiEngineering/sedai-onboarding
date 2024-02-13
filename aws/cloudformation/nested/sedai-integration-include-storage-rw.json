@@ -1,0 +1,24 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "storagereads3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "storagewrites3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutMetricsConfiguration",
+                "s3:PutIntelligentTieringConfiguration",
+                "s3:PutLifecycleConfiguration"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
