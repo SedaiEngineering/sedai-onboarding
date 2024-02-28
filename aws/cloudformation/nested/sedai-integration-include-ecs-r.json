@@ -51,6 +51,14 @@
                 "appmesh:Describe*"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadapigateway",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:GET"
+            ],
+            "Resource": "*"
         }
     ]
 }

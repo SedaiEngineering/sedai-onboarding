@@ -12,16 +12,6 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadec2",
-            "Effect": "Allow",
-            "Action": [
-                "ec2:Describe*",
-                "ec2:Search*",
-                "ec2:Get*"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "commonreadtag",
             "Effect": "Allow",
             "Action": [

@@ -11,7 +11,11 @@ Metadata:
           default: "Permission section"
         Parameters:
           - ReadOnly
-          - ServerlessRequired
+          - LambdaRequired
+          - DynamoDBRequired
+          - EC2InstanceRequired
+          - KinesisRequired
+          - StepFunctionRequired
           - ECSRequired
           - KubernetesRequired
           - StorageRequired
@@ -21,8 +25,16 @@ Metadata:
         default: "Enter the unique external ID"
       ReadOnly:
         default: "Do you want Sedai to only have read-only access to your account?"
-      ServerlessRequired:
-        default: "Would you like to give Sedai the permissions to work with your Serverless workloads?"
+      LambdaRequired:
+        default: "Would you like to give Sedai the permissions to work with your Lambda workloads?"
+      DynamoDBRequired:
+        default: "Would you like to give Sedai the permissions to work with your DynamoDB workloads?"
+      EC2InstanceRequired:
+        default: "Would you like to give Sedai the permissions to work with your EC2 Instance workloads?"
+      KinesisRequired:
+        default: "Would you like to give Sedai the permissions to work with your Kinesis workloads?"
+      StepFunctionRequired:
+        default: "Would you like to give Sedai the permissions to work with your StepFunction workloads?"
       ECSRequired:
         default: "Would you like to give Sedai the permissions to work with your ECS workloads?"
       KubernetesRequired:
@@ -43,13 +55,40 @@ Parameters:
     AllowedValues:
       - "Yes"
       - "No"
-  ServerlessRequired:
+  LambdaRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
     Default: "Yes"
     AllowedValues:
       - "Yes"
-      - "YesWithAVLambda"
+      - "No"
+  DynamoDBRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  EC2InstanceRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  KinesisRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  StepFunctionRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "Yes"
+    AllowedValues:
+      - "Yes"
       - "No"
   ECSRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
@@ -85,10 +124,21 @@ Mappings:
     Common:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-common-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-common-rw.json"
-    Serverless:
-      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverless-r.json"
-      "YesWithAVLambda": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverlessavlambda-rw.json"
-      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-serverless-rw.json"
+    Lambda:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-lambda-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-lambda-rw.json"
+    DynamoDB:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-rw.json"
+    EC2Instance:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ec2instance-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ec2instance-rw.json"
+    Kinesis:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kinesis-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kinesis-rw.json"
+    StepFunction:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-stepfunction-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-stepfunction-rw.json"
     ECS:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ecs-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ecs-rw.json"
@@ -110,8 +160,20 @@ Conditions:
   IsReadOnly: !Equals
     - !Ref ReadOnly
     - "Yes"
-  IsServerlessRequired: !Equals
-    - !Ref ServerlessRequired
+  IsLambdaRequired: !Equals
+    - !Ref LambdaRequired
+    - "Yes"
+  IsDynamoDBRequired: !Equals
+    - !Ref DynamoDBRequired
+    - "Yes"
+  IsEC2InstanceRequired: !Equals
+    - !Ref EC2InstanceRequired
+    - "Yes"
+  IsKinesisRequired: !Equals
+    - !Ref KinesisRequired
+    - "Yes"
+  IsStepFunctionRequired: !Equals
+    - !Ref StepFunctionRequired
     - "Yes"
   IsECSRequired: !Equals
     - !Ref ECSRequired
@@ -158,18 +220,66 @@ Resources:
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
 
-  SedaiIntegrationServerlessPolicy:
+  SedaiIntegrationLambdaPolicy:
     Type: AWS::CloudFormation::Stack
-    Condition: IsServerlessRequired
+    Condition: IsLambdaRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation:
-          !FindInMap [PolicyReadOnlyMap, Serverless, !Ref ReadOnly]
-        Service: serverless
+          !FindInMap [PolicyReadOnlyMap, Lambda, !Ref ReadOnly]
+        Service: lambda
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
 
+  SedaiIntegrationDynamoDBPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsDynamoDBRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, DynamoDB, !Ref ReadOnly]
+        Service: dynamodb
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+  
+  SedaiIntegrationEC2InstancePolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsEC2InstanceRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, EC2Instance, !Ref ReadOnly]
+        Service: ec2instance
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationKinesisPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsKinesisRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, Kinesis, !Ref ReadOnly]
+        Service: kinesis
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationStepFunctionPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsStepFunctionRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, StepFunction, !Ref ReadOnly]
+        Service: stepfunction
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+  
   SedaiIntegrationECSPolicy:
     Type: AWS::CloudFormation::Stack
     Condition: IsECSRequired
@@ -206,7 +316,7 @@ Resources:
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
 
-  SedaiIntegrationBillingPolicy:
+  SedaiIntegrationBillingResource:
     Type: AWS::CloudFormation::Stack
     Condition: IsBillingRequired
     Properties:
@@ -216,12 +326,6 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, Billing, !Ref ReadOnly]
         Service: billing
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
-
-  SedaiIntegrationBillingResource:
-    Type: AWS::CloudFormation::Stack
-    Condition: IsBillingRequired
-    Properties:
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-billingresource.yml"
 
 

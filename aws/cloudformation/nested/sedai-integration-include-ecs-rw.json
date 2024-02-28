@@ -29,6 +29,14 @@
             "Resource": "*"
         },
         {
+            "Sid": "ecsreadapigateway",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:GET"
+            ],
+            "Resource": "*"
+        },
+        {
             "Sid": "ecsreadautoscaling",
             "Effect": "Allow",
             "Action": [

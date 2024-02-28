@@ -2,21 +2,19 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "storagereads3",
+            "Sid": "lambdareadlambda",
             "Effect": "Allow",
             "Action": [
-                "s3:Get*",
-                "s3:List*"
+                "lambda:Get*",
+                "lambda:List*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "storagereadec2",
+            "Sid": "lambdareadapplicationautoscaling",
             "Effect": "Allow",
             "Action": [
-                "ec2:Describe*",
-                "ec2:Search*",
-                "ec2:Get*"
+                "application-autoscaling:Describe*"
             ],
             "Resource": "*"
         }

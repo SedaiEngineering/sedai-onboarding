@@ -1,7 +1,33 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM policy for Sedai Integration
 
+Parameters:
+  SedaiIntegrationServiceRole:
+    Type: String
+    Description: The name of the Role
+  PolicyIncludeLocation:
+    Type: String
+    Description: S3 URL of the policy statement
+  Service:
+    Type: String
+    Description: The name of the service
+  Permission:
+    Type: String
+    Description: Read or Write permission
+
 Resources:
+  SedaiIntegrationServicePolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      ManagedPolicyName: !Sub sedai-integration-service-${Service}-${Permission}
+      PolicyDocument:
+        "Fn::Transform":
+          Name: "AWS::Include"
+          Parameters:
+            Location: !Ref PolicyIncludeLocation
+      Roles:
+        - Ref: SedaiIntegrationServiceRole
+
   SedaiIntegrationCURS3Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
@@ -63,7 +89,7 @@ Resources:
   SedaiIntegrationCURReportDefinition:
     Type: AWS::CUR::ReportDefinition
     DependsOn:
-      - CURS3Bucket
+      - SedaiIntegrationCURS3Bucket
     Properties:
       AdditionalSchemaElements:
         - RESOURCES

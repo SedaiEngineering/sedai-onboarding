@@ -2,31 +2,27 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "storagereads3",
+            "Sid": "dynamodbreadautoscaling",
             "Effect": "Allow",
             "Action": [
-                "s3:Get*",
-                "s3:List*"
+                "autoscaling:Describe*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "storagewrites3",
+            "Sid": "dynamodbreadapplicationautoscaling",
             "Effect": "Allow",
             "Action": [
-                "s3:PutMetricsConfiguration",
-                "s3:PutIntelligentTieringConfiguration",
-                "s3:PutLifecycleConfiguration"
+                "application-autoscaling:Describe*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "storagereadec2",
+            "Sid": "dynamodbreaddynamodb",
             "Effect": "Allow",
             "Action": [
-                "ec2:Describe*",
-                "ec2:Search*",
-                "ec2:Get*"
+                "dynamodb:List*",
+                "dynamodb:Describe*"
             ],
             "Resource": "*"
         }

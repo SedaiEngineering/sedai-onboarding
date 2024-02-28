@@ -2,31 +2,29 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "storagereads3",
+            "Sid": "ec2instancereadautoscaling",
             "Effect": "Allow",
             "Action": [
-                "s3:Get*",
-                "s3:List*"
+                "autoscaling:Describe*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "storagewrites3",
-            "Effect": "Allow",
-            "Action": [
-                "s3:PutMetricsConfiguration",
-                "s3:PutIntelligentTieringConfiguration",
-                "s3:PutLifecycleConfiguration"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "storagereadec2",
+            "Sid": "ec2instancereadec2",
             "Effect": "Allow",
             "Action": [
                 "ec2:Describe*",
                 "ec2:Search*",
                 "ec2:Get*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ec2instancewritec2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances"
             ],
             "Resource": "*"
         }
