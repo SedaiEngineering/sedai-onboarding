@@ -195,10 +195,10 @@ Conditions:
     - !Ref KubernetesRequired
     - "Yes"
   IsS3StorageRequired: !Equals
-    - !Ref StorageRequired
+    - !Ref S3StorageRequired
     - "Yes"
   IsEBSStorageRequired: !Equals
-    - !Ref StorageRequired
+    - !Ref EBSStorageRequired
     - "Yes"
   IsBillingRequired: !Equals
     - !Ref BillingRequired
@@ -234,7 +234,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, Common, !Ref ReadOnly]
         Service: common
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationLambdaPolicy:
     Type: AWS::CloudFormation::Stack
@@ -246,7 +246,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, Lambda, !Ref ReadOnly]
         Service: lambda
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
   SedaiIntegrationDynamoDBPolicy:
     Type: AWS::CloudFormation::Stack
@@ -258,7 +258,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, DynamoDB, !Ref ReadOnly]
         Service: dynamodb
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
   
   SedaiIntegrationEC2InstancePolicy:
     Type: AWS::CloudFormation::Stack
@@ -270,7 +270,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, EC2Instance, !Ref ReadOnly]
         Service: ec2instance
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
   SedaiIntegrationKinesisPolicy:
     Type: AWS::CloudFormation::Stack
@@ -282,7 +282,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, Kinesis, !Ref ReadOnly]
         Service: kinesis
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationStepFunctionPolicy:
     Type: AWS::CloudFormation::Stack
@@ -294,7 +294,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, StepFunction, !Ref ReadOnly]
         Service: stepfunction
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
   
   SedaiIntegrationECSPolicy:
     Type: AWS::CloudFormation::Stack
@@ -306,7 +306,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, ECS, !Ref ReadOnly]
         Service: ecs
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
   SedaiIntegrationKubernetesPolicy:
     Type: AWS::CloudFormation::Stack
@@ -318,7 +318,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, Kubernetes, !Ref ReadOnly]
         Service: kubernetes
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
   
   SedaiIntegrationS3StoragePolicy:
     Type: AWS::CloudFormation::Stack
@@ -330,7 +330,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, S3Storage, !Ref ReadOnly]
         Service: s3storage
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationEBSStoragePolicy:
     Type: AWS::CloudFormation::Stack
@@ -342,7 +342,7 @@ Resources:
           !FindInMap [PolicyReadOnlyMap, EBSStorage, !Ref ReadOnly]
         Service: ebsstorage
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationBillingResource:
     Type: AWS::CloudFormation::Stack

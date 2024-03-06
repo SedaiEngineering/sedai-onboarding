@@ -25,5 +25,4 @@ Resources:
           Name: "AWS::Include"
           Parameters:
             Location: !Ref PolicyIncludeLocation
-      RoleName:
-        - Ref: SedaiIntegrationServiceRole
+      RoleName: !Ref SedaiIntegrationServiceRole
