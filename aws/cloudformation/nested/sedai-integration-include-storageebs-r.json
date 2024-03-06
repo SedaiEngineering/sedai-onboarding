@@ -2,16 +2,7 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "storagereads3",
-            "Effect": "Allow",
-            "Action": [
-                "s3:Get*",
-                "s3:List*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "storagereadec2",
+            "Sid": "storageebsreadec2",
             "Effect": "Allow",
             "Action": [
                 "ec2:Describe*",

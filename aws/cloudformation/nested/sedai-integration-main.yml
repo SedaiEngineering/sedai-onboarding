@@ -18,7 +18,8 @@ Metadata:
           - StepFunctionRequired
           - ECSRequired
           - KubernetesRequired
-          - StorageRequired
+          - S3StorageRequired
+          - EBSStorageRequired
           - BillingRequired
     ParameterLabels:
       UniqueExternalId:
@@ -39,8 +40,10 @@ Metadata:
         default: "Would you like to give Sedai the permissions to work with your ECS workloads?"
       KubernetesRequired:
         default: "Would you like to give Sedai the permissions to work with your EKS workloads?"
-      StorageRequired:
-        default: "Would you like to give Sedai the permissions to work with your Storage workloads?"
+      S3StorageRequired:
+        default: "Would you like to give Sedai the permissions to work with your S3 Storage workloads?"
+      EBSStorageRequired:
+        default: "Would you like to give Sedai the permissions to work with your EBS Storage workloads?"
       BillingRequired:
         default: "Would you like to give Sedai the permissions to work with your Billing?"
 
@@ -58,63 +61,70 @@ Parameters:
   LambdaRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   DynamoDBRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   EC2InstanceRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   KinesisRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   StepFunctionRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   ECSRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   KubernetesRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
-  StorageRequired:
+  S3StorageRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
-    Default: "Yes"
+    Default: "No"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  EBSStorageRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   BillingRequired:
-    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Description: "Select Yes or No"
     Type: String
-    Default: "Yes"
+    Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
@@ -145,9 +155,12 @@ Mappings:
     Kubernetes:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-rw.json"
-    Storage:
-      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storage-r.json"
-      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storage-rw.json"
+    S3Storage:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storages3-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storages3-rw.json"
+    EBSStorage:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storageebs-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-storageebs-rw.json"
     Billing:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-billing-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-billing-rw.json"
@@ -181,7 +194,10 @@ Conditions:
   IsKubernetesRequired: !Equals
     - !Ref KubernetesRequired
     - "Yes"
-  IsStorageRequired: !Equals
+  IsS3StorageRequired: !Equals
+    - !Ref StorageRequired
+    - "Yes"
+  IsEBSStorageRequired: !Equals
     - !Ref StorageRequired
     - "Yes"
   IsBillingRequired: !Equals
@@ -304,15 +320,27 @@ Resources:
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
   
-  SedaiIntegrationStoragePolicy:
+  SedaiIntegrationS3StoragePolicy:
     Type: AWS::CloudFormation::Stack
-    Condition: IsStorageRequired
+    Condition: IsS3StorageRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation:
-          !FindInMap [PolicyReadOnlyMap, Storage, !Ref ReadOnly]
-        Service: storage
+          !FindInMap [PolicyReadOnlyMap, S3Storage, !Ref ReadOnly]
+        Service: s3storage
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
+
+  SedaiIntegrationEBSStoragePolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsEBSStorageRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, EBSStorage, !Ref ReadOnly]
+        Service: ebsstorage
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-policy.yml"
 
@@ -327,7 +355,6 @@ Resources:
         Service: billing
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-billingresource.yml"
-
 
 Outputs:
   SedaiIntegrationServiceRoleName:

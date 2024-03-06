@@ -17,13 +17,13 @@ Parameters:
 
 Resources:
   SedaiIntegrationServicePolicy:
-    Type: "AWS::IAM::ManagedPolicy"
+    Type: "AWS::IAM::RolePolicy"
     Properties:
-      ManagedPolicyName: !Sub sedai-integration-service-${Service}-${Permission}
+      PolicyName: !Sub sedai-integration-service-${Service}-${Permission}
       PolicyDocument:
         "Fn::Transform":
           Name: "AWS::Include"
           Parameters:
             Location: !Ref PolicyIncludeLocation
-      Roles:
+      RoleName:
         - Ref: SedaiIntegrationServiceRole
