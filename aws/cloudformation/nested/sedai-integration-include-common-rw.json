@@ -1,0 +1,57 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "commonreadcloudwatch",
+            "Effect": "Allow",
+            "Action": [
+                "cloudwatch:Describe*",
+                "cloudwatch:Get*",
+                "cloudwatch:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadtag",
+            "Effect": "Allow",
+            "Action": [
+                "tag:GetResources"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadxray",
+            "Effect": "Allow",
+            "Action": [
+                "xray:Get*",
+                "xray:List*",
+                "xray:BatchGetTraces"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadlogs",
+            "Effect": "Allow",
+            "Action": [
+                "logs:Get*",
+                "logs:List*",
+                "logs:Describe*",
+                "logs:StartQuery",
+                "logs:StopQuery",
+                "logs:TestMetricFilter",
+                "logs:GetLogEvents ",
+                "logs:FilterLogEvents",
+                "logs:GetQueryResults"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadiam",
+            "Effect": "Allow",
+            "Action": [
+                "iam:ListInstanceProfiles"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

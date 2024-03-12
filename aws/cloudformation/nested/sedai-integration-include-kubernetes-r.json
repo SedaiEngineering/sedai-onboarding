@@ -1,0 +1,56 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "kubernetesreadeks",
+            "Effect": "Allow",
+            "Action": [
+                "eks:Describe*",
+                "eks:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "kubernetesreadelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "kubernetesreadservicediscovery",
+            "Effect": "Allow",
+            "Action": [
+                "servicediscovery:Get*",
+                "servicediscovery:List*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "kubernetesreadautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "kubernetesreadapplicationautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "application-autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "kubernetesreadappmesh",
+            "Effect": "Allow",
+            "Action": [
+                "appmesh:List*",
+                "appmesh:Describe*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

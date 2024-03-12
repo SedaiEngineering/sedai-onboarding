@@ -1,0 +1,45 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "dynamodbreadautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "dynamodbreadapplicationautoscaling",
+            "Effect": "Allow",
+            "Action": [
+                "application-autoscaling:Describe*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "dynamodbreaddynamodb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:List*",
+                "dynamodb:Describe*",
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "dynamodbwritedynamodb",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:BatchGetItem",
+                "dynamodb:GetItem",
+                "dynamodb:Query",
+                "dynamodb:Scan"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

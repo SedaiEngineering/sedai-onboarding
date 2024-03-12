@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM policy for Sedai Integration
+
+Parameters:
+  SedaiIntegrationServiceRole:
+    Type: String
+    Description: The name of the Role
+  PolicyIncludeLocation:
+    Type: String
+    Description: S3 URL of the policy statement
+  Service:
+    Type: String
+    Description: The name of the service
+  Permission:
+    Type: String
+    Description: Read or Write permission
+
+Resources:
+  SedaiIntegrationServicePolicy:
+    Type: "AWS::IAM::RolePolicy"
+    Properties:
+      PolicyName: !Sub sedai-integration-service-${Service}-${Permission}
+      PolicyDocument:
+        "Fn::Transform":
+          Name: "AWS::Include"
+          Parameters:
+            Location: !Ref PolicyIncludeLocation
+      RoleName: !Ref SedaiIntegrationServiceRole
