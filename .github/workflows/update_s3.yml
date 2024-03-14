@@ -8,6 +8,7 @@ on:
     paths:
       - 'aws/cloudformation/**.yml'
       - 'aws/cloudformation/**.yaml'
+      - 'aws/cloudformation/nested/**.json'
       - 'eks/**clusterrole.yaml'
 
 jobs:
