@@ -219,6 +219,7 @@ Resources:
               - codedeploy:CreateDeployment
               - codedeploy:GetApplicationRevision
               - codedeploy:GetDeployment
+              - codedeploy:GetDeploymentConfig
             Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
