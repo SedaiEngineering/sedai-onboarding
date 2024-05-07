@@ -213,6 +213,13 @@ Resources:
             Action:
               - apigateway:GET
             Resource: '*'
+          - Effect: Allow
+            Action:
+              - codedeploy:GetDeploymentGroup
+              - codedeploy:CreateDeployment
+              - codedeploy:GetApplicationRevision
+              - codedeploy:GetDeployment
+            Resource: '*'
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:
