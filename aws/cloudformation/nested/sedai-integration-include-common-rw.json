@@ -39,9 +39,7 @@
                 "logs:StartQuery",
                 "logs:StopQuery",
                 "logs:TestMetricFilter",
-                "logs:GetLogEvents ",
-                "logs:FilterLogEvents",
-                "logs:GetQueryResults"
+                "logs:FilterLogEvents"
             ],
             "Resource": "*"
         },

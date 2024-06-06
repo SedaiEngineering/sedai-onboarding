@@ -19,27 +19,10 @@
             "Resource": "*"
         },
         {
-            "Sid": "kubernetesreadservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:Get*",
-                "servicediscovery:List*"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "kubernetesreadautoscaling",
             "Effect": "Allow",
             "Action": [
                 "autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "kubernetesreadapplicationautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "application-autoscaling:Describe*"
             ],
             "Resource": "*"
         },
