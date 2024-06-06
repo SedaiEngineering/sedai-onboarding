@@ -19,27 +19,10 @@
             "Resource": "*"
         },
         {
-            "Sid": "kubernetesreadservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:Get*",
-                "servicediscovery:List*"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "kubernetesreadautoscaling",
             "Effect": "Allow",
             "Action": [
                 "autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "kubernetesreadapplicationautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "application-autoscaling:Describe*"
             ],
             "Resource": "*"
         },
@@ -64,7 +47,7 @@
                     "iam:PassedToService": [
                         "ec2.amazonaws.com",
                         "ecs-tasks.amazonaws.com",
-                        "application-autoscaling.amazonaws.com",
+                        "eks.amazonaws.com",
                         "elasticloadbalancing.amazonaws.com",
                         "autoscaling.amazonaws.com"
                     ]
@@ -82,46 +65,12 @@
                 "StringLike": {
                     "iam:AWSServiceName": [
                         "autoscaling.amazonaws.com",
-                        "ecs.amazonaws.com",
-                        "ecs.application-autoscaling.amazonaws.com",
+                        "eks.amazonaws.com",
                         "spot.amazonaws.com",
                         "spotfleet.amazonaws.com"
                     ]
                 }
             }
-        },
-        {
-            "Sid": "kuberneteswriteecs",
-            "Effect": "Allow",
-            "Action": [
-                "ecs:CreateCapacityProvider",
-                "ecs:CreateService",
-                "ecs:CreateTaskSet",
-                "ecs:DeleteCapacityProvider",
-                "ecs:Deregister*",
-                "ecs:ExecuteCommand",
-                "ecs:Poll",
-                "ecs:Put*",
-                "ecs:Register*",
-                "ecs:RunTask",
-                "ecs:Start*",
-                "ecs:StopTask",
-                "ecs:Submit*",
-                "ecs:TagResource",
-                "ecs:UntagResource",
-                "ecs:Update*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "kuberneteswriteservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:CreatePrivateDnsNamespace",
-                "servicediscovery:CreateService",
-                "servicediscovery:UpdateService"
-            ],
-            "Resource": "*"
         },
         {
             "Sid": "kuberneteswriteelasticloadbalancing",
@@ -148,17 +97,6 @@
                 "autoscaling:DeleteAutoScalingGroup",
                 "autoscaling:TerminateInstanceInAutoScalingGroup",
                 "autoscaling:PutScalingPolicy"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "kuberneteswriteapplicationautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "application-autoscaling:DeleteScalingPolicy",
-                "application-autoscaling:DeregisterScalableTarget",
-                "application-autoscaling:PutScalingPolicy",
-                "application-autoscaling:RegisterScalableTarget"
             ],
             "Resource": "*"
         }

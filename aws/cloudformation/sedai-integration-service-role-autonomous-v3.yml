@@ -198,8 +198,7 @@ Resources:
               - logs:List*
               - logs:Describe*  
               - logs:TestMetricFilter
-              - logs:FilterLogEvents
-              - logs:GetLogEvents          
+              - logs:FilterLogEvents         
               - logs:StartQuery
               - logs:StopQuery
             Effect: Allow
