@@ -8,7 +8,10 @@
     },
     {
       "Effect": "Allow",
-      "Action": "application-autoscaling:Describe*",
+      "Action": [
+        "application-autoscaling:Describe*",
+        "application-autoscaling:List*"
+      ],
       "Resource": "*"
     },
     {
@@ -31,6 +34,14 @@
     {
       "Effect": "Allow",
       "Action": [
+        "s3:Get*",
+        "s3:List*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
         "dynamodb:List*",
         "dynamodb:Describe*"
       ],
@@ -40,6 +51,7 @@
       "Effect": "Allow",
       "Action": [
         "ec2:Describe*",
+        "ec2:List*",
         "tag:GetResources"
       ],
       "Resource": "*"
@@ -115,9 +127,7 @@
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "apigateway:GET"
-      ],
+      "Action": "apigateway:GET",
       "Resource": "*" 
     }
   ]
