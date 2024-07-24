@@ -1,134 +1,139 @@
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "autoscaling:Describe*",
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "application-autoscaling:Describe*",
-        "application-autoscaling:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "appmesh:Describe*",
-        "appmesh:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "cloudwatch:Describe*",
-        "cloudwatch:Get*",
-        "cloudwatch:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "s3:Get*",
-        "s3:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "dynamodb:List*",
-        "dynamodb:Describe*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:Describe*",
-        "ec2:List*",
-        "tag:GetResources"
-      ],
-      "Resource": "*"
-    },    
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ecs:Describe*",
-        "ecs:List*"
-      ],
-      "Resource": [
-        "*"
-      ]
-    },    
-    {
-      "Effect": "Allow",
-      "Action": [
-        "eks:List*",
-        "eks:Describe*" 
-      ],
-      "Resource": "*"
-    },    
-    {
-      "Effect": "Allow",
-      "Action": "elasticloadbalancing:Describe*",
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "lambda:Get*",
-        "lambda:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "servicediscovery:Get*",
-        "servicediscovery:List*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "states:List*",    
-        "states:Get*",            
-        "states:Describe*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "xray:BatchGetTraces",
-        "xray:Get*",
-        "xray:List*"
-      ],
-      "Resource": "*" 
-    },    
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:Describe*",
-        "logs:GetQueryResults",
-        "logs:TestMetricFilter",        
-        "logs:List*",
-        "logs:StartQuery",
-        "logs:StopQuery"   
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": "apigateway:GET",
-      "Resource": "*" 
-    }
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "autoscaling:Describe*",
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"application-autoscaling:Describe*",
+				"application-autoscaling:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"appmesh:Describe*",
+				"appmesh:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"cloudwatch:Describe*",
+				"cloudwatch:Get*",
+				"cloudwatch:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:Get*",
+				"s3:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Deny",
+			"Action": "s3:GetO*",
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:List*",
+				"dynamodb:Describe*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:Describe*",
+				"ec2:List*",
+				"tag:GetResources"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:Describe*",
+				"ecs:List*"
+			],
+			"Resource": [
+				"*"
+			]
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"eks:List*",
+				"eks:Describe*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "elasticloadbalancing:Describe*",
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"lambda:Get*",
+				"lambda:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"servicediscovery:Get*",
+				"servicediscovery:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"states:List*",
+				"states:Get*",
+				"states:Describe*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"xray:BatchGetTraces",
+				"xray:Get*",
+				"xray:List*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:Describe*",
+				"logs:GetQueryResults",
+				"logs:TestMetricFilter",
+				"logs:List*",
+				"logs:StartQuery",
+				"logs:StopQuery"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": "apigateway:GET",
+			"Resource": "*"
+		}
+	]
 }
