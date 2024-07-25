@@ -80,6 +80,7 @@ Resources:
             Action:
               - "s3:Get*"
               - "s3:List*"
+              - "s3:PutMetricsConfiguration"
             Resource: "*"
           - Effect: Deny
             Action: "s3:GetO*"
