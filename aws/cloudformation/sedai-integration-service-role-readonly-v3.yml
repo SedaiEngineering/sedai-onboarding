@@ -40,12 +40,14 @@ Resources:
             Action: "autoscaling:Describe*"
             Resource: "*"
           - Effect: Allow
-            Action: "application-autoscaling:Describe*"
+            Action: 
+              - "application-autoscaling:Describe*"
+              - "application-autoscaling:List*"
             Resource: "*"  
           - Effect: Allow
             Action: 
-              - appmesh:Describe*
-              - appmesh:List*
+              - "appmesh:Describe*"
+              - "appmesh:List*"
             Resource: "*"
           - Effect: Allow
             Action: 
@@ -61,6 +63,7 @@ Resources:
           - Effect: Allow
             Action:
               - "ec2:Describe*"
+              - "ec2:List*"
               - "tag:GetResources"
             Resource: "*"
           - Effect: Allow
@@ -85,7 +88,16 @@ Resources:
             Action:
               - "servicediscovery:Get*"
               - "servicediscovery:List*"
-            Resource: "*"        
+            Resource: "*"
+          - Effect: Allow
+            Action:
+              - "s3:Get*"
+              - "s3:List*"
+              - "s3:PutMetricsConfiguration"
+            Resource: "*"
+          - Effect: Deny
+            Action: "s3:GetO*"
+            Resource: "*"
           - Effect: Allow
             Action:
               - "states:List*"
@@ -102,15 +114,13 @@ Resources:
             Action:
               - "logs:List*"
               - "logs:Describe*"
-              - "logs:StartQuery"
               - "logs:StopQuery"
               - "logs:TestMetricFilter"
               - "logs:GetQueryResults"
             Resource: "*"
           - Effect: Allow
-            Action:
-              - apigateway:GET
-            Resource: '*'
+            Action: "apigateway:GET"
+            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:
