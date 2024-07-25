@@ -22,6 +22,8 @@ rules:
   - deployments
   - replicasets
   - statefulsets
+  - deployments/scale
+  - statefulsets/scale
   verbs:
   - get 
   - list
