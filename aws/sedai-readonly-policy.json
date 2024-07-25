@@ -35,7 +35,8 @@
 			"Effect": "Allow",
 			"Action": [
 				"s3:Get*",
-				"s3:List*"
+				"s3:List*",
+				"s3:PutMetricsConfiguration"
 			],
 			"Resource": "*"
 		},
