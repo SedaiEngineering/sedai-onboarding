@@ -1,5 +1,25 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - Billing Account - S3 and Api
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Sedai app configuration section"
+        Parameters:
+          - UniqueExternalId
+
+Parameters:
+  UniqueExternalId:
+    Type: String
+    Description: "Keep this empty (recommended) to generate a unique external ID in the ext-{AWSAccountID} format."
+
+Conditions:
+  UniqueExternalIdPresent: !Not
+    - !Equals
+      - !Ref UniqueExternalId
+      - ""
+
 Resources:
   CURS3Bucket:
     Type: AWS::S3::Bucket
@@ -62,7 +82,7 @@ Resources:
   SedaiIntegrationBillingAccountRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-billing-account-role
+      RoleName: sedai-integration-billing-account-extid-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -72,12 +92,17 @@ Resources:
                 - 504216784688
             Action:
               - sts:AssumeRole
+            Condition:
+              StringEquals: !If
+                - UniqueExternalIdPresent
+                - sts:ExternalId: !Ref UniqueExternalId
+                - sts:ExternalId: !Sub ext-${AWS::AccountId}
       Path: "/"
       
   SedaiIntegrationBillingAccountPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: sedai-integration-billing-account-role
+      ManagedPolicyName: !Ref SedaiIntegrationBillingAccountRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -133,6 +158,7 @@ Resources:
       S3Prefix: !Sub "cur/${AWS::AccountId}"
       S3Region: !Ref AWS::Region
       TimeUnit: HOURLY
+
 Outputs:
   SedaiIntegrationServiceRoleName:
     Description: Sedai Role Name
