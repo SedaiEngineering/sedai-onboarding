@@ -27,7 +27,7 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       BucketName:
-        Fn::Sub: "sedai-cur-bucket-extid-${AWS::AccountId}"
+        Fn::Sub: "sedai-cur-bucket-${AWS::AccountId}"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
@@ -68,8 +68,12 @@ Resources:
               - s3:GetBucketAcl
               - s3:GetBucketPolicy
             Resource:
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+              - Fn::Sub: "arn:${AWS::Partition}:s3:::${CURS3Bucket}"
+              - Fn::Sub: "arn:${AWS::Partition}:s3:::${CURS3Bucket}/*"
+            Condition:
+              StringEquals:
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:cur:${AWS::Region}:${AWS::AccountId}:definition/*"
+                aws:SourceAccount: !Ref AWS::AccountId
           - Sid: AllowWriteBilling
             Effect: Allow
             Principal:
@@ -77,12 +81,16 @@ Resources:
             Action:
               - s3:PutObject
             Resource:
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+              - Fn::Sub: "arn:${AWS::Partition}:s3:::${CURS3Bucket}/*"
+            Condition:
+              StringEquals:
+                aws:SourceArn: !Sub "arn:${AWS::Partition}:cur:${AWS::Region}:${AWS::AccountId}:definition/*"
+                aws:SourceAccount: !Ref AWS::AccountId
   
   SedaiIntegrationBillingAccountRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-billing-account-extid-role
+      RoleName: sedai-integration-billing-account-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -146,13 +154,14 @@ Resources:
     Type: AWS::CUR::ReportDefinition
     DependsOn:
       - CURS3Bucket
+      - CURS3BucketPolicy
     Properties:
       AdditionalSchemaElements:
         - RESOURCES
       Compression: GZIP
       Format: textORcsv
       RefreshClosedReports: True
-      ReportName: sedai-cur-reports-extid
+      ReportName: sedai-cur-reports
       ReportVersioning: OVERWRITE_REPORT
       S3Bucket: !Ref CURS3Bucket
       S3Prefix: !Sub "cur/${AWS::AccountId}"
