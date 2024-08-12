@@ -1,5 +1,25 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - Billing Account - API
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: "Sedai app configuration section"
+        Parameters:
+          - UniqueExternalId
+
+Parameters:
+  UniqueExternalId:
+    Type: String
+    Description: "Keep this empty (recommended) to generate a unique external ID in the ext-{AWSAccountID} format."
+
+Conditions:
+  UniqueExternalIdPresent: !Not
+    - !Equals
+      - !Ref UniqueExternalId
+      - ""
+
 Resources:
   SedaiIntegrationBillingAccountApiRole:
     Type: AWS::IAM::Role
@@ -14,6 +34,11 @@ Resources:
                 - 504216784688
             Action:
               - sts:AssumeRole
+            Condition:
+              StringEquals: !If
+                - UniqueExternalIdPresent
+                - sts:ExternalId: !Ref UniqueExternalId
+                - sts:ExternalId: !Sub ext-${AWS::AccountId}
       Path: "/"
       
   SedaiIntegrationBillingAccountApiPolicy:
