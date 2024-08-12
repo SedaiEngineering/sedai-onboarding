@@ -27,7 +27,7 @@ Resources:
     UpdateReplacePolicy: Retain
     Properties:
       BucketName:
-        Fn::Sub: "sedai-cur-bucket-${AWS::AccountId}"
+        Fn::Sub: "sedai-cur-bucket-extid-${AWS::AccountId}"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
@@ -152,7 +152,7 @@ Resources:
       Compression: GZIP
       Format: textORcsv
       RefreshClosedReports: True
-      ReportName: sedai-cur-reports
+      ReportName: sedai-cur-reports-extid
       ReportVersioning: OVERWRITE_REPORT
       S3Bucket: !Ref CURS3Bucket
       S3Prefix: !Sub "cur/${AWS::AccountId}"
