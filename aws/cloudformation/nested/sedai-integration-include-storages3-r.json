@@ -15,7 +15,10 @@
             "Sid": "storages3denys3object",
             "Effect": "Deny",
             "Action": [
-                "s3:GetO*"
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:GetObjectAcl",
+                "s3:GetObjectTagging"
             ],
             "Resource": "*"
         }

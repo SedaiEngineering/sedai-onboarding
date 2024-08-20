@@ -1,19 +1,10 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - Autonomous
-Parameters:
-  UniqueExternalId:
-    Type: String
-    Description: External ID for Trusted entities. Leave this empty to use an external ID generated based on the AWS Account ID
-Conditions:
-  UniqueExternalIdPresent: !Not
-    - !Equals
-      - !Ref UniqueExternalId
-      - ""
 Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-service-role
+      RoleName: sedai-integration-service-role-v5
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -23,19 +14,19 @@ Resources:
                 - 504216784688
             Action:
               - sts:AssumeRole
-            Condition: 
-              StringEquals: !If 
-                - UniqueExternalIdPresent
-                - sts:ExternalId: !Ref UniqueExternalId
-                - sts:ExternalId: !Sub ext-${AWS::AccountId}
       Path: "/"
   SedaiIntegrationServicePolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      ManagedPolicyName: sedai-integration-service-role
+      ManagedPolicyName: sedai-integration-service-role-v5
       PolicyDocument:
         Version: 2012-10-17
         Statement:
+          - Effect: Allow
+            Action:
+              - ec2:Describe*
+              - tag:GetResources              
+            Resource: '*'
           - Effect: Allow
             Action:
               - autoscaling:Describe*
@@ -83,9 +74,6 @@ Resources:
             Action:
               - s3:Get*
               - s3:List*
-              - s3:PutMetricsConfiguration
-              - s3:PutIntelligentTieringConfiguration
-              - s3:PutLifecycleConfiguration
             Resource: '*' 
           - Effect: Allow
             Action:
@@ -193,7 +181,8 @@ Resources:
               - logs:List*
               - logs:Describe*  
               - logs:TestMetricFilter
-              - logs:FilterLogEvents         
+              - logs:FilterLogEvents
+              - logs:GetLogEvents          
               - logs:StartQuery
               - logs:StopQuery
             Effect: Allow
@@ -203,44 +192,6 @@ Resources:
               - kinesis:DescribeStream
               - kinesis:ListStreams
             Resource: '*'
-          - Effect: Allow
-            Action:
-              - apigateway:GET
-            Resource: '*'
-          - Effect: Allow
-            Action:
-              - codedeploy:GetDeploymentGroup
-              - codedeploy:CreateDeployment
-              - codedeploy:GetApplicationRevision
-              - codedeploy:GetDeployment
-              - codedeploy:GetDeploymentConfig
-            Resource: '*'
-          - Effect: Deny
-            Action:
-              - s3:GetObject
-              - s3:GetObjectVersion
-              - s3:GetObjectAcl
-              - s3:GetObjectTagging
-              - ec2:DescribeVpnConnections
-              - ec2:DescribeClientVpn*
-              - ec2:DescribeAddressTransfers
-              - ec2:DescribeCarrierGateways
-              - ec2:DescribeClientVpn*
-              - ec2:DescribeCoipPools
-              - ec2:DescribeCustomerGateways
-              - ec2:DescribeFlowLogs
-              - ec2:DescribeIpamByoasn
-              - ec2:DescribeIpam*
-              - ec2:DescribeLocalGateway*
-              - ec2:DescribeManagedPrefixLists
-              - ec2:DescribeTrafficMirror*
-              - ec2:DescribeTransitGateway*
-              - ec2:DescribeTrunkInterfaceAssociations
-              - ec2:DescribeVerifiedAccess*
-              - ec2:DescribeVpcEndpoint*
-              - ec2:DescribeVpcPeeringConnections
-              - ec2:DescribeVpnGateways
-            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
 Outputs:

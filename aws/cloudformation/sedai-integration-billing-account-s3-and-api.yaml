@@ -1,144 +1,166 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - Billing Account - S3 and Api
-Resources:
-  CURS3Bucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      BucketName:
-        Fn::Sub: "sedai-cur-bucket-${AWS::AccountId}"
-      BucketEncryption:
-        ServerSideEncryptionConfiguration:
-          - ServerSideEncryptionByDefault:
-              SSEAlgorithm: AES256
-      AccessControl: BucketOwnerFullControl
-      OwnershipControls:
-        Rules:
-          - ObjectOwnership: BucketOwnerEnforced
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-      VersioningConfiguration:
-        Status: Enabled
-      LifecycleConfiguration:
-        Rules:
-          - Id: Object&Version Expiration
-            Status: Enabled
-            NoncurrentVersionExpirationInDays: 32 # 1 month 
+Parameters:
+ UniqueExternalId:
+   Type: String
+   Description: External ID for Trusted entities. Leave this empty to use an external ID generated based on the AWS Account ID
 
-  CURS3BucketPolicy:
-    Type: 'AWS::S3::BucketPolicy'
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Delete
-    Properties:
-      Bucket:
-        Ref: CURS3Bucket
-      PolicyDocument:
-        Id: CURS3BucketPolicy
-        Version: "2012-10-17"
-        Statement:
-          - Sid: AllowReadBilling
-            Effect: Allow
-            Principal:
-              Service: billingreports.amazonaws.com
-            Action:
-              - s3:GetBucketAcl
-              - s3:GetBucketPolicy
-            Resource:
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
-          - Sid: AllowWriteBilling
-            Effect: Allow
-            Principal:
-              Service: billingreports.amazonaws.com
-            Action:
-              - s3:PutObject
-            Resource:
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
-  
-  SedaiIntegrationBillingAccountRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: sedai-integration-billing-account-role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              AWS:
-                - 504216784688
-            Action:
-              - sts:AssumeRole
-      Path: "/"
-      
-  SedaiIntegrationBillingAccountPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      ManagedPolicyName: sedai-integration-billing-account-role
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-            - s3:Get*
-            - s3:List*
-            Resource: 
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
-          - Effect: Allow
-            Action:
-            - pricing:DescribeServices
-            - pricing:GetAttributeValues
-            - pricing:GetProducts
-            - pricing:GetPriceListFileUrl
-            - pricing:ListPriceLists
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - cur:DescribeReportDefinitions
-            - cur:GetUsage*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - ce:GetCost*
-            - ce:DescribeCost*
-            - ce:List*
-            - ce:GetReservation*
-            - ce:GetSavings*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - purchase-orders:Get*
-            - purchase-orders:List*
-            Resource: "*"
-      Roles:
-        - Ref: "SedaiIntegrationBillingAccountRole"
-              
-  CURReportDefinition:
-    Type: AWS::CUR::ReportDefinition
-    DependsOn:
-      - CURS3Bucket
-    Properties:
-      AdditionalSchemaElements:
-        - RESOURCES
-      Compression: GZIP
-      Format: textORcsv
-      RefreshClosedReports: True
-      ReportName: sedai-cur-reports
-      ReportVersioning: OVERWRITE_REPORT
-      S3Bucket: !Ref CURS3Bucket
-      S3Prefix: !Sub "cur/${AWS::AccountId}"
-      S3Region: !Ref AWS::Region
-      TimeUnit: HOURLY
+
+Conditions:
+ UniqueExternalIdPresent: !Not
+   - !Equals
+     - !Ref UniqueExternalId
+     - ""
+
+
+Resources:
+ CURS3Bucket:
+   Type: AWS::S3::Bucket
+   DeletionPolicy: Retain
+   UpdateReplacePolicy: Retain
+   Properties:
+     BucketName:
+       Fn::Sub: "sedai-cur-bucket-${AWS::AccountId}"
+     BucketEncryption:
+       ServerSideEncryptionConfiguration:
+         - ServerSideEncryptionByDefault:
+             SSEAlgorithm: AES256
+     AccessControl: BucketOwnerFullControl
+     OwnershipControls:
+       Rules:
+         - ObjectOwnership: BucketOwnerEnforced
+     PublicAccessBlockConfiguration:
+       BlockPublicAcls: true
+       BlockPublicPolicy: true
+       IgnorePublicAcls: true
+       RestrictPublicBuckets: true
+     VersioningConfiguration:
+       Status: Enabled
+     LifecycleConfiguration:
+       Rules:
+         - Id: Object&Version Expiration
+           Status: Enabled
+           NoncurrentVersionExpirationInDays: 32 # 1 month
+
+
+ CURS3BucketPolicy:
+   Type: 'AWS::S3::BucketPolicy'
+   DeletionPolicy: Retain
+   UpdateReplacePolicy: Delete
+   Properties:
+     Bucket:
+       Ref: CURS3Bucket
+     PolicyDocument:
+       Id: CURS3BucketPolicy
+       Version: "2012-10-17"
+       Statement:
+         - Sid: AllowReadBilling
+           Effect: Allow
+           Principal:
+             Service: billingreports.amazonaws.com
+           Action:
+             - s3:GetBucketAcl
+             - s3:GetBucketPolicy
+           Resource:
+             - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
+             - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+         - Sid: AllowWriteBilling
+           Effect: Allow
+           Principal:
+             Service: billingreports.amazonaws.com
+           Action:
+             - s3:PutObject
+           Resource:
+             - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+
+
+ SedaiIntegrationBillingAccountRole:
+   Type: AWS::IAM::Role
+   Properties:
+     RoleName: sedai-integration-billing-account-role
+     AssumeRolePolicyDocument:
+       Version: "2012-10-17"
+       Statement:
+         - Effect: Allow
+           Principal:
+             AWS:
+               - 504216784688
+           Action:
+             - sts:AssumeRole
+           Condition:
+             StringEquals: !If
+               - UniqueExternalIdPresent
+               - sts:ExternalId: !Ref UniqueExternalId
+               - sts:ExternalId: !Sub ext-${AWS::AccountId}
+     Path: "/"
+    
+ SedaiIntegrationBillingAccountPolicy:
+   Type: "AWS::IAM::ManagedPolicy"
+   Properties:
+     ManagedPolicyName: sedai-integration-billing-account-role
+     PolicyDocument:
+       Version: 2012-10-17
+       Statement:
+         - Effect: Allow
+           Action:
+           - s3:Get*
+           - s3:List*
+           Resource:
+             - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
+             - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+         - Effect: Allow
+           Action:
+           - pricing:DescribeServices
+           - pricing:GetAttributeValues
+           - pricing:GetProducts
+           - pricing:GetPriceListFileUrl
+           - pricing:ListPriceLists
+           Resource: "*"
+         - Effect: Allow
+           Action:
+           - cur:DescribeReportDefinitions
+           - cur:GetUsage*
+           Resource: "*"
+         - Effect: Allow
+           Action:
+           - ce:GetCost*
+           - ce:DescribeCost*
+           - ce:List*
+           - ce:GetReservation*
+           - ce:GetSavings*
+           Resource: "*"
+         - Effect: Allow
+           Action:
+           - purchase-orders:Get*
+           - purchase-orders:List*
+           Resource: "*"
+     Roles:
+       - Ref: "SedaiIntegrationBillingAccountRole"
+            
+ CURReportDefinition:
+   Type: AWS::CUR::ReportDefinition
+   DependsOn:
+     - CURS3Bucket
+   Properties:
+     AdditionalSchemaElements:
+       - RESOURCES
+     Compression: GZIP
+     Format: textORcsv
+     RefreshClosedReports: True
+     ReportName: sedai-cur-reports
+     ReportVersioning: OVERWRITE_REPORT
+     S3Bucket: !Ref CURS3Bucket
+     S3Prefix: !Sub "cur/${AWS::AccountId}"
+     S3Region: !Ref AWS::Region
+     TimeUnit: HOURLY
+
+
 Outputs:
-  SedaiIntegrationServiceRoleName:
-    Description: Sedai Role Name
-    Value:
-      Ref: SedaiIntegrationBillingAccountRole
-  SedaiIntegrationServiceRoleArn:
-    Description: Sedai Role Arn
-    Value:
-      Fn::GetAtt: [SedaiIntegrationBillingAccountRole, Arn]
+ SedaiIntegrationServiceRoleName:
+   Description: Sedai Role Name
+   Value:
+     Ref: SedaiIntegrationBillingAccountRole
+ SedaiIntegrationServiceRoleArn:
+   Description: Sedai Role Arn
+   Value:
+     Fn::GetAtt: [SedaiIntegrationBillingAccountRole, Arn]

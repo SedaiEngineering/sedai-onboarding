@@ -1,14 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - ReadOnly
-Parameters:
-  UniqueExternalId:
-    Type: String
-    Description: External ID for Trusted entities. Leave this empty to use an external ID generated based on the AWS Account ID
-Conditions:
-  UniqueExternalIdPresent: !Not
-    - !Equals
-      - !Ref UniqueExternalId
-      - ""
 Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
@@ -23,11 +14,6 @@ Resources:
                 - 504216784688
             Action:
               - sts:AssumeRole
-            Condition:
-              StringEquals: !If
-                - UniqueExternalIdPresent
-                - sts:ExternalId: !Ref UniqueExternalId
-                - sts:ExternalId: !Sub ext-${AWS::AccountId}
       Path: "/"
   SedaiIntegrationServicePolicy:
     Type: "AWS::IAM::ManagedPolicy"
@@ -40,30 +26,27 @@ Resources:
             Action: "autoscaling:Describe*"
             Resource: "*"
           - Effect: Allow
-            Action:
-              - "application-autoscaling:Describe*"
-              - "application-autoscaling:List*"
+            Action: "application-autoscaling:Describe*"
+            Resource: "*"  
+          - Effect: Allow
+            Action: 
+              - appmesh:Describe*
+              - appmesh:List*
             Resource: "*"
           - Effect: Allow
-            Action:
-              - "appmesh:Describe*"
-              - "appmesh:List*"
-            Resource: "*"
-          - Effect: Allow
-            Action:
+            Action: 
               - "cloudwatch:Describe*"
               - "cloudwatch:Get*"
-              - "cloudwatch:List*"
+              - "cloudwatch:List*" 
             Resource: "*"
           - Effect: Allow
-            Action:
+            Action: 
               - "dynamodb:List*"
               - "dynamodb:Describe*"
             Resource: "*"
           - Effect: Allow
             Action:
               - "ec2:Describe*"
-              - "ec2:List*"
               - "tag:GetResources"
             Resource: "*"
           - Effect: Allow
@@ -72,44 +55,35 @@ Resources:
               - "ecs:List*"
             Resource: "*"
           - Effect: Allow
-            Action:
+            Action: 
               - "eks:Describe*"
               - "eks:List*"
             Resource: "*"
           - Effect: Allow
             Action: "elasticloadbalancing:Describe*"
-            Resource: "*"
+            Resource: "*"    
           - Effect: Allow
             Action:
               - "lambda:Get*"
               - "lambda:List*"
-            Resource: "*"
+            Resource: "*"    
           - Effect: Allow
             Action:
               - "servicediscovery:Get*"
               - "servicediscovery:List*"
-            Resource: "*"
-          - Effect: Allow
-            Action:
-              - "s3:Get*"
-              - "s3:List*"
-              - "s3:PutMetricsConfiguration"
-            Resource: "*"
-          - Effect: Deny
-            Action: "s3:GetO*"
-            Resource: "*"
+            Resource: "*"        
           - Effect: Allow
             Action:
               - "states:List*"
               - "states:Get*"
               - "states:Describe*"
-            Resource: "*"
+            Resource: "*"     
           - Effect: Allow
             Action:
               - "xray:Get*"
               - "xray:List*"
               - "xray:BatchGetTraces"
-            Resource: "*"
+            Resource: "*"                               
           - Effect: Allow
             Action:
               - "logs:List*"
@@ -117,35 +91,7 @@ Resources:
               - "logs:StopQuery"
               - "logs:TestMetricFilter"
               - "logs:GetQueryResults"
-            Resource: "*"
-          - Effect: Allow
-            Action: "apigateway:GET"
-            Resource: "*"
-          - Effect: Deny
-            Action:
-              - s3:GetObject
-              - s3:GetObjectVersion
-              - s3:GetObjectAcl
-              - s3:GetObjectTagging
-              - ec2:DescribeVpnConnections
-              - ec2:DescribeClientVpn*
-              - ec2:DescribeAddressTransfers
-              - ec2:DescribeCarrierGateways
-              - ec2:DescribeClientVpn*
-              - ec2:DescribeCoipPools
-              - ec2:DescribeCustomerGateways
-              - ec2:DescribeFlowLogs
-              - ec2:DescribeIpamByoasn
-              - ec2:DescribeIpam*
-              - ec2:DescribeLocalGateway*
-              - ec2:DescribeManagedPrefixLists
-              - ec2:DescribeTrafficMirror*
-              - ec2:DescribeTransitGateway*
-              - ec2:DescribeTrunkInterfaceAssociations
-              - ec2:DescribeVerifiedAccess*
-              - ec2:DescribeVpcEndpoint*
-              - ec2:DescribeVpcPeeringConnections
-              - ec2:DescribeVpnGateways
+              - "logs:StartQuery"
             Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationServiceRole"
