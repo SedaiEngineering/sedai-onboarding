@@ -2,17 +2,16 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "ecsreadecs",
+            "Sid": "kubernetesreadecs",
             "Effect": "Allow",
             "Action": [
-                "ecs:Describe*",
-                "ecs:List*",
-                "ecs:DiscoverPollEndpoint"
+                "eks:Describe*",
+                "eks:List*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "ecsreadelasticloadbalancing",
+            "Sid": "kubernetesreadelasticloadbalancing",
             "Effect": "Allow",
             "Action": [
                 "elasticloadbalancing:Describe*"
@@ -20,24 +19,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecsreadservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:Get*",
-                "servicediscovery:List*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadapigateway",
-            "Effect": "Allow",
-            "Action": [
-                "apigateway:GET"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadautoscaling",
+            "Sid": "kubernetesreadautoscaling",
             "Effect": "Allow",
             "Action": [
                 "autoscaling:Describe*"
@@ -45,15 +27,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecsreadapplicationautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "application-autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadappmesh",
+            "Sid": "kubernetesreadappmesh",
             "Effect": "Allow",
             "Action": [
                 "appmesh:List*",
@@ -62,7 +36,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecswriteiampassrole",
+            "Sid": "kuberneteswriteiampassrole",
             "Effect": "Allow",
             "Action": [
                 "iam:PassRole"
@@ -73,7 +47,7 @@
                     "iam:PassedToService": [
                         "ec2.amazonaws.com",
                         "ecs-tasks.amazonaws.com",
-                        "application-autoscaling.amazonaws.com",
+                        "eks.amazonaws.com",
                         "elasticloadbalancing.amazonaws.com",
                         "autoscaling.amazonaws.com"
                     ]
@@ -81,7 +55,7 @@
             }
         },
         {
-            "Sid": "ecswriteiamcreaterole",
+            "Sid": "kuberneteswriteiamcreaterole",
             "Effect": "Allow",
             "Action": [
                 "iam:CreateServiceLinkedRole"
@@ -91,8 +65,7 @@
                 "StringLike": {
                     "iam:AWSServiceName": [
                         "autoscaling.amazonaws.com",
-                        "ecs.amazonaws.com",
-                        "ecs.application-autoscaling.amazonaws.com",
+                        "eks.amazonaws.com",
                         "spot.amazonaws.com",
                         "spotfleet.amazonaws.com"
                     ]
@@ -100,40 +73,7 @@
             }
         },
         {
-            "Sid": "ecswriteecs",
-            "Effect": "Allow",
-            "Action": [
-                "ecs:CreateCapacityProvider",
-                "ecs:CreateService",
-                "ecs:CreateTaskSet",
-                "ecs:DeleteCapacityProvider",
-                "ecs:Deregister*",
-                "ecs:ExecuteCommand",
-                "ecs:Poll",
-                "ecs:Put*",
-                "ecs:Register*",
-                "ecs:RunTask",
-                "ecs:Start*",
-                "ecs:StopTask",
-                "ecs:Submit*",
-                "ecs:TagResource",
-                "ecs:UntagResource",
-                "ecs:Update*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecswriteservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:CreatePrivateDnsNamespace",
-                "servicediscovery:CreateService",
-                "servicediscovery:UpdateService"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecswriteelasticloadbalancing",
+            "Sid": "kuberneteswriteelasticloadbalancing",
             "Effect": "Allow",
             "Action": [
                 "elasticloadbalancing:CreateRule",
@@ -147,7 +87,7 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecswriteautoscaling",
+            "Sid": "kuberneteswriteautoscaling",
             "Effect": "Allow",
             "Action": [
                 "autoscaling:CreateAutoScalingGroup",
@@ -161,15 +101,39 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecswriteapplicationautoscaling",
+            "Sid": "ec2instancereadec2",
             "Effect": "Allow",
             "Action": [
-                "application-autoscaling:DeleteScalingPolicy",
-                "application-autoscaling:DeregisterScalableTarget",
-                "application-autoscaling:PutScalingPolicy",
-                "application-autoscaling:RegisterScalableTarget"
+                "ec2:Describe*",
+                "ec2:Search*",
+                "ec2:Get*"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "ec2instancedeny",
+            "Effect": "Deny",
+            "Action": [
+                "ec2:DescribeVpnConnections",
+                "ec2:DescribeClientVpn*",
+                "ec2:DescribeAddressTransfers",
+                "ec2:DescribeCarrierGateways",
+                "ec2:DescribeClientVpn*",
+                "ec2:DescribeCoipPools",
+                "ec2:DescribeCustomerGateways",
+                "ec2:DescribeFlowLogs",
+                "ec2:DescribeIpamByoasn",
+                "ec2:DescribeIpam*",
+                "ec2:DescribeLocalGateway*",
+                "ec2:DescribeManagedPrefixLists",
+                "ec2:DescribeTrafficMirror*",
+                "ec2:DescribeTransitGateway*",
+                "ec2:DescribeTrunkInterfaceAssociations",
+                "ec2:DescribeVerifiedAccess*",
+                "ec2:DescribeVpcEndpoint*",
+                "ec2:DescribeVpcPeeringConnections",
+                "ec2:DescribeVpnGateways"
+            ]
         }
     ]
 }

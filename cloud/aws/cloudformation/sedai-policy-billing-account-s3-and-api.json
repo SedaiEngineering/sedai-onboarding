@@ -1,0 +1,58 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                {
+                    "Fn::Sub": "arn:${AWS::Partition}:s3:::${CURS3Bucket}"
+                },
+                {
+                    "Fn::Sub": "arn:${AWS::Partition}:s3:::${CURS3Bucket}/*"
+                }
+            ]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "pricing:DescribeServices",
+                "pricing:GetAttributeValues",
+                "pricing:GetProducts",
+                "pricing:GetPriceListFileUrl",
+                "pricing:ListPriceLists"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "cur:DescribeReportDefinitions",
+                "cur:GetUsage*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ce:GetCost*",
+                "ce:DescribeCost*",
+                "ce:List*",
+                "ce:GetReservation*",
+                "ce:GetSavings*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "purchase-orders:Get*",
+                "purchase-orders:List*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
