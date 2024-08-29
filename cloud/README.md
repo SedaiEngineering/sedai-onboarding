@@ -3,6 +3,7 @@
 This directory contains AWS CloudFormation templates for setting up various AWS resources, such as IAM roles and policies. Each template is designed to create specific IAM roles and permissions. Additionally, corresponding IAM policies are provided in JSON format for reference.
 
 ### Folder Structure
+```
 cloud
 ├── aws
 │   ├── cloudformation
@@ -12,7 +13,7 @@ cloud
 │   │   ├── sedai-policy-autonomous.json
 │   │   ├── sedai-policy-billing-account-s3-and-api.json
 │   │   └── sedai-policy-readonly.json
-
+```
 ### CloudFormation Templates
 
 The CloudFormation templates in this directory deploy IAM roles and policies for different services. The templates and their respective purposes are:

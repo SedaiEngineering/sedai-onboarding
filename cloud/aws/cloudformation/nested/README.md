@@ -3,6 +3,7 @@
 This folder contains a set of nested AWS CloudFormation templates that provide more granular control over IAM roles and policies. These templates allow users to selectively deploy specific permissions based on their requirements. Each template is modular, focusing on specific AWS services, and provides options for read-only (r) or read-write (rw) permissions.
 
 ### Folder Structure
+```
 cloud
 ├── aws
 │   ├── cloudformation
@@ -33,7 +34,7 @@ cloud
 │   │   │   ├── sedai-integration-nested-billingresource.yml
 │   │   │   ├── sedai-integration-nested-inlinepolicy.yml
 │   │   │   └── sedai-integration-nested-managedpolicy.yml
-
+```
 ### Key Templates
 
 - **sedai-integration-main.yml**: The main CloudFormation template that orchestrates the deployment of nested resources. This template allows users to select which permissions to deploy based on Yes/No inputs.
