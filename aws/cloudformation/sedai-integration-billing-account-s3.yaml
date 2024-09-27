@@ -1,7 +1,21 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: IAM Role and policies for Sedai Integration - Billing Account - S3
+
+Parameters:
+  CreateCURReport:
+    Description: Create a new CUR report and it's S3 bucket or use an existing CUR Report's S3 bucket
+    Type: String
+    Default: 'True'
+    AllowedValues: ['True', 'False']
+
+  BucketName:
+    Description: Name of the existing CUR Report's S3 bucket
+    Type: String
+    Default: ''
+
 Resources:
   CURS3Bucket:
+    Condition: CreateNewBucket
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
@@ -30,6 +44,7 @@ Resources:
             NoncurrentVersionExpirationInDays: 32 # 1 month 
 
   CURS3BucketPolicy:
+    Condition: CreateNewBucket
     Type: 'AWS::S3::BucketPolicy'
     DeletionPolicy: Retain
     UpdateReplacePolicy: Delete
@@ -56,6 +71,16 @@ Resources:
               Service: billingreports.amazonaws.com
             Action:
               - s3:PutObject
+            Resource:
+              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+          - Sid: AllowSedai
+            Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+            - s3:Get*
+            - s3:List*
             Resource:
               - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
   
@@ -86,12 +111,13 @@ Resources:
             - s3:Get*
             - s3:List*
             Resource: 
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+              - Fn::If: [CreateNewBucket, Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}', Fn::Sub: 'arn:${AWS::Partition}:s3:::${BucketName}']
+              - Fn::If: [CreateNewBucket, Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*', Fn::Sub: 'arn:${AWS::Partition}:s3:::${BucketName}/*']
       Roles:
         - Ref: "SedaiIntegrationBillingAccountS3Role"
               
   CURReportDefinition:
+    Condition: CreateNewBucket
     Type: AWS::CUR::ReportDefinition
     DependsOn:
       - CURS3Bucket
@@ -107,6 +133,10 @@ Resources:
       S3Prefix: !Sub "cur/${AWS::AccountId}"
       S3Region: !Ref AWS::Region
       TimeUnit: HOURLY
+
+Conditions:
+  CreateNewBucket: !Equals [!Ref CreateCURReport, 'True']
+
 Outputs:
   SedaiIntegrationServiceRoleName:
     Description: Sedai Role Name
