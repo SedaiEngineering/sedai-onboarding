@@ -21,6 +21,7 @@ Metadata:
           - S3StorageRequired
           - EBSStorageRequired
           - BillingRequired
+          - RDSRequired
     ParameterLabels:
       UniqueExternalId:
         default: "Enter the unique external ID"
@@ -44,6 +45,8 @@ Metadata:
         default: "Would you like to give Sedai the permissions to work with your S3 Storage workloads?"
       EBSStorageRequired:
         default: "Would you like to give Sedai the permissions to work with your EBS Storage workloads?"
+      RDSRequired:
+        default: "Would you like to give Sedai the permissions to work with your RDS workloads?"
       BillingRequired:
         default: "Would you like to give Sedai the permissions to work with your Billing?"
 
@@ -59,6 +62,13 @@ Parameters:
       - "Yes"
       - "No"
   LambdaRequired:
+    Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
+    Type: String
+    Default: "No"
+    AllowedValues:
+      - "Yes"
+      - "No"
+  RDSRequired:
     Description: "Select Yes or No. Please note that Sedai will not have permission to optimize the workload if read-only access is set as 'Yes'"
     Type: String
     Default: "No"
@@ -137,6 +147,9 @@ Mappings:
     Lambda:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-lambda-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-lambda-rw.json"
+    RDS:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-rds-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-rds-rw.json"
     DynamoDB:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-rw.json"
@@ -175,6 +188,9 @@ Conditions:
     - "Yes"
   IsLambdaRequired: !Equals
     - !Ref LambdaRequired
+    - "Yes"
+  IsRDSRequired: !Equals
+    - !Ref RDSRequired
     - "Yes"
   IsDynamoDBRequired: !Equals
     - !Ref DynamoDBRequired
@@ -245,6 +261,18 @@ Resources:
         PolicyIncludeLocation:
           !FindInMap [PolicyReadOnlyMap, Lambda, !Ref ReadOnly]
         Service: lambda
+        Permission: !If [IsReadOnly, read, write]
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+
+  SedaiIntegrationRDSPolicy:
+    Type: AWS::CloudFormation::Stack
+    Condition: IsRDSRequired
+    Properties:
+      Parameters:
+        SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
+        PolicyIncludeLocation:
+          !FindInMap [PolicyReadOnlyMap, RDS, !Ref ReadOnly]
+        Service: rds
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
