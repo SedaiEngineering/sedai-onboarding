@@ -17,6 +17,14 @@
 		{
 			"Effect": "Allow",
 			"Action": [
+				"rds:DescribeDBInstances",
+				"rds:DescribeDBClusters"
+			],
+			"Resource": "*"
+    		},
+		{
+			"Effect": "Allow",
+			"Action": [
 				"appmesh:Describe*",
 				"appmesh:List*"
 			],
