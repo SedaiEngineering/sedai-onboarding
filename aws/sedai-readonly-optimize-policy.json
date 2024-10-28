@@ -59,6 +59,31 @@
 			"Effect": "Allow",
 			"Action": ["ecs:List*", "ecs:Describe*"],
 			"Resource": ["*"]
+		},
+		{
+			"Effect": "Deny",
+			"Action": [
+				"ec2:DescribeVpnConnections",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeAddressTransfers",
+				"ec2:DescribeCarrierGateways",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeCoipPools",
+				"ec2:DescribeCustomerGateways",
+				"ec2:DescribeFlowLogs",
+				"ec2:DescribeIpamByoasn",
+				"ec2:DescribeIpam*",
+				"ec2:DescribeLocalGateway*",
+				"ec2:DescribeManagedPrefixLists",
+				"ec2:DescribeTrafficMirror*",
+				"ec2:DescribeTransitGateway*",
+				"ec2:DescribeTrunkInterfaceAssociations",
+				"ec2:DescribeVerifiedAccess*",
+				"ec2:DescribeVpcEndpoint*",
+				"ec2:DescribeVpcPeeringConnections",
+				"ec2:DescribeVpnGateways"
+			],
+			"Resource": "*"
 		}
 	]
 }
