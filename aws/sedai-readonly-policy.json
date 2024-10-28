@@ -143,6 +143,35 @@
 			"Effect": "Allow",
 			"Action": "apigateway:GET",
 			"Resource": "*"
+		},
+		{
+			"Effect": "Deny",
+			"Action": [
+				"s3:GetObject",
+				"s3:GetObjectVersion",
+				"s3:GetObjectAcl",
+				"s3:GetObjectTagging",
+				"ec2:DescribeVpnConnections",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeAddressTransfers",
+				"ec2:DescribeCarrierGateways",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeCoipPools",
+				"ec2:DescribeCustomerGateways",
+				"ec2:DescribeFlowLogs",
+				"ec2:DescribeIpamByoasn",
+				"ec2:DescribeIpam*",
+				"ec2:DescribeLocalGateway*",
+				"ec2:DescribeManagedPrefixLists",
+				"ec2:DescribeTrafficMirror*",
+				"ec2:DescribeTransitGateway*",
+				"ec2:DescribeTrunkInterfaceAssociations",
+				"ec2:DescribeVerifiedAccess*",
+				"ec2:DescribeVpcEndpoint*",
+				"ec2:DescribeVpcPeeringConnections",
+				"ec2:DescribeVpnGateways"
+			],
+			"Resource": "*"
 		}
 	]
 }
