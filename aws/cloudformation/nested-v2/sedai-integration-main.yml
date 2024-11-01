@@ -48,42 +48,58 @@ Parameters:
     Type: String 
     Description: "Specify access level. Select 'Yes' for read-only access, or 'No' to select individual Sedai-supported workloads." 
     Default: "Yes" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   LambdaRequired: 
     Type: String 
     Description: "Select 'Yes' to allow Lambda resource access. If 'ReadOnly' is 'Yes', Sedai will not optimize Lambda workloads." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   ECSRequired: 
     Type: String 
     Description: "Select 'Yes' to allow ECS resource access. If 'ReadOnly' is 'Yes', Sedai will not optimize ECS workloads." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   KubernetesRequired: 
     Type: String 
     Description: "Select 'Yes' to allow Kubernetes resource access. If 'ReadOnly' is 'Yes', Sedai will not optimize EKS workloads." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   EC2InstanceRequired: 
     Type: String 
     Description: "Select 'Yes' to allow EC2 instance access. If 'ReadOnly' is 'Yes', Sedai will not optimize EC2 workloads." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   S3StorageRequired: 
     Type: String 
     Description: "Select 'Yes' to allow S3 storage access. If 'ReadOnly' is 'Yes', Sedai will not optimize S3 workloads." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   EBSStorageRequired: 
     Type: String 
     Description: "Select 'Yes' to allow EBS storage access. If 'ReadOnly' is 'Yes', Sedai will not optimize EBS volumes." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
   RDSRequired: 
     Type: String 
     Description: "Select 'Yes' to allow RDS access. If 'ReadOnly' is 'Yes', Sedai will not optimize RDS clusters." 
     Default: "No" 
-    AllowedValues: ["Yes", "No"]
+    AllowedValues: 
+      - "Yes" 
+      - "No"
 
 Mappings:
   PolicyReadOnlyMap:
@@ -134,7 +150,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS:
-                - 504216784688
+                - "arn:aws:iam::504216784688:role/sedai-integration-service-role"
             Action:
               - sts:AssumeRole
             Condition:
@@ -187,36 +203,36 @@ Resources:
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
-  SedaiIntegrationEC2Policy:
+  SedaiIntegrationEC2InstancePolicy:
     Type: AWS::CloudFormation::Stack
     Condition: IsEC2InstanceRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, EC2Instance, !Ref ReadOnly]
-        Service: ec2
+        Service: ec2instance
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
-  SedaiIntegrationS3Policy:
+  SedaiIntegrationS3StoragePolicy:
     Type: AWS::CloudFormation::Stack
     Condition: IsS3StorageRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, S3Storage, !Ref ReadOnly]
-        Service: s3
+        Service: storages3
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
-  SedaiIntegrationEBSPolicy:
+  SedaiIntegrationEBSStoragePolicy:
     Type: AWS::CloudFormation::Stack
     Condition: IsEBSStorageRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, EBSStorage, !Ref ReadOnly]
-        Service: ebs
+        Service: storageebs
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
 
@@ -230,3 +246,8 @@ Resources:
         Service: rds
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+
+Outputs:
+  SedaiIntegrationServiceRoleOutput:
+    Description: "Service Role ARN for Sedai Integration"
+    Value: !GetAtt SedaiIntegrationServiceRole.Arn
