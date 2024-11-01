@@ -18,7 +18,7 @@ Metadata:
           - S3StorageRequired
           - EBSStorageRequired
           - RDSRequired
-          
+
     ParameterLabels:
       UniqueExternalId:
         default: "Enter a unique external ID (leave blank for auto-generation)"
@@ -190,7 +190,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, ECS, !Ref ReadOnly]
         Service: ecs
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationKubernetesPolicy:
     Type: AWS::CloudFormation::Stack
@@ -201,40 +201,40 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, Kubernetes, !Ref ReadOnly]
         Service: kubernetes
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
-  SedaiIntegrationEC2InstancePolicy:
+  SedaiIntegrationEC2Policy:
     Type: AWS::CloudFormation::Stack
     Condition: IsEC2InstanceRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, EC2Instance, !Ref ReadOnly]
-        Service: ec2instance
+        Service: ec2
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
-  SedaiIntegrationS3StoragePolicy:
+  SedaiIntegrationS3Policy:
     Type: AWS::CloudFormation::Stack
     Condition: IsS3StorageRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, S3Storage, !Ref ReadOnly]
-        Service: storages3
+        Service: s3
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
-  SedaiIntegrationEBSStoragePolicy:
+  SedaiIntegrationEBSPolicy:
     Type: AWS::CloudFormation::Stack
     Condition: IsEBSStorageRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, EBSStorage, !Ref ReadOnly]
-        Service: storageebs
+        Service: ebs
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationRDSPolicy:
     Type: AWS::CloudFormation::Stack
@@ -245,9 +245,9 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, RDS, !Ref ReadOnly]
         Service: rds
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
 Outputs:
-  SedaiIntegrationServiceRoleOutput:
-    Description: "Service Role ARN for Sedai Integration"
+  SedaiIntegrationServiceRole:
+    Description: "Sedai Integration Service Role ARN"
     Value: !GetAtt SedaiIntegrationServiceRole.Arn
