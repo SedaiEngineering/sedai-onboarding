@@ -1,0 +1,63 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "billingreads3",
+            "Effect": "Allow",
+            "Action": [
+                "s3:Get*",
+                "s3:List*"
+            ],
+            "Resource": [
+                {
+                    "Fn::Sub": "arn:${AWS::Partition}:s3:::${SedaiIntegrationCURS3Bucket}"
+                },
+                {
+                    "Fn::Sub": "arn:${AWS::Partition}:s3:::${SedaiIntegrationCURS3Bucket}/*"
+                }
+            ]
+        },
+        {
+            "Sid": "billingreadpricing",
+            "Effect": "Allow",
+            "Action": [
+                "pricing:DescribeServices",
+                "pricing:GetAttributeValues",
+                "pricing:GetProducts",
+                "pricing:GetPriceListFileUrl",
+                "pricing:ListPriceLists"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "billingreadcur",
+            "Effect": "Allow",
+            "Action": [
+                "cur:DescribeReportDefinitions",
+                "cur:GetUsage*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "billingreadce",
+            "Effect": "Allow",
+            "Action": [
+                "ce:GetCost*",
+                "ce:DescribeCost*",
+                "ce:List*",
+                "ce:GetReservation*",
+                "ce:GetSavings*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "billingreadpurchaseorders",
+            "Effect": "Allow",
+            "Action": [
+                "purchase-orders:Get*",
+                "purchase-orders:List*"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
