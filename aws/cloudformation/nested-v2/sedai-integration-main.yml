@@ -43,7 +43,7 @@ Parameters:
   UniqueExternalId: 
     Type: String 
     Description: "Leave empty to auto-generate a unique external ID in the format ext-{AWSAccountID} (recommended)." 
-    Default: !Sub "ext-${AWS::AccountId}"
+    #Default: !Sub "ext-${AWS::AccountId}"
   ReadOnly: 
     Type: String 
     Description: "Specify access level. Select 'Yes' for read-only access, or 'No' to select individual Sedai-supported workloads." 
