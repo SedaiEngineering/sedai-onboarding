@@ -20,16 +20,6 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadxray",
-            "Effect": "Allow",
-            "Action": [
-                "xray:Get*",
-                "xray:List*",
-                "xray:BatchGetTraces"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "commonreadlogs",
             "Effect": "Allow",
             "Action": [
