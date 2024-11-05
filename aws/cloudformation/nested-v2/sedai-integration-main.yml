@@ -143,7 +143,7 @@ Resources:
   SedaiIntegrationServiceRole:
     Type: AWS::IAM::Role
     Properties:
-      RoleName: sedai-integration-service-role-nested-v2
+      RoleName: sedai-integration-service-role
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
