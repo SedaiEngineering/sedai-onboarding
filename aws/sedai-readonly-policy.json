@@ -56,14 +56,6 @@
 		{
 			"Effect": "Allow",
 			"Action": [
-				"dynamodb:List*",
-				"dynamodb:Describe*"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
 				"ec2:Describe*",
 				"ec2:List*",
 				"tag:GetResources"
@@ -106,24 +98,6 @@
 			"Action": [
 				"servicediscovery:Get*",
 				"servicediscovery:List*"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"states:List*",
-				"states:Get*",
-				"states:Describe*"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"xray:BatchGetTraces",
-				"xray:Get*",
-				"xray:List*"
 			],
 			"Resource": "*"
 		},

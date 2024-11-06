@@ -54,18 +54,6 @@
     {
       "Effect": "Allow",
       "Action": [
-        "dynamodb:List*",
-        "dynamodb:Describe*",        
-        "dynamodb:BatchGetItem",
-        "dynamodb:GetItem",        
-        "dynamodb:Query",
-        "dynamodb:Scan"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
         "tag:GetResources",
         "s3:Get*",
         "s3:List*",
@@ -214,24 +202,6 @@
         "servicediscovery:UpdateService"
       ],
       "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "states:List*",    
-        "states:Get*",            
-        "states:Describe*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "xray:BatchGetTraces",
-        "xray:Get*",
-        "xray:List*"
-      ],
-      "Resource": "*" 
     },
     {
       "Effect": "Allow",
