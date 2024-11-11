@@ -150,7 +150,7 @@ Resources:
           - Effect: Allow
             Principal:
               AWS:
-                - "arn:aws:iam::504216784688:role/sedai-integration-service-role"
+                - 504216784688
             Action:
               - sts:AssumeRole
             Condition:
