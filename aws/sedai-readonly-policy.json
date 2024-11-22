@@ -35,7 +35,8 @@
 			"Action": [
 				"cloudwatch:Describe*",
 				"cloudwatch:Get*",
-				"cloudwatch:List*"
+				"cloudwatch:List*",
+				"cloudtrail:LookupEvents"
 			],
 			"Resource": "*"
 		},
