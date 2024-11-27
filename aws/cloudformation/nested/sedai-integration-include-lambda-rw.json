@@ -1,35 +1,42 @@
 {
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "lambdareadlambda",
-            "Effect": "Allow",
-            "Action": [
-                "lambda:Get*",
-                "lambda:List*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "lambdareadapplicationautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "application-autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "lambdawritelambda",
-            "Effect": "Allow",
-            "Action": [
-                "lambda:DeleteProvisionedConcurrencyConfig",
-                "lambda:PublishVersion",
-                "lambda:PutFunctionConcurrency",
-                "lambda:PutProvisionedConcurrencyConfig",
-                "lambda:UpdateAlias",
-                "lambda:UpdateFunctionConfiguration"
-            ],
-            "Resource": "*"
-        }
-    ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "lambdareadlambda",
+			"Effect": "Allow",
+			"Action": ["lambda:Get*", "lambda:List*"],
+			"Resource": "*"
+		},
+		{
+			"Sid": "lambdareadapplicationautoscaling",
+			"Effect": "Allow",
+			"Action": ["application-autoscaling:Describe*"],
+			"Resource": "*"
+		},
+		{
+			"Sid": "lambdawritelambda",
+			"Effect": "Allow",
+			"Action": [
+				"lambda:DeleteProvisionedConcurrencyConfig",
+				"lambda:PublishVersion",
+				"lambda:PutFunctionConcurrency",
+				"lambda:PutProvisionedConcurrencyConfig",
+				"lambda:UpdateAlias",
+				"lambda:UpdateFunctionConfiguration"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:List*",
+				"dynamodb:Describe*",
+				"dynamodb:BatchGetItem",
+				"dynamodb:GetItem",
+				"dynamodb:Query",
+				"dynamodb:Scan"
+			],
+			"Resource": "*"
+		}
+	]
 }

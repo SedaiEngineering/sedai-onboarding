@@ -1,272 +1,267 @@
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [     
-        "autoscaling:Describe*",
-        "autoscaling:CreateAutoScalingGroup",
-        "autoscaling:CreateLaunchConfiguration",
-        "autoscaling:UpdateAutoScalingGroup",
-        "autoscaling:DeleteLaunchConfiguration",
-        "autoscaling:DeleteAutoScalingGroup",
-        "autoscaling:TerminateInstanceInAutoScalingGroup",
-        "autoscaling:PutScalingPolicy"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "application-autoscaling:Describe*",
-        "application-autoscaling:DeleteScalingPolicy",
-        "application-autoscaling:DeregisterScalableTarget",
-        "application-autoscaling:PutScalingPolicy",
-        "application-autoscaling:RegisterScalableTarget"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-	"rds:DescribeDBInstances",
-	"rds:DescribeDBClusters"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "appmesh:List*",        
-        "appmesh:Describe*"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "cloudwatch:Get*",
-        "cloudwatch:List*",        
-        "cloudwatch:Describe*",
-        "cloudtrail:LookupEvents"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "tag:GetResources",
-        "s3:Get*",
-        "s3:List*",
-        "s3:PutMetricsConfiguration",
-        "s3:PutIntelligentTieringConfiguration",
-        "s3:PutLifecycleConfiguration"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:Describe*",
-        "ec2:Search*",
-        "ec2:Get*",
-        "ec2:ModifyVolume",
-	"ec2:StartInstances",
-        "ec2:ModifyInstanceAttribute",
-        "ec2:StopInstances"
-      ],
-      "Resource": "*"
-    },     
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ecs:Describe*",
-        "ecs:List*",        
-        "ecs:CreateCapacityProvider",
-        "ecs:CreateService",
-        "ecs:CreateTaskSet",
-        "ecs:DeleteCapacityProvider",
-        "ecs:Deregister*",
-        "ecs:DiscoverPollEndpoint",
-        "ecs:ExecuteCommand",
-        "ecs:Poll",
-        "ecs:Put*",
-        "ecs:Register*",
-        "ecs:RunTask",
-        "ecs:Start*",
-        "ecs:StopTask",
-        "ecs:Submit*",
-        "ecs:TagResource",
-        "ecs:UntagResource",
-        "ecs:Update*"
-      ],
-      "Resource": [
-        "*"
-      ]
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "eks:List*",
-        "eks:Describe*"        
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "iam:ListInstanceProfiles"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "elasticloadbalancing:AddTags"
-      ],
-      "Resource": "*",
-      "Condition": {
-        "StringEquals": {
-          "elasticloadbalancing:CreateAction": [
-            "CreateTargetGroup",
-            "CreateRule",
-            "CreateListener",
-            "CreateLoadBalancer"
-          ]
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "elasticloadbalancing:Describe*",
-        "elasticloadbalancing:CreateRule",
-        "elasticloadbalancing:CreateTargetGroup",
-        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-        "elasticloadbalancing:DeregisterTargets",
-        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-        "elasticloadbalancing:RegisterTargets"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Action": "iam:PassRole",
-      "Effect": "Allow",
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "iam:PassedToService": [
-            "ec2.amazonaws.com",
-            "ecs.amazonaws.com", 
-            "ecs-tasks.amazonaws.com",
-            "application-autoscaling.amazonaws.com",
-            "elasticloadbalancing.amazonaws.com",
-            "autoscaling.amazonaws.com"
-          ]
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": "iam:CreateServiceLinkedRole",
-      "Resource": "*",
-      "Condition": {
-        "StringLike": {
-          "iam:AWSServiceName": [
-            "autoscaling.amazonaws.com",
-            "ecs.amazonaws.com",
-            "ecs.application-autoscaling.amazonaws.com",
-            "spot.amazonaws.com",
-            "spotfleet.amazonaws.com"
-          ]
-        }
-      }
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "lambda:Get*",
-        "lambda:List*",
-        "lambda:DeleteProvisionedConcurrencyConfig",
-        "lambda:PublishVersion",
-        "lambda:PutFunctionConcurrency",
-        "lambda:PutProvisionedConcurrencyConfig",
-        "lambda:UpdateAlias",
-        "lambda:UpdateFunctionConfiguration"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "servicediscovery:Get*",
-        "servicediscovery:List*",         
-        "servicediscovery:CreatePrivateDnsNamespace",
-        "servicediscovery:CreateService",
-        "servicediscovery:UpdateService"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "logs:List*",        
-        "logs:Describe*",
-        "logs:Get*",
-        "logs:TestMetricFilter",
-        "logs:GetLogEvents",
-        "logs:GetQueryResults",
-        "logs:StartQuery",
-        "logs:StopQuery"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "apigateway:GET"
-      ],
-      "Resource": "*" 
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "codedeploy:GetDeploymentGroup",
-        "codedeploy:CreateDeployment",
-        "codedeploy:GetApplicationRevision",
-        "codedeploy:GetDeployment",
-        "codedeploy:GetDeploymentConfig"
-      ],
-      "Resource": "*" 
-    },
-    {
-      "Effect": "Deny",
-      "Action": [
-        "s3:GetObject",
-        "s3:GetObjectVersion",
-        "s3:GetObjectAcl",
-        "s3:GetObjectTagging",
-        "ec2:DescribeVpnConnections",
-        "ec2:DescribeClientVpn*",
-        "ec2:DescribeAddressTransfers",
-        "ec2:DescribeCarrierGateways",
-        "ec2:DescribeClientVpn*",
-        "ec2:DescribeCoipPools",
-        "ec2:DescribeCustomerGateways",
-        "ec2:DescribeFlowLogs",
-        "ec2:DescribeIpamByoasn",
-        "ec2:DescribeIpam*",
-        "ec2:DescribeLocalGateway*",
-        "ec2:DescribeManagedPrefixLists",
-        "ec2:DescribeTrafficMirror*",
-        "ec2:DescribeTransitGateway*",
-        "ec2:DescribeTrunkInterfaceAssociations",
-        "ec2:DescribeVerifiedAccess*",
-        "ec2:DescribeVpcEndpoint*",
-        "ec2:DescribeVpcPeeringConnections",
-        "ec2:DescribeVpnGateways"
-      ],
-      "Resource": "*"
-    }  
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"autoscaling:Describe*",
+				"autoscaling:CreateAutoScalingGroup",
+				"autoscaling:CreateLaunchConfiguration",
+				"autoscaling:UpdateAutoScalingGroup",
+				"autoscaling:DeleteLaunchConfiguration",
+				"autoscaling:DeleteAutoScalingGroup",
+				"autoscaling:TerminateInstanceInAutoScalingGroup",
+				"autoscaling:PutScalingPolicy"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"application-autoscaling:Describe*",
+				"application-autoscaling:DeleteScalingPolicy",
+				"application-autoscaling:DeregisterScalableTarget",
+				"application-autoscaling:PutScalingPolicy",
+				"application-autoscaling:RegisterScalableTarget"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["rds:DescribeDBInstances", "rds:DescribeDBClusters"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["appmesh:List*", "appmesh:Describe*"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"cloudwatch:Get*",
+				"cloudwatch:List*",
+				"cloudwatch:Describe*",
+				"cloudtrail:LookupEvents"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"tag:GetResources",
+				"s3:Get*",
+				"s3:List*",
+				"s3:PutMetricsConfiguration",
+				"s3:PutIntelligentTieringConfiguration",
+				"s3:PutLifecycleConfiguration"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:Describe*",
+				"ec2:Search*",
+				"ec2:Get*",
+				"ec2:ModifyVolume",
+				"ec2:StartInstances",
+				"ec2:ModifyInstanceAttribute",
+				"ec2:StopInstances"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:Describe*",
+				"ecs:List*",
+				"ecs:CreateCapacityProvider",
+				"ecs:CreateService",
+				"ecs:CreateTaskSet",
+				"ecs:DeleteCapacityProvider",
+				"ecs:Deregister*",
+				"ecs:DiscoverPollEndpoint",
+				"ecs:ExecuteCommand",
+				"ecs:Poll",
+				"ecs:Put*",
+				"ecs:Register*",
+				"ecs:RunTask",
+				"ecs:Start*",
+				"ecs:StopTask",
+				"ecs:Submit*",
+				"ecs:TagResource",
+				"ecs:UntagResource",
+				"ecs:Update*"
+			],
+			"Resource": ["*"]
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["eks:List*", "eks:Describe*"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["iam:ListInstanceProfiles"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["elasticloadbalancing:AddTags"],
+			"Resource": "*",
+			"Condition": {
+				"StringEquals": {
+					"elasticloadbalancing:CreateAction": [
+						"CreateTargetGroup",
+						"CreateRule",
+						"CreateListener",
+						"CreateLoadBalancer"
+					]
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"elasticloadbalancing:Describe*",
+				"elasticloadbalancing:CreateRule",
+				"elasticloadbalancing:CreateTargetGroup",
+				"elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+				"elasticloadbalancing:DeregisterTargets",
+				"elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+				"elasticloadbalancing:RegisterTargets"
+			],
+			"Resource": "*"
+		},
+		{
+			"Action": "iam:PassRole",
+			"Effect": "Allow",
+			"Resource": "*",
+			"Condition": {
+				"StringLike": {
+					"iam:PassedToService": [
+						"ec2.amazonaws.com",
+						"ecs.amazonaws.com",
+						"ecs-tasks.amazonaws.com",
+						"application-autoscaling.amazonaws.com",
+						"elasticloadbalancing.amazonaws.com",
+						"autoscaling.amazonaws.com"
+					]
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": "iam:CreateServiceLinkedRole",
+			"Resource": "*",
+			"Condition": {
+				"StringLike": {
+					"iam:AWSServiceName": [
+						"autoscaling.amazonaws.com",
+						"ecs.amazonaws.com",
+						"ecs.application-autoscaling.amazonaws.com",
+						"spot.amazonaws.com",
+						"spotfleet.amazonaws.com"
+					]
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"lambda:Get*",
+				"lambda:List*",
+				"lambda:DeleteProvisionedConcurrencyConfig",
+				"lambda:PublishVersion",
+				"lambda:PutFunctionConcurrency",
+				"lambda:PutProvisionedConcurrencyConfig",
+				"lambda:UpdateAlias",
+				"lambda:UpdateFunctionConfiguration"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"servicediscovery:Get*",
+				"servicediscovery:List*",
+				"servicediscovery:CreatePrivateDnsNamespace",
+				"servicediscovery:CreateService",
+				"servicediscovery:UpdateService"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:List*",
+				"logs:Describe*",
+				"logs:Get*",
+				"logs:TestMetricFilter",
+				"logs:GetLogEvents",
+				"logs:GetQueryResults",
+				"logs:StartQuery",
+				"logs:StopQuery"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["apigateway:GET"],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"codedeploy:GetDeploymentGroup",
+				"codedeploy:CreateDeployment",
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment",
+				"codedeploy:GetDeploymentConfig"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Deny",
+			"Action": [
+				"s3:GetObject",
+				"s3:GetObjectVersion",
+				"s3:GetObjectAcl",
+				"s3:GetObjectTagging",
+				"ec2:DescribeVpnConnections",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeAddressTransfers",
+				"ec2:DescribeCarrierGateways",
+				"ec2:DescribeClientVpn*",
+				"ec2:DescribeCoipPools",
+				"ec2:DescribeCustomerGateways",
+				"ec2:DescribeFlowLogs",
+				"ec2:DescribeIpamByoasn",
+				"ec2:DescribeIpam*",
+				"ec2:DescribeLocalGateway*",
+				"ec2:DescribeManagedPrefixLists",
+				"ec2:DescribeTrafficMirror*",
+				"ec2:DescribeTransitGateway*",
+				"ec2:DescribeTrunkInterfaceAssociations",
+				"ec2:DescribeVerifiedAccess*",
+				"ec2:DescribeVpcEndpoint*",
+				"ec2:DescribeVpcPeeringConnections",
+				"ec2:DescribeVpnGateways"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:List*",
+				"dynamodb:Describe*",
+				"dynamodb:BatchGetItem",
+				"dynamodb:GetItem",
+				"dynamodb:Query",
+				"dynamodb:Scan"
+			],
+			"Resource": "*"
+		}
+	]
 }

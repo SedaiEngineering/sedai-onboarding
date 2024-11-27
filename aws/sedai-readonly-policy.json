@@ -16,18 +16,12 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"rds:DescribeDBInstances",
-				"rds:DescribeDBClusters"
-			],
+			"Action": ["rds:DescribeDBInstances", "rds:DescribeDBClusters"],
 			"Resource": "*"
-    		},
+		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"appmesh:Describe*",
-				"appmesh:List*"
-			],
+			"Action": ["appmesh:Describe*", "appmesh:List*"],
 			"Resource": "*"
 		},
 		{
@@ -42,11 +36,7 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"s3:Get*",
-				"s3:List*",
-				"s3:PutMetricsConfiguration"
-			],
+			"Action": ["s3:Get*", "s3:List*", "s3:PutMetricsConfiguration"],
 			"Resource": "*"
 		},
 		{
@@ -56,29 +46,17 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"ec2:Describe*",
-				"ec2:List*",
-				"tag:GetResources"
-			],
+			"Action": ["ec2:Describe*", "ec2:List*", "tag:GetResources"],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"ecs:Describe*",
-				"ecs:List*"
-			],
-			"Resource": [
-				"*"
-			]
+			"Action": ["ecs:Describe*", "ecs:List*"],
+			"Resource": ["*"]
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"eks:List*",
-				"eks:Describe*"
-			],
+			"Action": ["eks:List*", "eks:Describe*"],
 			"Resource": "*"
 		},
 		{
@@ -88,18 +66,12 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"lambda:Get*",
-				"lambda:List*"
-			],
+			"Action": ["lambda:Get*", "lambda:List*"],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"servicediscovery:Get*",
-				"servicediscovery:List*"
-			],
+			"Action": ["servicediscovery:Get*", "servicediscovery:List*"],
 			"Resource": "*"
 		},
 		{
@@ -146,6 +118,11 @@
 				"ec2:DescribeVpcPeeringConnections",
 				"ec2:DescribeVpnGateways"
 			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["dynamodb:List*", "dynamodb:Describe*"],
 			"Resource": "*"
 		}
 	]
