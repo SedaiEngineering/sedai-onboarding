@@ -13,6 +13,19 @@
             "Resource": "*"
         },
         {
+            "Sid": "commonrwcodedeploy",
+            "Effect": "Allow",
+            "Action": [
+				"codedeploy:GetDeploymentGroup",
+				"codedeploy:CreateDeployment",
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment",
+				"codedeploy:GetDeploymentConfig",
+				"codedeploy:RegisterApplicationRevision"
+            ],
+            "Resource": "*"
+        },
+        {
             "Sid": "commonreadtag",
             "Effect": "Allow",
             "Action": [
@@ -42,5 +55,6 @@
             ],
             "Resource": "*"
         }
+
     ]
 }

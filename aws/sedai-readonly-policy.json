@@ -16,7 +16,21 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": ["rds:DescribeDBInstances", "rds:DescribeDBClusters"],
+			"Action": [
+				"codedeploy:GetDeploymentGroup",
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment",
+				"codedeploy:GetDeploymentConfig"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"rds:DescribeDBInstances",
+			 	"rds:DescribeDBClusters",
+				"rds:DescribeEvents"
+			],
 			"Resource": "*"
 		},
 		{

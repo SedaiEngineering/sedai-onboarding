@@ -13,6 +13,17 @@
             "Resource": "*"
         },
         {
+            "Sid": "commonreadcodedeploy",
+            "Effect": "Allow",
+            "Action": [
+				"codedeploy:GetDeploymentGroup",
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment",
+				"codedeploy:GetDeploymentConfig"
+            ],
+            "Resource": "*"
+        },
+        {
             "Sid": "commonreadtag",
             "Effect": "Allow",
             "Action": [

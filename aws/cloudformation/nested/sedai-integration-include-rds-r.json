@@ -6,7 +6,8 @@
             "Effect": "Allow",
 			"Action": [
 				"rds:DescribeDBInstances",
-				"rds:DescribeDBClusters"
+				"rds:DescribeDBClusters",
+                "rds:DescribeEvents"
 			],
 			"Resource": "*"
         }

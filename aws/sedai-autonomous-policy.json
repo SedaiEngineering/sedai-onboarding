@@ -28,7 +28,13 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": ["rds:DescribeDBInstances", "rds:DescribeDBClusters"],
+			"Action": [
+				"rds:DescribeDBInstances",
+				"rds:DescribeDBClusters",
+				"rds:DescribeEvents",
+				"rds:ModifyDBInstance",
+				"rds:ModifyDBInstance"
+			],
 			"Resource": "*"
 		},
 		{
@@ -218,7 +224,8 @@
 				"codedeploy:CreateDeployment",
 				"codedeploy:GetApplicationRevision",
 				"codedeploy:GetDeployment",
-				"codedeploy:GetDeploymentConfig"
+				"codedeploy:GetDeploymentConfig",
+				"codedeploy:RegisterApplicationRevision"
 			],
 			"Resource": "*"
 		},
