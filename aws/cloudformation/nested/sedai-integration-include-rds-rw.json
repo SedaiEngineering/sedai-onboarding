@@ -7,9 +7,9 @@
 			"Action": [
 				"rds:DescribeDBInstances",
 				"rds:DescribeDBClusters",
-                "rds:DescribeEvents",
-                "rds:ModifyDBInstance",
-                "rds:ModifyDBInstance"
+		                "rds:DescribeEvents",
+		                "rds:ModifyDBCluster",
+		                "rds:ModifyDBInstance"
 			],
 			"Resource": "*"
         }
