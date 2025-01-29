@@ -33,7 +33,7 @@
 				"rds:DescribeDBClusters",
 				"rds:DescribeEvents",
 				"rds:ModifyDBInstance",
-				"rds:ModifyDBInstance"
+				"rds:ModifyDBCluster"
 			],
 			"Resource": "*"
 		},
