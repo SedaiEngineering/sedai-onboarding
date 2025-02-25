@@ -11,7 +11,8 @@
 				"autoscaling:DeleteLaunchConfiguration",
 				"autoscaling:DeleteAutoScalingGroup",
 				"autoscaling:TerminateInstanceInAutoScalingGroup",
-				"autoscaling:PutScalingPolicy"
+				"autoscaling:PutScalingPolicy",
+				"autoscaling:StartInstanceRefresh"
 			],
 			"Resource": "*"
 		},
@@ -73,7 +74,12 @@
 				"ec2:ModifyVolume",
 				"ec2:StartInstances",
 				"ec2:ModifyInstanceAttribute",
-				"ec2:StopInstances"
+				"ec2:StopInstances",
+				"ec2:CreateLaunchTemplateVersion",
+				"ec2:DeleteLaunchTemplateVersion",
+				"ec2:CreateLaunchTemplate",
+				"ec2:DeleteLaunchTemplate",
+				"ec2:RunInstances"
 			],
 			"Resource": "*"
 		},
