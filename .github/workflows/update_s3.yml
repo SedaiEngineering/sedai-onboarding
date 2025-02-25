@@ -11,6 +11,7 @@ on:
       - 'aws/cloudformation/nested/**.json'
       - 'eks/**clusterrole.yaml'
       - 'aws/cloudformation/nested-v2/**.json'
+      - 'aws/cloudformation/billing-data-exporter/**.yaml'
 
 jobs:
   build:
