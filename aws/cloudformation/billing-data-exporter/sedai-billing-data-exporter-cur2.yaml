@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM Role and policies for Sedai Integration - Billing Account - S3 and Api
+Description: IAM Role and policies for Sedai Integration - Billing Account - CUR
 Resources:
   CURS3Bucket:
     Type: AWS::S3::Bucket
