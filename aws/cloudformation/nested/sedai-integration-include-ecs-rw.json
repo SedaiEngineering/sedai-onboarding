@@ -177,10 +177,10 @@
             "Effect": "Allow",
             "Action": [
                 "ec2:CreateLaunchTemplateVersion",
-				"ec2:DeleteLaunchTemplateVersion",
-				"ec2:CreateLaunchTemplate",
-				"ec2:DeleteLaunchTemplate",
-				"ec2:RunInstances"
+		"ec2:DeleteLaunchTemplateVersions",
+		"ec2:CreateLaunchTemplate",
+		"ec2:DeleteLaunchTemplate",
+		"ec2:RunInstances"
             ],
             "Resource": "*"
         }
