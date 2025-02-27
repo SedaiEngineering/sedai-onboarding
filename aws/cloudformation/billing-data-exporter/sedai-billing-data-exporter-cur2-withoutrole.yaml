@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IAM Role and policies for Sedai Integration - Billing Account - CUR
+Resources:
+  CURS3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName:
+        Fn::Sub: "sedai-cur-de-bucket-${AWS::AccountId}"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: Object&Version Expiration
+            Status: Enabled
+            NoncurrentVersionExpirationInDays: 32 # 1 month 
+
+  CURS3BucketPolicy:
+    Type: 'AWS::S3::BucketPolicy'
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Delete
+    Properties:
+      Bucket:
+        Ref: CURS3Bucket
+      PolicyDocument:
+        Id: CURS3BucketPolicy
+        Version: "2012-10-17"
+        Statement:
+          - Sid: AllowBilling
+            Effect: Allow
+            Principal:
+              Service: 
+              - "billingreports.amazonaws.com"
+              - "bcm-data-exports.amazonaws.com"
+                
+            Action:
+                - "s3:PutObject"
+                - "s3:GetBucketPolicy"
+            Resource:
+              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
+              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+            Condition:
+              StringLike:
+                aws:SourceAccount:  !Sub "${AWS::AccountId}"
+                aws:SourceArn:
+                  - Fn::Sub: "arn:aws:cur:us-east-1:${AWS::AccountId}:definition/*"
+                  - Fn::Sub: "arn:aws:bcm-data-exports:us-east-1:${AWS::AccountId}:export/*"
+
+            
+  CostUsageExport:
+    Type: AWS::BCMDataExports::Export
+    DependsOn: CURS3BucketPolicy
+    Properties:
+      Export:
+        Name: sedai-cur-reports
+        Description: Export for AWS Cost and Usage Reports (CUR 2.0)
+        DestinationConfigurations:
+          S3Destination:
+            S3Bucket: !Ref CURS3Bucket
+            S3Prefix: !Sub "cur/${AWS::AccountId}"
+            S3Region: !Ref AWS::Region
+            S3OutputConfigurations:
+              Format: TEXT_OR_CSV
+              Compression: GZIP
+              Overwrite: OVERWRITE_REPORT
+              OutputType: CUSTOM
+        DataQuery:
+          QueryStatement: |
+            SELECT AvailabilityZone, BilledCost, BillingAccountId, BillingAccountName, BillingCurrency, BillingPeriodEnd, BillingPeriodStart, ChargeCategory, ChargeClass, ChargeDescription, ChargeFrequency, ChargePeriodEnd, ChargePeriodStart, CommitmentDiscountCategory, CommitmentDiscountId, CommitmentDiscountName, CommitmentDiscountStatus, CommitmentDiscountType, ConsumedQuantity, ConsumedUnit, ContractedCost, ContractedUnitPrice, EffectiveCost, InvoiceIssuerName, ListCost, ListUnitPrice, PricingCategory, PricingQuantity, PricingUnit, ProviderName, PublisherName, RegionId, RegionName, ResourceId, ResourceName, ResourceType, ServiceCategory, ServiceName, SkuId, SkuPriceId, SubAccountId, SubAccountName, Tags, x_CostCategories, x_Discounts, x_Operation, x_ServiceCode, x_UsageType FROM FOCUS_1_0_AWS
+          TableConfigurations:
+            FOCUS_1_0_AWS: {}
+        RefreshCadence:
+          Frequency: SYNCHRONOUS
+Outputs:
+  SedaiIntegrationServiceRoleName:
+    Description: Sedai Role Name
+    Value:
+      Ref: SedaiIntegrationBillingAccountRole
+  SedaiIntegrationServiceRoleArn:
+    Description: Sedai Role Arn
+    Value:
+      Fn::GetAtt: [SedaiIntegrationBillingAccountRole, Arn]
