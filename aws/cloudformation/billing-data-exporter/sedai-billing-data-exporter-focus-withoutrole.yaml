@@ -79,12 +79,3 @@ Resources:
             FOCUS_1_0_AWS: {}
         RefreshCadence:
           Frequency: SYNCHRONOUS
-Outputs:
-  SedaiIntegrationServiceRoleName:
-    Description: Sedai Role Name
-    Value:
-      Ref: SedaiIntegrationBillingAccountRole
-  SedaiIntegrationServiceRoleArn:
-    Description: Sedai Role Arn
-    Value:
-      Fn::GetAtt: [SedaiIntegrationBillingAccountRole, Arn]
