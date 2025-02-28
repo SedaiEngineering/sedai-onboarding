@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM Role and policies for Sedai Integration - Billing Account - FOCUS
+Description: IAM Role and policies for Sedai Integration - Billing Account - CUR
 Resources:
   CURS3Bucket:
     Type: AWS::S3::Bucket
@@ -54,63 +54,6 @@ Resources:
                   - Fn::Sub: "arn:aws:cur:us-east-1:${AWS::AccountId}:definition/*"
                   - Fn::Sub: "arn:aws:bcm-data-exports:us-east-1:${AWS::AccountId}:export/*"
 
-  SedaiIntegrationBillingAccountRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: sedai-integration-billing-account-role
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              AWS:
-                - 504216784688
-            Action:
-              - sts:AssumeRole
-      Path: "/"
-      
-  SedaiIntegrationBillingAccountPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      ManagedPolicyName: sedai-integration-billing-account-role
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-            - s3:Get*
-            - s3:List*
-            Resource: 
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
-          - Effect: Allow
-            Action:
-            - pricing:DescribeServices
-            - pricing:GetAttributeValues
-            - pricing:GetProducts
-            - pricing:GetPriceListFileUrl
-            - pricing:ListPriceLists
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - cur:DescribeReportDefinitions
-            - cur:GetUsage*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - ce:GetCost*
-            - ce:DescribeCost*
-            - ce:List*
-            - ce:GetReservation*
-            - ce:GetSavings*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - purchase-orders:Get*
-            - purchase-orders:List*
-            Resource: "*"
-      Roles:
-        - Ref: "SedaiIntegrationBillingAccountRole"
             
   CostUsageExport:
     Type: AWS::BCMDataExports::Export
