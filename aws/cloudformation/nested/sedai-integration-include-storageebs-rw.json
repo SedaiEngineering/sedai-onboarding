@@ -7,7 +7,9 @@
             "Action": [
                 "ec2:Describe*",
                 "ec2:Search*",
-                "ec2:Get*"
+                "ec2:Get*",
+                "ec2:DeleteVolume",
+                "ec2:ModifyVolume"
             ],
             "Resource": "*"
         }

@@ -72,6 +72,7 @@
 				"ec2:Search*",
 				"ec2:Get*",
 				"ec2:ModifyVolume",
+				"ec2:DeleteVolume",
 				"ec2:StartInstances",
 				"ec2:ModifyInstanceAttribute",
 				"ec2:StopInstances",
