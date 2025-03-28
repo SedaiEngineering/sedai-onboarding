@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM Role and policies for Sedai Integration - Billing Account - CUR
+Description: IAM Role and policies for Sedai Integration - Billing Account - FOCUS
 Resources:
   CURS3Bucket:
     Type: AWS::S3::Bucket
@@ -61,7 +61,7 @@ Resources:
     Properties:
       Export:
         Name: sedai-cur-reports
-        Description: Export for AWS Cost and Usage Reports (CUR 2.0)
+        Description: Export for AWS Cost and Usage Reports
         DestinationConfigurations:
           S3Destination:
             S3Bucket: !Ref CURS3Bucket

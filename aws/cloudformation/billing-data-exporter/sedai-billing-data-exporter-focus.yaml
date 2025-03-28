@@ -118,7 +118,7 @@ Resources:
     Properties:
       Export:
         Name: sedai-cur-reports
-        Description: Export for AWS Cost and Usage Reports (CUR 2.0)
+        Description: Export for AWS Cost and Usage Reports
         DestinationConfigurations:
           S3Destination:
             S3Bucket: !Ref CURS3Bucket
