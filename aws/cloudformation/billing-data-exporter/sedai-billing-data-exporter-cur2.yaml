@@ -109,6 +109,10 @@ Resources:
             - purchase-orders:Get*
             - purchase-orders:List*
             Resource: "*"
+          - Effect: Allow
+            Actions:
+            - savingsplans:DescribeSavingsPlans
+            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
             
