@@ -63,7 +63,7 @@ Resources:
             Resource: "*"
           - Effect: Allow
             Actions:
-            - savingsplans:DescribeSavingsPlans
+              - savingsplans:DescribeSavingsPlans
             Resource: "*"            
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
