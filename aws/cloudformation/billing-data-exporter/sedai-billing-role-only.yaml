@@ -62,7 +62,7 @@ Resources:
               - purchase-orders:List*
             Resource: "*"
           - Effect: Allow
-            Actions:
+            Action:
               - savingsplans:DescribeSavingsPlans
             Resource: "*"            
       Roles:
