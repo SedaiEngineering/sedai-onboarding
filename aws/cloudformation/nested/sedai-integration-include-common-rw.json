@@ -5,45 +5,10 @@
             "Sid": "commonreadcloudwatch",
             "Effect": "Allow",
             "Action": [
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
-                "cloudtrail:LookupEvents"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonrwcodedeploy",
-            "Effect": "Allow",
-            "Action": [
-				"codedeploy:GetDeploymentGroup",
-				"codedeploy:CreateDeployment",
-				"codedeploy:GetApplicationRevision",
-				"codedeploy:GetDeployment",
-				"codedeploy:GetDeploymentConfig",
-				"codedeploy:RegisterApplicationRevision"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonreadtag",
-            "Effect": "Allow",
-            "Action": [
-                "tag:GetResources"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonreadlogs",
-            "Effect": "Allow",
-            "Action": [
-                "logs:Get*",
-                "logs:List*",
-                "logs:Describe*",
-                "logs:StartQuery",
-                "logs:StopQuery",
-                "logs:TestMetricFilter",
-                "logs:FilterLogEvents"
+				"cloudwatch:DescribeAlarms",
+				"cloudwatch:GetMetricData",
+				"cloudwatch:ListMetrics",
+				"cloudtrail:LookupEvents"
             ],
             "Resource": "*"
         },
@@ -52,6 +17,28 @@
             "Effect": "Allow",
             "Action": [
                 "iam:ListInstanceProfiles"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadlogs",
+            "Effect": "Allow",
+            "Action": [
+				"logs:DescribeLogGroups",
+				"logs:FilterLogEvents",
+				"logs:GetLogEvents",
+				"logs:GetQueryResults",
+				"logs:StartQuery",
+				"logs:StopQuery",
+				"logs:TestMetricFilter"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "commonreadtag",
+            "Effect": "Allow",
+            "Action": [
+                "tag:GetResources"
             ],
             "Resource": "*"
         }

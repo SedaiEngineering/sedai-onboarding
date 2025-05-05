@@ -3,140 +3,152 @@
 	"Statement": [
 		{
 			"Effect": "Allow",
-			"Action": "autoscaling:Describe*",
+			"Action": ["apigateway:GET"],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": [
-				"application-autoscaling:Describe*",
-				"application-autoscaling:List*"
+				"application-autoscaling:DescribeScalableTargets",
+				"application-autoscaling:DescribeScaling*"
 			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": [
-				"codedeploy:GetDeploymentGroup",
-				"codedeploy:GetApplicationRevision",
-				"codedeploy:GetDeployment",
-				"codedeploy:GetDeploymentConfig"
+				"autoscaling:DescribeAutoScaling*",
+				"autoscaling:DescribeInstanceRefreshes",
+				"autoscaling:DescribeLaunchConfigurations",
+				"autoscaling:DescribePolicies",
+				"autoscaling:DescribeScalingActivities"
 			],
 			"Resource": "*"
-		},
+		},		
 		{
 			"Effect": "Allow",
 			"Action": [
-				"rds:DescribeDBInstances",
-			 	"rds:DescribeDBClusters",
-				"rds:DescribeEvents"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["appmesh:Describe*", "appmesh:List*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
-				"cloudwatch:Describe*",
-				"cloudwatch:Get*",
-				"cloudwatch:List*",
+				"cloudwatch:DescribeAlarms",
+				"cloudwatch:GetMetricData",
+				"cloudwatch:ListMetrics",
 				"cloudtrail:LookupEvents"
 			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": ["s3:Get*", "s3:List*", "s3:PutMetricsConfiguration"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Deny",
-			"Action": "s3:GetO*",
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["ec2:Describe*", "ec2:List*", "tag:GetResources"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["ecs:Describe*", "ecs:List*"],
-			"Resource": ["*"]
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["eks:List*", "eks:Describe*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": "elasticloadbalancing:Describe*",
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["lambda:Get*", "lambda:List*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["servicediscovery:Get*", "servicediscovery:List*"],
+			"Action": [
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment*"
+			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
 			"Action": [
-				"logs:Describe*",
+				"dynamodb:DescribeGlobalTable*",
+				"dynamodb:DescribeTable*",
+				"dynamodb:ListGlobalTables",
+				"dynamodb:ListTables",
+				"dynamodb:ListTagsOfResource"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ecs:DescribeC*",
+				"ecs:DescribeServices",
+				"ecs:DescribeTask*",
+				"ecs:ListC*",
+				"ecs:ListServices",
+				"ecs:ListTagsForResource",
+				"ecs:ListTask*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeInstanceStatus",
+				"ec2:DescribeInstanceType*",
+				"ec2:DescribeInstances",
+				"ec2:DescribeLaunchTemplate*",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRegions",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeTags",
+				"ec2:DescribeVolumes*",
+				"ec2:DescribeVpcs"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"elasticloadbalancing:DescribeInstanceHealth",
+				"elasticloadbalancing:DescribeListeners",
+				"elasticloadbalancing:DescribeLoadBalancers",
+				"elasticloadbalancing:DescribeTags",
+				"elasticloadbalancing:DescribeTarget*"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"lambda:GetAccountSettings",
+				"lambda:GetAlias",
+				"lambda:GetFunction*",
+				"lambda:GetLayerVersion",
+				"lambda:GetPolicy",
+				"lambda:GetProvisionedConcurrencyConfig",
+				"lambda:ListAliases",
+				"lambda:ListFunctions",
+				"lambda:ListProvisionedConcurrencyConfigs",
+				"lambda:ListTags",
+				"lambda:ListVersionsByFunction"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"logs:DescribeLogGroups",
+				"logs:FilterLogEvents",
+				"logs:GetLogEvents",
 				"logs:GetQueryResults",
-				"logs:TestMetricFilter",
-				"logs:List*",
 				"logs:StartQuery",
-				"logs:StopQuery"
+				"logs:StopQuery",
+				"logs:TestMetricFilter"
 			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": "apigateway:GET",
-			"Resource": "*"
-		},
-		{
-			"Effect": "Deny",
 			"Action": [
-				"s3:GetObject",
-				"s3:GetObjectVersion",
-				"s3:GetObjectAcl",
-				"s3:GetObjectTagging",
-				"ec2:DescribeVpnConnections",
-				"ec2:DescribeClientVpn*",
-				"ec2:DescribeAddressTransfers",
-				"ec2:DescribeCarrierGateways",
-				"ec2:DescribeClientVpn*",
-				"ec2:DescribeCoipPools",
-				"ec2:DescribeCustomerGateways",
-				"ec2:DescribeFlowLogs",
-				"ec2:DescribeIpamByoasn",
-				"ec2:DescribeIpam*",
-				"ec2:DescribeLocalGateway*",
-				"ec2:DescribeManagedPrefixLists",
-				"ec2:DescribeTrafficMirror*",
-				"ec2:DescribeTransitGateway*",
-				"ec2:DescribeTrunkInterfaceAssociations",
-				"ec2:DescribeVerifiedAccess*",
-				"ec2:DescribeVpcEndpoint*",
-				"ec2:DescribeVpcPeeringConnections",
-				"ec2:DescribeVpnGateways"
+				"rds:DescribeDBClusters",
+				"rds:DescribeDBInstances",
+				"rds:DescribeEvents"
 			],
 			"Resource": "*"
 		},
 		{
 			"Effect": "Allow",
-			"Action": ["dynamodb:List*", "dynamodb:Describe*"],
+			"Action": [
+				"s3:GetBucketLocation", 
+				"s3:GetBucketTagging",
+				"s3:GetIntelligentTieringConfiguration",
+				"s3:GetLifecycleConfiguration",
+				"s3:GetMetricsConfiguration",
+				"s3:ListAllMyBuckets"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": ["tag:GetResources"],
 			"Resource": "*"
 		}
 	]

@@ -5,30 +5,24 @@
             "Sid": "storages3reads3",
             "Effect": "Allow",
             "Action": [
-                "s3:Get*",
-                "s3:List*"
+				"s3:GetBucketLocation", 
+				"s3:GetBucketTagging",
+				"s3:GetIntelligentTieringConfiguration",
+				"s3:GetLifecycleConfiguration",
+				"s3:GetMetricsConfiguration",
+				"s3:ListAllMyBuckets"
             ],
             "Resource": "*"
         },
         {
             "Sid": "storages3writes3",
             "Effect": "Allow",
-            "Action": [
-                "s3:PutMetricsConfiguration",
-                "s3:PutIntelligentTieringConfiguration",
-                "s3:PutLifecycleConfiguration"
+            "Action": [	
+				"s3:PutIntelligentTieringConfiguration",
+				"s3:PutLifecycleConfiguration",
+				"s3:PutMetricsConfiguration"
             ],
             "Resource": "*"
-        },
-        {
-          "Effect": "Deny",
-          "Action": [
-            "s3:GetObject",
-            "s3:GetObjectVersion",
-            "s3:GetObjectAcl",
-            "s3:GetObjectTagging"
-          ],
-          "Resource": "*"
-        }  
+        }
     ]
 }
