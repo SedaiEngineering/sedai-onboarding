@@ -5,21 +5,24 @@
             "Sid": "commonreadcloudwatch",
             "Effect": "Allow",
             "Action": [
-                "cloudwatch:Describe*",
-                "cloudwatch:Get*",
-                "cloudwatch:List*",
-                "cloudtrail:LookupEvents"
+				"cloudwatch:DescribeAlarms",
+				"cloudwatch:GetMetricData",
+				"cloudwatch:ListMetrics",
+				"cloudtrail:LookupEvents"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "commonreadcodedeploy",
+            "Sid": "commonreadlogs",
             "Effect": "Allow",
             "Action": [
-				"codedeploy:GetDeploymentGroup",
-				"codedeploy:GetApplicationRevision",
-				"codedeploy:GetDeployment",
-				"codedeploy:GetDeploymentConfig"
+				"logs:DescribeLogGroups",
+				"logs:FilterLogEvents",
+				"logs:GetLogEvents",
+				"logs:GetQueryResults",
+				"logs:StartQuery",
+				"logs:StopQuery",
+				"logs:TestMetricFilter"
             ],
             "Resource": "*"
         },
@@ -28,19 +31,6 @@
             "Effect": "Allow",
             "Action": [
                 "tag:GetResources"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonreadlogs",
-            "Effect": "Allow",
-            "Action": [
-                "logs:List*",
-                "logs:Describe*",
-                "logs:StartQuery",
-                "logs:StopQuery",
-                "logs:TestMetricFilter",
-                "logs:GetQueryResults"
             ],
             "Resource": "*"
         }

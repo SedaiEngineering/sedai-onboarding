@@ -5,7 +5,11 @@
             "Sid": "ec2instancereadautoscaling",
             "Effect": "Allow",
             "Action": [
-                "autoscaling:Describe*"
+				"autoscaling:DescribeAutoScaling*",
+				"autoscaling:DescribeInstanceRefreshes",
+				"autoscaling:DescribeLaunchConfigurations",
+				"autoscaling:DescribePolicies",
+				"autoscaling:DescribeScalingActivities"
             ],
             "Resource": "*"
         },
@@ -13,46 +17,58 @@
             "Sid": "ec2instancereadec2",
             "Effect": "Allow",
             "Action": [
-                "ec2:Describe*",
-                "ec2:Search*",
-                "ec2:Get*"
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeInstanceStatus",
+				"ec2:DescribeInstanceType*",
+				"ec2:DescribeInstances",
+				"ec2:DescribeLaunchTemplate*",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRegions",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeTags",
+				"ec2:DescribeVolumes*",
+				"ec2:DescribeVpcs"
             ],
             "Resource": "*"
+        },
+        {
+            "Sid": "ec2instancereadelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+				"elasticloadbalancing:DescribeInstanceHealth",
+				"elasticloadbalancing:DescribeListeners",
+				"elasticloadbalancing:DescribeLoadBalancers",
+				"elasticloadbalancing:DescribeTags",
+				"elasticloadbalancing:DescribeTarget*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ec2instancewriteautoscaling",
+            "Effect": "Allow",
+            "Action":[
+                "autoscaling:CreateAutoScalingGroup",
+				"autoscaling:CreateLaunchConfiguration",
+				"autoscaling:DeleteAutoScalingGroup",
+				"autoscaling:DeleteLaunchConfiguration",
+				"autoscaling:PutScalingPolicy",
+				"autoscaling:StartInstanceRefresh",
+				"autoscaling:TerminateInstanceInAutoScalingGroup",
+				"autoscaling:UpdateAutoScalingGroup"
+            ]
         },
         {
             "Sid": "ec2instancewritec2",
             "Effect": "Allow",
             "Action": [
-                "ec2:StartInstances",
-                "ec2:StopInstances",
-                "ec2:ModifyInstanceAttribute"
+				"ec2:CreateLaunchTemplate*",
+				"ec2:DeleteLaunchTemplate*",
+				"ec2:ModifyInstanceAttribute",
+				"ec2:RunInstances",
+				"ec2:StartInstances",
+				"ec2:StopInstances"
             ],
             "Resource": "*"
-        },
-        {
-          "Effect": "Deny",
-          "Action": [
-            "ec2:DescribeVpnConnections",
-            "ec2:DescribeClientVpn*",
-            "ec2:DescribeAddressTransfers",
-            "ec2:DescribeCarrierGateways",
-            "ec2:DescribeClientVpn*",
-            "ec2:DescribeCoipPools",
-            "ec2:DescribeCustomerGateways",
-            "ec2:DescribeFlowLogs",
-            "ec2:DescribeIpamByoasn",
-            "ec2:DescribeIpam*",
-            "ec2:DescribeLocalGateway*",
-            "ec2:DescribeManagedPrefixLists",
-            "ec2:DescribeTrafficMirror*",
-            "ec2:DescribeTransitGateway*",
-            "ec2:DescribeTrunkInterfaceAssociations",
-            "ec2:DescribeVerifiedAccess*",
-            "ec2:DescribeVpcEndpoint*",
-            "ec2:DescribeVpcPeeringConnections",
-            "ec2:DescribeVpnGateways"
-          ],
-          "Resource": "*"
-        }  
+        }
     ]
 }

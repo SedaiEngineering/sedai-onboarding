@@ -2,29 +2,11 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "ecsreadecs",
+            "Sid": "ecsreadapplicationautoscaling",
             "Effect": "Allow",
             "Action": [
-                "ecs:Describe*",
-                "ecs:List*",
-                "ecs:DiscoverPollEndpoint"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadelasticloadbalancing",
-            "Effect": "Allow",
-            "Action": [
-                "elasticloadbalancing:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:Get*",
-                "servicediscovery:List*"
+				"application-autoscaling:DescribeScalableTargets",
+				"application-autoscaling:DescribeScaling*"
             ],
             "Resource": "*"
         },
@@ -40,24 +22,60 @@
             "Sid": "ecsreadautoscaling",
             "Effect": "Allow",
             "Action": [
-                "autoscaling:Describe*"
+				"autoscaling:DescribeAutoScaling*",
+				"autoscaling:DescribeInstanceRefreshes",
+				"autoscaling:DescribeLaunchConfigurations"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "ecsreadapplicationautoscaling",
+            "Sid": "ecsreadcodedeploy",
             "Effect": "Allow",
             "Action": [
-                "application-autoscaling:Describe*"
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment*"
             ],
             "Resource": "*"
         },
         {
-            "Sid": "ecsreadappmesh",
+            "Sid": "ecsreadecs",
             "Effect": "Allow",
             "Action": [
-                "appmesh:List*",
-                "appmesh:Describe*"
+				"ecs:DescribeC*",
+				"ecs:DescribeServices",
+				"ecs:DescribeTask*",
+				"ecs:ListC*",
+				"ecs:ListServices",
+				"ecs:ListTagsForResource",
+				"ecs:ListTask*"
+            ],
+            "Resource": "*"
+        },       
+        {
+            "Sid": "ecsreadec2",
+            "Effect": "Allow",
+            "Action": [
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeInstanceType*",
+				"ec2:DescribeInstances",
+				"ec2:DescribeLaunchTemplate*",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRegions",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeTags",
+				"ec2:DescribeVpcs"
+            ],
+            "Resource": "*"
+        }, 
+        {
+            "Sid": "ecsreadelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+				"elasticloadbalancing:DescribeInstanceHealth",
+				"elasticloadbalancing:DescribeListeners",
+				"elasticloadbalancing:DescribeLoadBalancers",
+				"elasticloadbalancing:DescribeTags",
+				"elasticloadbalancing:DescribeTarget*"
             ],
             "Resource": "*"
         },
@@ -100,49 +118,13 @@
             }
         },
         {
-            "Sid": "ecswriteecs",
+            "Sid": "ecswriteapplicationautoscaling",
             "Effect": "Allow",
             "Action": [
-                "ecs:CreateCapacityProvider",
-                "ecs:CreateService",
-                "ecs:CreateTaskSet",
-                "ecs:DeleteCapacityProvider",
-                "ecs:Deregister*",
-                "ecs:ExecuteCommand",
-                "ecs:Poll",
-                "ecs:Put*",
-                "ecs:Register*",
-                "ecs:RunTask",
-                "ecs:Start*",
-                "ecs:StopTask",
-                "ecs:Submit*",
-                "ecs:TagResource",
-                "ecs:UntagResource",
-                "ecs:Update*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecswriteservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:CreatePrivateDnsNamespace",
-                "servicediscovery:CreateService",
-                "servicediscovery:UpdateService"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecswriteelasticloadbalancing",
-            "Effect": "Allow",
-            "Action": [
-                "elasticloadbalancing:CreateRule",
-                "elasticloadbalancing:CreateTargetGroup",
-                "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-                "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-                "elasticloadbalancing:DeregisterTargets",
-                "elasticloadbalancing:RegisterTargets",
-                "elasticloadbalancing:AddTags"
+                "application-autoscaling:DeleteScalingPolicy",
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:RegisterScalableTarget"
             ],
             "Resource": "*"
         },
@@ -162,13 +144,32 @@
             "Resource": "*"
         },
         {
-            "Sid": "ecswriteapplicationautoscaling",
+            "Sid": "ecswritecodedeploy",
             "Effect": "Allow",
             "Action": [
-                "application-autoscaling:DeleteScalingPolicy",
-                "application-autoscaling:DeregisterScalableTarget",
-                "application-autoscaling:PutScalingPolicy",
-                "application-autoscaling:RegisterScalableTarget"
+				"codedeploy:CreateDeployment",
+				"codedeploy:RegisterApplicationRevision"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecswriteecs",
+            "Effect": "Allow",
+            "Action": [
+                "ecs:CreateCapacityProvider",
+				"ecs:DeleteCapacityProvider",
+				"ecs:DeregisterTaskDefinition",
+				"ecs:PutClusterCapacityProviders",
+				"ecs:RegisterTaskDefinition",
+				"ecs:RunTask",
+				"ecs:StartTask",
+				"ecs:StopTask",
+				"ecs:TagResource",
+				"ecs:UntagResource",
+				"ecs:UpdateCapacityProvider",
+				"ecs:UpdateCluster",
+				"ecs:UpdateContainerInstancesState",
+				"ecs:UpdateService"
             ],
             "Resource": "*"
         },
@@ -176,11 +177,22 @@
             "Sid": "ecswriteec2",
             "Effect": "Allow",
             "Action": [
-                "ec2:CreateLaunchTemplateVersion",
-		"ec2:DeleteLaunchTemplateVersions",
-		"ec2:CreateLaunchTemplate",
-		"ec2:DeleteLaunchTemplate",
-		"ec2:RunInstances"
+				"ec2:CreateLaunchTemplate*",
+				"ec2:DeleteLaunchTemplate*",
+                "ec2:RunInstances"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecswriteelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+                "elasticloadbalancing:CreateTargetGroup",
+                "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+                "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+                "elasticloadbalancing:DeregisterTargets",
+                "elasticloadbalancing:RegisterTargets",
+                "elasticloadbalancing:AddTags"
             ],
             "Resource": "*"
         }

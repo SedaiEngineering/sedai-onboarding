@@ -1,0 +1,45 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{   
+            "Sid": "dynamodbRead",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:DescribeGlobalTable*",
+				"dynamodb:DescribeTable*",
+				"dynamodb:ListGlobalTables",
+				"dynamodb:ListTables",
+				"dynamodb:ListTagsOfResource"
+			],
+			"Resource": "*"
+		},
+        {
+            "Sid": "dynamodbReadApplicationAutoscaling",
+			"Effect": "Allow",
+			"Action": [
+				"application-autoscaling:DescribeScalableTargets",
+				"application-autoscaling:DescribeScalingPolicies"
+			],
+			"Resource": "*"
+		},
+        {   
+            "Sid": "dynamodbWrite",
+			"Effect": "Allow",
+			"Action": [
+				"dynamodb:UpdateTable*",
+				"dynamodb:UpdateGlobalTable*"
+			],
+			"Resource": "*"
+		},
+        {   
+            "Sid": "dynamodbWriteApplicationAutoScaling",
+			"Effect": "Allow",
+			"Action": [
+                "application-autoscaling:DeregisterScalableTarget",
+                "application-autoscaling:PutScalingPolicy",
+                "application-autoscaling:RegisterScalableTarget"
+			],
+			"Resource": "*"
+		}
+    ]
+}

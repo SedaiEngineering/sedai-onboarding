@@ -2,53 +2,11 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "ecsreadecs",
-            "Effect": "Allow",
-            "Action": [
-                "ecs:Describe*",
-                "ecs:List*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadelasticloadbalancing",
-            "Effect": "Allow",
-            "Action": [
-                "elasticloadbalancing:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadservicediscovery",
-            "Effect": "Allow",
-            "Action": [
-                "servicediscovery:Get*",
-                "servicediscovery:List*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadautoscaling",
-            "Effect": "Allow",
-            "Action": [
-                "autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "ecsreadapplicationautoscaling",
             "Effect": "Allow",
             "Action": [
-                "application-autoscaling:Describe*"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "ecsreadappmesh",
-            "Effect": "Allow",
-            "Action": [
-                "appmesh:List*",
-                "appmesh:Describe*"
+				"application-autoscaling:DescribeScalableTargets",
+				"application-autoscaling:DescribeScaling*"
             ],
             "Resource": "*"
         },
@@ -57,6 +15,67 @@
             "Effect": "Allow",
             "Action": [
                 "apigateway:GET"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadautoscaling",
+            "Effect": "Allow",
+            "Action": [
+				"autoscaling:DescribeAutoScaling*",
+				"autoscaling:DescribeInstanceRefreshes",
+				"autoscaling:DescribeLaunchConfigurations"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadcodedeploy",
+            "Effect": "Allow",
+            "Action": [
+				"codedeploy:GetApplicationRevision",
+				"codedeploy:GetDeployment*"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "ecsreadecs",
+            "Effect": "Allow",
+            "Action": [
+				"ecs:DescribeC*",
+				"ecs:DescribeServices",
+				"ecs:DescribeTask*",
+				"ecs:ListC*",
+				"ecs:ListServices",
+				"ecs:ListTagsForResource",
+				"ecs:ListTask*"
+            ],
+            "Resource": "*"
+        },       
+        {
+            "Sid": "ecsreadec2",
+            "Effect": "Allow",
+            "Action": [
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeInstanceType*",
+				"ec2:DescribeInstances",
+				"ec2:DescribeLaunchTemplate*",
+				"ec2:DescribeNetworkInterfaces",
+				"ec2:DescribeRegions",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeTags",
+				"ec2:DescribeVpcs"
+            ],
+            "Resource": "*"
+        }, 
+        {
+            "Sid": "ecsreadelasticloadbalancing",
+            "Effect": "Allow",
+            "Action": [
+				"elasticloadbalancing:DescribeInstanceHealth",
+				"elasticloadbalancing:DescribeListeners",
+				"elasticloadbalancing:DescribeLoadBalancers",
+				"elasticloadbalancing:DescribeTags",
+				"elasticloadbalancing:DescribeTarget*"
             ],
             "Resource": "*"
         }

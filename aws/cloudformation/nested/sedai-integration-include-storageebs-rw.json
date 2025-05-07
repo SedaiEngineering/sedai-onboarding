@@ -2,12 +2,10 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "storageebsreadec2",
+            "Sid": "storageebsrwec2",
             "Effect": "Allow",
             "Action": [
-                "ec2:Describe*",
-                "ec2:Search*",
-                "ec2:Get*",
+                "ec2:DescribeVolumes*",
                 "ec2:DeleteVolume",
                 "ec2:ModifyVolume"
             ],

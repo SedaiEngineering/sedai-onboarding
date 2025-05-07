@@ -4,18 +4,19 @@
 		{
 			"Sid": "lambdareadlambda",
 			"Effect": "Allow",
-			"Action": ["lambda:Get*", "lambda:List*"],
-			"Resource": "*"
-		},
-		{
-			"Sid": "lambdareadapplicationautoscaling",
-			"Effect": "Allow",
-			"Action": ["application-autoscaling:Describe*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["dynamodb:List*", "dynamodb:Describe*"],
+			"Action": [
+				"lambda:GetAccountSettings",
+				"lambda:GetAlias",
+				"lambda:GetFunction*",
+				"lambda:GetLayerVersion",
+				"lambda:GetPolicy",
+				"lambda:GetProvisionedConcurrencyConfig",
+				"lambda:ListAliases",
+				"lambda:ListFunctions",
+				"lambda:ListProvisionedConcurrencyConfigs",
+				"lambda:ListTags",
+				"lambda:ListVersionsByFunction"
+			],
 			"Resource": "*"
 		}
 	]
