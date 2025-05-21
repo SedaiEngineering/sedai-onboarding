@@ -13,7 +13,7 @@ Metadata:
           - ReadOnly
           - LambdaRequired
           - ECSRequired
-          - KubernetesRequired
+          - DynamoDBRequired
           - EC2InstanceRequired
           - S3StorageRequired
           - EBSStorageRequired
@@ -28,8 +28,8 @@ Metadata:
         default: "Allow Sedai permissions to access Lambda workloads?"
       ECSRequired:
         default: "Allow Sedai permissions to access ECS workloads?"
-      KubernetesRequired:
-        default: "Allow Sedai permissions to access Kubernetes workloads?"
+      DynamoDBRequired:
+        default: "Allow Sedai permissions to access DynamoDB workloads?"
       EC2InstanceRequired:
         default: "Allow Sedai permissions to access EC2 instance workloads?"
       S3StorageRequired:
@@ -65,9 +65,9 @@ Parameters:
     AllowedValues: 
       - "Yes" 
       - "No"
-  KubernetesRequired: 
+  DynamoDBRequired: 
     Type: String 
-    Description: "Select 'Yes' to allow Kubernetes resource access. If 'ReadOnly' is 'Yes', Sedai will not optimize EKS workloads." 
+    Description: "Select 'Yes' to allow DynamoDB resource access. If 'ReadOnly' is 'Yes', Sedai will not optimize DynamoDB workloads." 
     Default: "No" 
     AllowedValues: 
       - "Yes" 
@@ -112,9 +112,9 @@ Mappings:
     ECS:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ecs-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ecs-rw.json"
-    Kubernetes:
-      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-r.json"
-      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-kubernetes-rw.json"
+    DynamoDB:
+      "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-r.json"
+      "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-dynamodb-rw.json"
     EC2Instance:
       "Yes": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ec2instance-r.json"
       "No": "s3://sedai-onboarding-templates-prod/nested/sedai-integration-include-ec2instance-rw.json"
@@ -133,7 +133,7 @@ Conditions:
   IsReadOnly: !Equals [!Ref ReadOnly, "Yes"]
   IsLambdaRequired: !Equals [!Ref LambdaRequired, "Yes"]
   IsECSRequired: !Equals [!Ref ECSRequired, "Yes"]
-  IsKubernetesRequired: !Equals [!Ref KubernetesRequired, "Yes"]
+  IsDynamoDBRequired: !Equals [!Ref DynamoDBRequired, "Yes"]
   IsEC2InstanceRequired: !Equals [!Ref EC2InstanceRequired, "Yes"]
   IsS3StorageRequired: !Equals [!Ref S3StorageRequired, "Yes"]
   IsEBSStorageRequired: !Equals [!Ref EBSStorageRequired, "Yes"]
@@ -192,14 +192,14 @@ Resources:
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
-  SedaiIntegrationKubernetesPolicy:
+  SedaiIntegrationDynamoDBPolicy:
     Type: AWS::CloudFormation::Stack
-    Condition: IsKubernetesRequired
+    Condition: IsDynamoDBRequired
     Properties:
       Parameters:
         SedaiIntegrationServiceRole: !Ref SedaiIntegrationServiceRole
-        PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, Kubernetes, !Ref ReadOnly]
-        Service: kubernetes
+        PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, DynamoDB, !Ref ReadOnly]
+        Service: dynamodb
         Permission: !If [IsReadOnly, read, write]
       TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
