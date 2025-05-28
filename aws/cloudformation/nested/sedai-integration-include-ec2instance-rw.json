@@ -55,7 +55,8 @@
 				"autoscaling:StartInstanceRefresh",
 				"autoscaling:TerminateInstanceInAutoScalingGroup",
 				"autoscaling:UpdateAutoScalingGroup"
-            ]
+            ],
+            "Resource": "*"
         },
         {
             "Sid": "ec2instancewritec2",
