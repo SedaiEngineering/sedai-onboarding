@@ -25,19 +25,19 @@ Metadata:
       SedaiAccessMode:
         default: "Choose access level for Sedai"
       LambdaRequired:
-        default: "Allow Sedai to optimize AWS Lambda Functions?"
+        default: "Enable Sedai Integration for Lambda Functions?"
       ECSRequired:
-        default: "Allow Sedai to optimize ECS Clusters?"
+        default: "Enable Sedai Integration for ECS Clusters?"
       DynamoDBRequired:
-        default: "Allow Sedai to optimize DynamoDB Tables?"
+        default: "Enable Sedai Integration for DynamoDB Tables?"
       EC2InstanceRequired:
-        default: "Allow Sedai to optimize EC2 instances?"
+        default: "Enable Sedai Integration for EC2 instances?"
       S3StorageRequired:
-        default: "Allow Sedai to optimize S3 Buckets?"
+        default: "Enable Sedai Integration for S3 Buckets?"
       EBSStorageRequired:
-        default: "Allow Sedai to optimize EBS Volumes?"
+        default: "Enable Sedai Integration for EBS Volumes?"
       RDSRequired:
-        default: "Allow Sedai to optimize RDS Clusters?"
+        default: "Enable Sedai Integration for RDS Clusters?"
 
 Parameters:
   UniqueExternalId:
@@ -45,56 +45,56 @@ Parameters:
     Description: "Leave this blank to auto-generate a unique ID like ext-{AWSAccountID} (recommended)."
   SedaiAccessMode:
     Type: String
-    Description: "Choose access level. Select 'SedaiReadOnly' to let Sedai discover your AWS services, or 'SedaiReadWrite' to let Sedai discover and optimize them."
+    Description: "Choose access level. Select 'SedaiReadOnly' to let Sedai discover your AWS services, or 'SedaiReadWrite' to let Sedai discover or optimize them."
     Default: "SedaiReadOnly"
     AllowedValues:
       - "SedaiReadOnly"
       - "SedaiReadWrite"
   LambdaRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize Lambda Functions. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize Lambda Functions. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   ECSRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize ECS Clusters. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize ECS Clusters. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   DynamoDBRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize DynamoDB Tables. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize DynamoDB Tables. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   EC2InstanceRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize EC2 Instances. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize EC2 Instances. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   S3StorageRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize S3 Buckets. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize S3 Buckets. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   EBSStorageRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize EBS Volumes. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize EBS Volumes. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
       - "No"
   RDSRequired:
     Type: String
-    Description: "Select 'Yes' to allow Sedai to discover and optimize RDS Clusters. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
+    Description: "Select 'Yes' to allow Sedai to discover or optimize RDS Clusters. If 'SedaiAccessMode' is set to 'SedaiReadOnly', Sedai will only discover them."
     Default: "No"
     AllowedValues:
       - "Yes"
@@ -248,5 +248,5 @@ Resources:
 
 Outputs:
   SedaiIntegrationServiceRole:
-    Description: "IAM Role ARN that Sedai uses to discover and optimize AWS resources"
+    Description: "IAM Role ARN that Sedai uses to discover or optimize AWS resources"
     Value: !GetAtt SedaiIntegrationServiceRole.Arn
