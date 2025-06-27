@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: IAM Role and policies for Sedai Integration - Billing Account 
+Description: IAM Role and policies for Sedai Integration - Billing Account
 Parameters:
   CURS3Bucket:
     Type: String
@@ -32,9 +32,9 @@ Resources:
             Action:
               - s3:Get*
               - s3:List*
-            Resource: 
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
-              - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
+            Resource:
+              - Fn::Sub: "arn:${AWS::Partition}:s3:::${CURS3Bucket}"
+              - Fn::Sub: "arn:${AWS::Partition}:s3:::${CURS3Bucket}/*"
           - Effect: Allow
             Action:
               - savingplans:DescribeSavingsPlans
@@ -50,6 +50,6 @@ Resources:
           - Effect: Allow
             Action:
               - savingsplans:DescribeSavingsPlans
-            Resource: "*"            
+            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
