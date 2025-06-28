@@ -47,9 +47,5 @@ Resources:
               - ce:GetSavingsPlansUtilization
               - ce:GetSavingsPlansUtilizationDetails
             Resource: "*"
-          - Effect: Allow
-            Action:
-              - savingsplans:DescribeSavingsPlans
-            Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
