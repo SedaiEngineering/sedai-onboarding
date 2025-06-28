@@ -4,27 +4,16 @@
 		{
 			"Effect": "Allow",
 			"Action": [
-				"pricing:DescribeServices",
-				"pricing:GetAttributeValues",
-				"pricing:GetProducts",
-				"pricing:GetPriceListFileUrl",
-				"pricing:ListPriceLists"
+				"savingplans:DescribeSavingsPlans",
+				"ce:GetReservationCoverage",
+				"ce:GetReservationPurchaseRecommendation",
+				"ce:GetReservationUtilization",
+				"ce:GetSavingsPlanPurchaseRecommendationDetails",
+				"ce:GetSavingsPlansCoverage",
+				"ce:GetSavingsPlansPurchaseRecommendation",
+				"ce:GetSavingsPlansUtilization",
+				"ce:GetSavingsPlansUtilizationDetails"
 			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["cur:DescribeReportDefinitions", "cur:GetUsage*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["ce:GetCost*", "ce:DescribeCost*", "ce:List*", "ce:GetReservation*", "ce:GetSavings*"],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["purchase-orders:Get*", "purchase-orders:List*"],
 			"Resource": "*"
 		}
 	]
