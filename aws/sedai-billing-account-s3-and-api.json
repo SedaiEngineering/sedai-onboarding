@@ -16,7 +16,7 @@
 		{
 			"Effect": "Allow",
 			"Action": [
-				"savingplans:DescribeSavingsPlans",
+				"savingsplans:DescribeSavingsPlans",
 				"ce:GetReservationCoverage",
 				"ce:GetReservationPurchaseRecommendation",
 				"ce:GetReservationUtilization",
