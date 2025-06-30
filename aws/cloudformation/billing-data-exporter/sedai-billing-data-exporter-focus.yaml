@@ -21,7 +21,7 @@ Resources:
         Rules:
           - Id: Object&Version Expiration
             Status: Enabled
-            NoncurrentVersionExpirationInDays: 32 # 1 month 
+            NoncurrentVersionExpirationInDays: 32 # 1 month
 
   CURS3BucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
@@ -37,10 +37,10 @@ Resources:
           - Sid: AllowBilling
             Effect: Allow
             Principal:
-              Service: 
+              Service:
               - "billingreports.amazonaws.com"
               - "bcm-data-exports.amazonaws.com"
-                
+
             Action:
                 - "s3:PutObject"
                 - "s3:GetBucketPolicy"
@@ -68,7 +68,7 @@ Resources:
             Action:
               - sts:AssumeRole
       Path: "/"
-      
+
   SedaiIntegrationBillingAccountPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
@@ -80,42 +80,24 @@ Resources:
             Action:
             - s3:Get*
             - s3:List*
-            Resource: 
+            Resource:
               - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}'
               - Fn::Sub: 'arn:${AWS::Partition}:s3:::${CURS3Bucket}/*'
           - Effect: Allow
             Action:
-            - pricing:DescribeServices
-            - pricing:GetAttributeValues
-            - pricing:GetProducts
-            - pricing:GetPriceListFileUrl
-            - pricing:ListPriceLists
+              - savingplans:DescribeSavingsPlans
+              - ce:GetReservationCoverage
+              - ce:GetReservationPurchaseRecommendation
+              - ce:GetReservationUtilization
+              - ce:GetSavingsPlanPurchaseRecommendationDetails
+              - ce:GetSavingsPlansCoverage
+              - ce:GetSavingsPlansPurchaseRecommendation
+              - ce:GetSavingsPlansUtilization
+              - ce:GetSavingsPlansUtilizationDetails
             Resource: "*"
-          - Effect: Allow
-            Action:
-            - cur:DescribeReportDefinitions
-            - cur:GetUsage*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - ce:GetCost*
-            - ce:DescribeCost*
-            - ce:List*
-            - ce:GetReservation*
-            - ce:GetSavings*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - purchase-orders:Get*
-            - purchase-orders:List*
-            Resource: "*"
-          - Effect: Allow
-            Action:
-            - savingsplans:DescribeSavingsPlans
-            Resource: "*" 
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
-            
+
   CostUsageExport:
     Type: AWS::BCMDataExports::Export
     DependsOn: CURS3BucketPolicy
