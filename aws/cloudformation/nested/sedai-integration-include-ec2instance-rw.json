@@ -17,6 +17,7 @@
             "Sid": "ec2instancereadec2",
             "Effect": "Allow",
             "Action": [
+				"ec2:DescribeAddresses",
 				"ec2:DescribeAvailabilityZones",
 				"ec2:DescribeInstanceStatus",
 				"ec2:DescribeInstanceType*",

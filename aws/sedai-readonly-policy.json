@@ -70,6 +70,7 @@
 		{
 			"Effect": "Allow",
 			"Action": [
+				"ec2:DescribeAddresses",
 				"ec2:DescribeAvailabilityZones",
 				"ec2:DescribeInstanceStatus",
 				"ec2:DescribeInstanceType*",
