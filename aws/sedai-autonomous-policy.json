@@ -131,7 +131,8 @@
 				"ec2:ModifyVolume",
 				"ec2:RunInstances",
 				"ec2:StartInstances",
-				"ec2:StopInstances"
+				"ec2:StopInstances",
+				"ec2:DescribeAddresses"
 			],
 			"Resource": "*"
 		},
