@@ -113,6 +113,7 @@
 		{
 			"Effect": "Allow",
 			"Action": [
+				"ec2:DescribeAddresses",
 				"ec2:DescribeAvailabilityZones",
 				"ec2:DescribeInstanceStatus",
 				"ec2:DescribeInstanceType*",
@@ -131,8 +132,7 @@
 				"ec2:ModifyVolume",
 				"ec2:RunInstances",
 				"ec2:StartInstances",
-				"ec2:StopInstances",
-				"ec2:DescribeAddresses"
+				"ec2:StopInstances"
 			],
 			"Resource": "*"
 		},
