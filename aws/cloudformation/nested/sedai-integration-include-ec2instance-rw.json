@@ -27,7 +27,8 @@
 				"ec2:DescribeSubnets",
 				"ec2:DescribeTags",
 				"ec2:DescribeVolumes*",
-				"ec2:DescribeVpcs"
+				"ec2:DescribeVpcs",
+		    		"ec2:DescribeAddresses"
             ],
             "Resource": "*"
         },
