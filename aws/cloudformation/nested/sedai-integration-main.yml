@@ -167,7 +167,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, Common, !Ref SedaiAccessMode]
         Service: common
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationLambdaPolicy:
     Type: AWS::CloudFormation::Stack
@@ -178,7 +178,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, Lambda, !Ref SedaiAccessMode]
         Service: lambda
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationECSPolicy:
     Type: AWS::CloudFormation::Stack
@@ -222,7 +222,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, S3Storage, !Ref SedaiAccessMode]
         Service: s3
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationEBSPolicy:
     Type: AWS::CloudFormation::Stack
@@ -233,7 +233,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, EBSStorage, !Ref SedaiAccessMode]
         Service: ebs
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
   SedaiIntegrationRDSPolicy:
     Type: AWS::CloudFormation::Stack
@@ -244,7 +244,7 @@ Resources:
         PolicyIncludeLocation: !FindInMap [PolicyReadOnlyMap, RDS, !Ref SedaiAccessMode]
         Service: rds
         Permission: !If [IsReadOnly, read, write]
-      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-managedpolicy.yml"
+      TemplateURL: "https://sedai-onboarding-templates-prod.s3.amazonaws.com/nested/sedai-integration-nested-inlinepolicy.yml"
 
 Outputs:
   SedaiIntegrationServiceRole:
