@@ -9,7 +9,8 @@
 				"autoscaling:DescribeInstanceRefreshes",
 				"autoscaling:DescribeLaunchConfigurations",
 				"autoscaling:DescribePolicies",
-				"autoscaling:DescribeScalingActivities"
+				"autoscaling:DescribeScalingActivities",
+                "autoscaling:DescribeTags"
             ],
             "Resource": "*"
         },

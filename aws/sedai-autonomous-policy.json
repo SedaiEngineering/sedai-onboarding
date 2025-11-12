@@ -33,7 +33,8 @@
 				"autoscaling:PutScalingPolicy",
 				"autoscaling:StartInstanceRefresh",
 				"autoscaling:TerminateInstanceInAutoScalingGroup",
-				"autoscaling:UpdateAutoScalingGroup"
+				"autoscaling:UpdateAutoScalingGroup",
+				"autoscaling:DescribeTags"
 			],
 			"Resource": "*"
 		},
