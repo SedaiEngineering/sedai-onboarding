@@ -16,8 +16,7 @@ on:
 jobs:
   build:
     name: Push yamls
-    runs-on: self-hosted
-
+    runs-on: sedai-arc-onboarding-s3
 # Initialization
 
     steps:
