@@ -45,6 +45,14 @@
             ],
             "Resource": "*"
         },
+		{
+			"Sid": "ec2instancereadkms",
+			"Effect": "Allow",
+			"Action": [
+				"kms:DescribeKey"
+			],
+			"Resource": "*"
+		},
         {
             "Sid": "ec2instancewriteautoscaling",
             "Effect": "Allow",
