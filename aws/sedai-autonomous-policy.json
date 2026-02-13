@@ -272,6 +272,13 @@
 		},
 		{
 			"Effect": "Allow",
+			"Action": [
+				"kms:DescribeKey"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
 			"Action": ["tag:GetResources"],
 			"Resource": "*"
 		}
