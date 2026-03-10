@@ -5,7 +5,8 @@
             "Sid": "storageebsreadec2",
             "Effect": "Allow",
             "Action": [
-                "ec2:DescribeVolumes*"
+                "ec2:DescribeVolumes*",
+                "ec2:DescribeSnapshots"
             ],
             "Resource": "*"
         }
