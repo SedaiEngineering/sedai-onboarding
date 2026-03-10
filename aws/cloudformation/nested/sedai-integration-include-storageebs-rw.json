@@ -7,7 +7,11 @@
             "Action": [
                 "ec2:DescribeVolumes*",
                 "ec2:DeleteVolume",
-                "ec2:ModifyVolume"
+                "ec2:ModifyVolume",
+                "ec2:CreateSnapshot",
+                "ec2:DeleteSnapshot",
+                "ec2:DescribeSnapshots",
+                "ec2:CreateTags"
             ],
             "Resource": "*"
         }
