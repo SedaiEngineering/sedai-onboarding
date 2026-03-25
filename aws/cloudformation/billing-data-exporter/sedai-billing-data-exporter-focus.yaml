@@ -94,6 +94,7 @@ Resources:
               - ce:GetSavingsPlansPurchaseRecommendation
               - ce:GetSavingsPlansUtilization
               - ce:GetSavingsPlansUtilizationDetails
+              - organizations:ListAccounts
             Resource: "*"
       Roles:
         - Ref: "SedaiIntegrationBillingAccountRole"
