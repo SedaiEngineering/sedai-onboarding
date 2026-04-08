@@ -24,7 +24,8 @@
 				"ce:GetSavingsPlansCoverage",
 				"ce:GetSavingsPlansPurchaseRecommendation",
 				"ce:GetSavingsPlansUtilization",
-				"ce:GetSavingsPlansUtilizationDetails"
+				"ce:GetSavingsPlansUtilizationDetails",
+				"organizations:ListAccounts"
 			],
 			"Resource": "*"
 		}
