@@ -238,19 +238,6 @@
 		{
 			"Effect": "Allow",
 			"Action": [
-				"logs:DescribeLogGroups",
-				"logs:FilterLogEvents",
-				"logs:GetLogEvents",
-				"logs:GetQueryResults",
-				"logs:StartQuery",
-				"logs:StopQuery",
-				"logs:TestMetricFilter"
-			],
-			"Resource": "*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": [
 				"rds:DescribeDBClusters",
 				"rds:DescribeDBInstances",
 				"rds:DescribeEvents",

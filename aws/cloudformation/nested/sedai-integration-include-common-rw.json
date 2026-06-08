@@ -21,20 +21,6 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadlogs",
-            "Effect": "Allow",
-            "Action": [
-				"logs:DescribeLogGroups",
-				"logs:FilterLogEvents",
-				"logs:GetLogEvents",
-				"logs:GetQueryResults",
-				"logs:StartQuery",
-				"logs:StopQuery",
-				"logs:TestMetricFilter"
-            ],
-            "Resource": "*"
-        },
-        {
             "Sid": "commonreadtag",
             "Effect": "Allow",
             "Action": [

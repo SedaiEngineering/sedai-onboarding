@@ -41,22 +41,6 @@
 		},
 		{
 			"Effect": "Allow",
-			"Action": [
-				"logs:List*",
-				"logs:Describe*",
-				"logs:StopQuery",
-				"logs:TestMetricFilter",
-				"logs:GetQueryResults"
-			],
-			"Resource": "arn:aws:logs:*:*:log-group:*:log-stream:*"
-		},
-		{
-			"Effect": "Allow",
-			"Action": ["logs:StartQuery", "logs:FilterLogEvents"],
-			"Resource": "arn:aws:logs:*:*:log-group:/aws/lambda/*"
-		},
-		{
-			"Effect": "Allow",
 			"Action": ["ecs:List*", "ecs:Describe*"],
 			"Resource": ["*"]
 		},
