@@ -39,6 +39,7 @@
     "Microsoft.Storage/storageAccounts/read"
   ],
   "NotActions": [
+    "Microsoft.Storage/storageAccounts/listKeys/action",
     "Microsoft.Compute/virtualMachines/delete",
     "Microsoft.Compute/virtualMachineScaleSets/delete",
     "Microsoft.Compute/availabilitySets/delete",
