@@ -119,8 +119,9 @@ def merge_statements(mapping, mode_key):
     for service in ordered_services(mapping):
         entry = mapping.get(service)
         if not entry or mode_key not in entry:
-            print(f"  ! {service}: no {mode_key} entry, skipping")
-            continue
+            sys.exit(f"error: service '{service}' in PolicyReadOnlyMap has no "
+                     f"'{mode_key}' entry -- refusing to silently drop it; "
+                     f"fix the mapping in {os.path.basename(MAIN_TEMPLATE)}")
         path = include_path_for(entry[mode_key])
         if not os.path.isfile(path):
             sys.exit(f"error: include file not found: {path}")
@@ -133,12 +134,33 @@ def merge_statements(mapping, mode_key):
             sid = stmt.get("Sid")
             if sid is not None:
                 if sid in sids and sids[sid] != blob:
-                    print(f"  ! Sid collision '{sid}' across services "
-                          f"(differing content) -- both kept, fix upstream")
+                    sys.exit(f"error: duplicate Sid '{sid}' with differing content "
+                             f"across includes -- CloudFormation rejects duplicate "
+                             f"Sids in one policy document; rename or fix upstream")
                 sids[sid] = blob
             seen.append(blob)
             statements.append(stmt)
     return statements
+
+
+def verify_written(dest, expected_count):
+    """Re-parse the written file and confirm it has the expected shape and size.
+
+    Guards against a template that was written but is malformed or truncated --
+    we would rather fail the build than publish a broken policy.
+    """
+    try:
+        with open(dest) as fh:
+            doc = yaml.load(fh, Loader=_CfnLoader)
+        stmts = (doc["Resources"]["SedaiIntegrationServiceRole"]
+                 ["Properties"]["Policies"][0]["PolicyDocument"]["Statement"])
+    except Exception as exc:
+        sys.exit(f"error: {dest} failed post-write verification -- could not parse "
+                 f"the expected role/policy shape: {exc}")
+    if not isinstance(stmts, list) or len(stmts) != expected_count:
+        got = len(stmts) if isinstance(stmts, list) else "non-list"
+        sys.exit(f"error: {dest} has {got} statements after write, "
+                 f"expected {expected_count}")
 
 
 def render_statements_yaml(statements, indent):
@@ -201,19 +223,26 @@ def main():
     for mode, (mode_key, filename) in MODES.items():
         print(f"[{mode}] merging {mode_key} includes:")
         statements = merge_statements(mapping, mode_key)
+        if not statements:
+            sys.exit(f"error: [{mode}] produced no statements -- check "
+                     f"PolicyReadOnlyMap and the include files")
+        size = len(json.dumps(
+            {"Version": "2012-10-17", "Statement": statements},
+            separators=(",", ":")))
+        if size > INLINE_POLICY_LIMIT:
+            sys.exit(f"error: [{mode}] inline policy is {size} chars, over the "
+                     f"{INLINE_POLICY_LIMIT}-char IAM inline-policy limit -- "
+                     f"split into multiple policies")
         template = build_template(statements, mode)
         dest = os.path.join(out, filename)
         with open(dest, "w") as fh:
             fh.write(template)
-        size = len(json.dumps(
-            {"Version": "2012-10-17", "Statement": statements},
-            separators=(",", ":")))
+        verify_written(dest, len(statements))
         print(f"  -> {dest}  ({len(statements)} statements, "
               f"policy {size} chars, {round(100 * size / INLINE_POLICY_LIMIT)}% "
-              f"of the {INLINE_POLICY_LIMIT}-char inline limit)")
-        if size > INLINE_POLICY_LIMIT:
-            print(f"  !! WARNING: inline policy exceeds {INLINE_POLICY_LIMIT} chars -- "
-                  f"deployment will fail; split into multiple policies")
+              f"of the {INLINE_POLICY_LIMIT}-char inline limit)  [verified]")
+
+    print("OK: all StackSet templates generated and verified.")
 
 
 if __name__ == "__main__":

@@ -40,10 +40,24 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
     
       
-      - name: Generate StackSet templates
+      - name: Generate and validate StackSet templates
         run: |
-          python3 -m pip install --quiet --user pyyaml
+          set -euo pipefail
+          python3 -m pip install --quiet --user pyyaml cfn-lint
+          export PATH="$(python3 -m site --user-base)/bin:$PATH"
+
+          # Generate (the script exits non-zero on any policy/source problem).
           python3 aws/cloudformation/stacksets/generate_stackset_templates.py
+
+          # Fail if either template is missing or empty.
+          ro=aws/cloudformation/stacksets/iam-role-template-ro.yaml
+          rw=aws/cloudformation/stacksets/iam-role-template-rw.yaml
+          test -s "$ro" || { echo "::error::$ro was not generated"; exit 1; }
+          test -s "$rw" || { echo "::error::$rw was not generated"; exit 1; }
+
+          # Fail if the generated CloudFormation is invalid.
+          cfn-lint "$ro" "$rw"
+          echo "StackSet templates generated and validated."
 
       - name: Push to S3 bucket
         run: |
