@@ -140,7 +140,7 @@
 			"Effect": "Allow",
 			"Action": [
 				"kms:DescribeKey",
-				"kms:GetKeyPolicy",
+				"kms:GetKeyPolicy"
 			],
 			"Resource": "*"
 		},
