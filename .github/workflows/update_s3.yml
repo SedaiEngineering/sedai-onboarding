@@ -12,6 +12,7 @@ on:
       - 'eks/**clusterrole.yaml'
       - 'aws/cloudformation/nested-v2/**.json'
       - 'aws/cloudformation/billing-data-exporter/**.yaml'
+      - 'aws/cloudformation/stacksets/**.py'
 
 jobs:
   build:
@@ -39,6 +40,11 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
     
       
+      - name: Generate StackSet templates
+        run: |
+          python3 -m pip install --quiet --user pyyaml
+          python3 aws/cloudformation/stacksets/generate_stackset_templates.py
+
       - name: Push to S3 bucket
         run: |
           aws s3 cp aws/cloudformation/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*.yml" --include "*.yaml" --include "nested/*.json" --recursive
