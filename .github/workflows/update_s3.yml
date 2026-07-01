@@ -40,18 +40,22 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
     
       
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
       - name: Generate and validate StackSet templates
         run: |
           set -euo pipefail
 
-          # Isolated venv avoids PEP-668 "externally-managed" pip failures and
-          # PATH issues with --user installs.
-          python3 -m venv /tmp/stacksets-venv
-          /tmp/stacksets-venv/bin/pip install --quiet --upgrade pip
-          /tmp/stacksets-venv/bin/pip install --quiet pyyaml cfn-lint
+          # setup-python provides an isolated interpreter with pip (and no
+          # PEP-668 restriction), so plain pip installs work on any runner.
+          python -m pip install --quiet --upgrade pip
+          python -m pip install --quiet pyyaml cfn-lint
 
           # Generate (the script exits non-zero on any policy/source problem).
-          /tmp/stacksets-venv/bin/python aws/cloudformation/stacksets/generate_stackset_templates.py
+          python aws/cloudformation/stacksets/generate_stackset_templates.py
 
           # Fail if either template is missing or empty.
           ro=aws/cloudformation/stacksets/iam-role-template-ro.yaml
@@ -60,7 +64,7 @@ jobs:
           test -s "$rw" || { echo "::error::$rw was not generated"; exit 1; }
 
           # Fail if the generated CloudFormation is invalid.
-          /tmp/stacksets-venv/bin/cfn-lint "$ro" "$rw"
+          cfn-lint "$ro" "$rw"
           echo "StackSet templates generated and validated."
 
       - name: Push to S3 bucket
