@@ -12,6 +12,7 @@ on:
       - 'eks/**clusterrole.yaml'
       - 'aws/cloudformation/nested-v2/**.json'
       - 'aws/cloudformation/billing-data-exporter/**.yaml'
+      - 'aws/cloudformation/stacksets/**.py'
 
 jobs:
   build:
@@ -39,6 +40,29 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
     
       
+      - name: Generate and validate StackSet templates
+        run: |
+          set -euo pipefail
+
+          # Isolated venv avoids PEP-668 "externally-managed" pip failures and
+          # PATH issues with --user installs.
+          python3 -m venv /tmp/stacksets-venv
+          /tmp/stacksets-venv/bin/pip install --quiet --upgrade pip
+          /tmp/stacksets-venv/bin/pip install --quiet pyyaml cfn-lint
+
+          # Generate (the script exits non-zero on any policy/source problem).
+          /tmp/stacksets-venv/bin/python aws/cloudformation/stacksets/generate_stackset_templates.py
+
+          # Fail if either template is missing or empty.
+          ro=aws/cloudformation/stacksets/iam-role-template-ro.yaml
+          rw=aws/cloudformation/stacksets/iam-role-template-rw.yaml
+          test -s "$ro" || { echo "::error::$ro was not generated"; exit 1; }
+          test -s "$rw" || { echo "::error::$rw was not generated"; exit 1; }
+
+          # Fail if the generated CloudFormation is invalid.
+          /tmp/stacksets-venv/bin/cfn-lint "$ro" "$rw"
+          echo "StackSet templates generated and validated."
+
       - name: Push to S3 bucket
         run: |
           aws s3 cp aws/cloudformation/ s3://${{ secrets.S3_BUCKET }} --exclude "*" --include "*.yml" --include "*.yaml" --include "nested/*.json" --recursive
