@@ -110,8 +110,8 @@ def ordered_services(mapping):
 def merge_statements(mapping, mode_key):
     """Concatenate the Statement arrays of every service's include for a mode.
 
-    Exact-duplicate statements are dropped. Sid collisions with differing
-    content are reported (CloudFormation requires unique Sids per document).
+    Exact-duplicate statements are dropped. A Sid reused with differing content
+    aborts the build (CloudFormation requires unique Sids per policy document).
     """
     statements = []
     seen = []           # list of serialized statements, for exact-dup detection
