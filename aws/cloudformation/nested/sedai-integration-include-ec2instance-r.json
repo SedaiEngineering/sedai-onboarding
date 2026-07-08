@@ -49,7 +49,22 @@
 			"Sid": "ec2instancereadkms",
 			"Effect": "Allow",
 			"Action": [
-				"kms:DescribeKey"
+				"kms:DescribeKey",
+				"kms:GetKeyPolicy"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:SimulatePrincipalPolicy",
+                "iam:GetRole",
+                "iam:GetRolePolicy",
+                "iam:GetPolicyVersion",
+                "iam:ListRolePolicies",
+                "iam:GetPolicy",
+                "iam:ListAttachedRolePolicies",
+                "iam:SimulateCustomPolicy"
 			],
 			"Resource": "*"
 		}
