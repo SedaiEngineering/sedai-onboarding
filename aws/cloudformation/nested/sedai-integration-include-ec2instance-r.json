@@ -55,6 +55,7 @@
 			"Resource": "*"
 		},
 		{
+			"Sid": "ec2instancereadiam",
 			"Effect": "Allow",
 			"Action": [
 				"iam:SimulatePrincipalPolicy",
