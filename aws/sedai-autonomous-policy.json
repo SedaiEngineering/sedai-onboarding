@@ -226,6 +226,7 @@
 				"lambda:ListVersionsByFunction",
 				"lambda:CreateAlias",
 				"lambda:DeleteAlias",
+				"lambda:DeleteFunctionConcurrency",
 				"lambda:DeleteProvisionedConcurrencyConfig",
 				"lambda:PublishVersion",
 				"lambda:PutFunctionConcurrency",

@@ -112,9 +112,6 @@ Statement:
       - cloudwatch:Describe*
       - cloudwatch:Get*
       - cloudwatch:List*
-      - cloudwatch:Describe*
-      - cloudwatch:Get*
-      - cloudwatch:List*
       - logs:Get*
       - logs:List*
       - logs:StartQuery
@@ -170,9 +167,7 @@ Statement:
       - elasticloadbalancing:RegisterInstancesWithLoadBalancer
       - elasticloadbalancing:DeregisterTargets
       - elasticloadbalancing:DescribeTargetHealth
-      - elasticloadbalancing:DescribeTargetHealth
       - elasticloadbalancing:RegisterTargets
-      - elasticloadbalancing:DescribeTargetHealth
     Resource: '*'
   - Effect: Allow
     Action:
@@ -194,6 +189,7 @@ Statement:
       - lambda:PutFunctionConcurrency
       - lambda:PutProvisionedConcurrencyConfig
       - lambda:PublishVersion
+      - lambda:DeleteFunctionConcurrency
       - lambda:DeleteProvisionedConcurrencyConfig
     Resource: '*'
   - Effect: Allow
