@@ -1,0 +1,89 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >
+  IAM Role granting Sedai read-only access to specific S3 buckets in an AWS
+  account outside the customer's primary Sedai integration -- for example,
+  the account that S3 Storage Lens / S3 metrics exports are delivered to
+  when that account is different from the account Sedai already monitors.
+  Deploy this stack IN THE ACCOUNT THAT OWNS THE BUCKET(S), not in the
+  primary monitored account.
+
+Parameters:
+  BucketName1:
+    Type: String
+    Description: Name of the S3 bucket Sedai needs read access to (e.g. the Storage Lens metrics export bucket).
+  BucketName2:
+    Type: String
+    Default: ""
+    Description: (Optional) Name of an additional S3 bucket. Leave blank if not needed.
+  BucketName3:
+    Type: String
+    Default: ""
+    Description: (Optional) Name of an additional S3 bucket. Leave blank if not needed.
+  BucketName4:
+    Type: String
+    Default: ""
+    Description: (Optional) Name of an additional S3 bucket. Leave blank if not needed.
+  BucketName5:
+    Type: String
+    Default: ""
+    Description: (Optional) Name of an additional S3 bucket. Leave blank if not needed.
+
+Conditions:
+  HasBucket2: !Not [!Equals [!Ref BucketName2, ""]]
+  HasBucket3: !Not [!Equals [!Ref BucketName3, ""]]
+  HasBucket4: !Not [!Equals [!Ref BucketName4, ""]]
+  HasBucket5: !Not [!Equals [!Ref BucketName5, ""]]
+
+Resources:
+  SedaiIntegrationCrossAccountS3ReadRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: s3-storage-lens-access--extid-role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS:
+                - 504216784688
+            Action:
+              - sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: !Sub "ext-${AWS::AccountId}"
+      Path: "/"
+
+  SedaiIntegrationCrossAccountS3ReadPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: sedai-integration-cross-account-s3-read-role
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: SedaiCrossAccountS3Read
+            Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:GetBucketLocation
+              - s3:ListBucket
+            Resource:
+              - !Sub "arn:${AWS::Partition}:s3:::${BucketName1}"
+              - !Sub "arn:${AWS::Partition}:s3:::${BucketName1}/*"
+              - !If [HasBucket2, !Sub "arn:${AWS::Partition}:s3:::${BucketName2}", !Ref "AWS::NoValue"]
+              - !If [HasBucket2, !Sub "arn:${AWS::Partition}:s3:::${BucketName2}/*", !Ref "AWS::NoValue"]
+              - !If [HasBucket3, !Sub "arn:${AWS::Partition}:s3:::${BucketName3}", !Ref "AWS::NoValue"]
+              - !If [HasBucket3, !Sub "arn:${AWS::Partition}:s3:::${BucketName3}/*", !Ref "AWS::NoValue"]
+              - !If [HasBucket4, !Sub "arn:${AWS::Partition}:s3:::${BucketName4}", !Ref "AWS::NoValue"]
+              - !If [HasBucket4, !Sub "arn:${AWS::Partition}:s3:::${BucketName4}/*", !Ref "AWS::NoValue"]
+              - !If [HasBucket5, !Sub "arn:${AWS::Partition}:s3:::${BucketName5}", !Ref "AWS::NoValue"]
+              - !If [HasBucket5, !Sub "arn:${AWS::Partition}:s3:::${BucketName5}/*", !Ref "AWS::NoValue"]
+      Roles:
+        - !Ref SedaiIntegrationCrossAccountS3ReadRole
+
+Outputs:
+  SedaiIntegrationCrossAccountS3ReadRoleArn:
+    Description: Send this Role ARN to Sedai so it can be registered for cross-account read access.
+    Value: !GetAtt SedaiIntegrationCrossAccountS3ReadRole.Arn
+  SedaiIntegrationCrossAccountS3ReadExternalId:
+    Description: Send this ExternalId to Sedai along with the Role ARN -- it must be supplied on sts:AssumeRole for the role to be assumable.
+    Value: !Sub "ext-${AWS::AccountId}"
