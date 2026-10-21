@@ -2,7 +2,6 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "commonreadcloudwatch",
             "Effect": "Allow",
             "Action": [
 				"cloudwatch:DescribeAlarms",
@@ -13,17 +12,11 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadiam",
             "Effect": "Allow",
             "Action": [
-                "iam:ListInstanceProfiles"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonreadtag",
-            "Effect": "Allow",
-            "Action": [
+                "iam:ListInstanceProfiles",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeRegions",
                 "tag:GetResources"
             ],
             "Resource": "*"
