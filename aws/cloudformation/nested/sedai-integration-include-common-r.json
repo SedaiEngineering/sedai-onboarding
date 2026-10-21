@@ -13,9 +13,11 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadtag",
+            "Sid": "commonread",
             "Effect": "Allow",
             "Action": [
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeRegions",
                 "tag:GetResources"
             ],
             "Resource": "*"

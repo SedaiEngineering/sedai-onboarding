@@ -13,17 +13,12 @@
             "Resource": "*"
         },
         {
-            "Sid": "commonreadiam",
+            "Sid": "commonread",
             "Effect": "Allow",
             "Action": [
-                "iam:ListInstanceProfiles"
-            ],
-            "Resource": "*"
-        },
-        {
-            "Sid": "commonreadtag",
-            "Effect": "Allow",
-            "Action": [
+                "iam:ListInstanceProfiles",
+                "ec2:DescribeAvailabilityZones",
+                "ec2:DescribeRegions",
                 "tag:GetResources"
             ],
             "Resource": "*"
