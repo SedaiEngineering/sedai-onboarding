@@ -1,0 +1,20 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"savingsplans:DescribeSavingsPlans",
+				"ce:GetReservationCoverage",
+				"ce:GetReservationPurchaseRecommendation",
+				"ce:GetReservationUtilization",
+				"ce:GetSavingsPlanPurchaseRecommendationDetails",
+				"ce:GetSavingsPlansCoverage",
+				"ce:GetSavingsPlansPurchaseRecommendation",
+				"ce:GetSavingsPlansUtilization",
+				"ce:GetSavingsPlansUtilizationDetails"
+			],
+			"Resource": "*"
+		}
+	]
+}
